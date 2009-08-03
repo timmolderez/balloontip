@@ -1,0 +1,67 @@
+<project name="Balloontip" default="compile">
+	<tstamp>
+		<format property="date" pattern="yyyy-MM-d" />
+	</tstamp>
+	
+	<property name="src" location="src" />
+	<property name="compile" location="src/net" />
+	<property name="bin" location="bin" />
+	<property name="doc" location="doc/javadoc" />
+	<property name="jarName" value="balloontip_${date}.jar" />
+	<property name="jarWithExamplesName" value="balloontip_with_examples_${date}.jar" />
+	<property name="zipName" value="balloontip_${date}.zip" />
+	
+	<target name="compile" description="Compiles the Balloontip project">
+		<javac srcdir="${compile}" destdir="${bin}" compiler="javac1.5" />
+	</target>
+	
+	<target name="jar" depends="compile" description="Packs only the necessary binaries into a .jar archive">
+		<jar destfile="${jarName}" duplicate="preserve" update="true">
+			<fileset dir="${bin}">
+				<include name="**/*.class" />
+				<include name="**/*.png" />
+				<exclude name="**/examples/**" />
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="jarWithExamples" depends="compile" description="Packs all source and binary files into a .jar archive, including the examples">
+		<jar destfile="${jarWithExamplesName}" manifest="MANIFEST.MF" duplicate="preserve" update="true">
+			<fileset dir="${bin}">
+				<include name="**/*.class" />
+				<include name="**/*.png" />
+			</fileset>
+			<fileset dir="${src}">
+				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="zip" depends="clean, javaDoc, jar, jarWithExamples" description="Packages the whole project into a .zip-file">
+		<zip destfile="${zipName}">
+			<zipfileset dir="." includes="**/*" excludes="**bin/**,**/*.class" prefix="Balloontip"/>
+		</zip>
+	</target>
+	
+	<target name="runExample" depends="jar" description="Runs the Balloontip example application">
+		<java jar="${binaryJarName}" fork="true" />
+	</target>
+	
+	<target name="javaDoc" depends="jarWithExamples" description="Generate JavaDoc documentation">
+		<javadoc packagenames="net.java.balloontip.*" excludepackagenames="net.java.balloontip.examples.*" sourcepath="${src}" destdir="${doc}" author="true" use="true" windowtitle="Balloontip">
+			<doctitle><![CDATA[<h1>Balloontip</h1>]]></doctitle>
+			<bottom><![CDATA[<a href="https://balloontip.dev.java.net/">https://balloontip.dev.java.net/</a>]]></bottom>
+		</javadoc>
+	</target>
+	
+	<target name="clean" description="Removes .class and .jar-files">
+		<delete>
+			<fileset dir=".">
+				<include name="**/*.class" />
+				<include name="*.jar" />
+				<include name="*.zip" />
+			</fileset>
+			<fileset dir="${doc}" />
+		</delete>
+	</target>
+</project>
