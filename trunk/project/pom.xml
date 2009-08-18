@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.java.balloontip</groupId>
+	<artifactId>balloontip-parent</artifactId>
+	<packaging>pom</packaging>
+	<modules>
+		<module>balloontip</module>
+		<module>balloontip-examples</module>
+	</modules>
+	
+	<!-- Project info -->
+	<name>Balloon tip project</name>
+	<version>1.0-SNAPSHOT</version>
+	<description>Provides balloon tips for use in Java Swing applications.</description>
+	<url>https://balloontip.dev.java.net/</url>
+	<licenses>
+		<license>
+			<name>GNU Lesser General Public License v3</name>
+			<url>COPYING.LESSER.txt</url>
+		</license>
+	</licenses>
+	<inceptionYear>2007</inceptionYear>
+	<developers>
+		<developer>
+			<id>nferno</id>
+			<name>Tim Molderez</name>
+			<email>nferno@dev.java.net</email>
+		</developer>
+		<developer>
+			<id>bernhard_pauler</id>
+			<name>Bernhard Pauler</name>
+			<email>bernhard_pauler@dev.java.net</email>
+		</developer>
+	</developers>
+	
+	<!-- Environment settings -->
+	<issueManagement>
+		<url>https://balloontip.dev.java.net/servlets/ProjectIssues</url>
+	</issueManagement>
+	<scm>
+		<url>https://balloontip.dev.java.net/source/browse/balloontip/</url>
+	</scm>
+	
+	<!-- Build settings -->
+	<build>
+		<plugins>
+			<!-- Compile Balloon tip for Java 1.5  -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			
+			<!-- Set UTF-8 encoding for resources  -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			
+			<!-- Place the project's URL at the bottom of javadoc pages -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<bottom><![CDATA[<a href="${project.url}">${project.url}</a>]]></bottom>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>
