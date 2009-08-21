@@ -1,0 +1,80 @@
+<assembly>
+	<id>balloontip-distribution</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+	<!--<moduleSets>
+		<moduleSet>
+			<includeSubModules>true</includeSubModules>
+
+			<binaries>
+				<outputDirectory>/</outputDirectory>
+			</binaries>
+		</moduleSet>
+	</moduleSets>-->
+	<fileSets>
+		<!-- Add balloontip source files -->
+		<fileSet>
+			<directory>balloontip</directory>
+			<outputDirectory>src/balloontip</outputDirectory>
+			<excludes>
+				<exclude>
+					target/
+				</exclude>
+			</excludes>
+		</fileSet>
+		
+		<!-- Add balloontip-examples source files -->
+		<fileSet>
+			<directory>balloontip-examples</directory>
+			<outputDirectory>src/balloontip-examples</outputDirectory>
+			<excludes>
+				<exclude>
+					target/
+				</exclude>
+			</excludes>
+		</fileSet>
+		
+		<!-- Add readme and license text files -->
+		<fileSet>
+			<directory>distribution</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>
+					*.txt
+				</include>
+			</includes>
+		</fileSet>
+		
+		<!-- Add the manual -->
+		<fileSet>
+			<directory>manual</directory>
+			<outputDirectory>doc/manual</outputDirectory>
+		</fileSet>
+		
+		<!-- Add Javadoc documentation -->
+		<fileSet>
+			<directory>balloontip/target/site/apidocs</directory>
+			<outputDirectory>doc/javadoc</outputDirectory>
+		</fileSet>
+	</fileSets>
+	<files>
+		<!-- Add balloontip-parent POM -->
+		<file>
+			<source>pom.xml</source>
+			<outputDirectory>src</outputDirectory>
+		</file>
+		
+		<!-- Add balloontip .jar archive -->
+		<file>
+			<source>balloontip/target/balloontip-${project.version}.jar</source>
+			<outputDirectory>/</outputDirectory>
+		</file>
+		
+		<!-- Add balloontip-examples .jar archive -->
+		<file>
+			<source>balloontip-examples/target/balloontip-examples-${project.version}.jar</source>
+			<outputDirectory>/</outputDirectory>
+		</file>
+	</files>
+</assembly>
