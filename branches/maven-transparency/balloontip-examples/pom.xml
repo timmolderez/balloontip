@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.java.balloontip</groupId>
+	<artifactId>balloontip-examples</artifactId>
+	<dependencies>
+		<!-- These examples require the Balloon tip JAR -->
+		<dependency>
+			<groupId>net.java.balloontip</groupId>
+			<artifactId>balloontip</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<parent>
+		<artifactId>balloontip-parent</artifactId>
+		<groupId>net.java.balloontip</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	
+	<!-- Project info -->
+	<name>Example applications</name>
+	<version>1.0-SNAPSHOT</version>
+	<url>https://balloontip.dev.java.net/</url>
+	
+	<!-- Build settings -->
+	<build>
+		<plugins>
+			<!-- When packaging, make sure to include the dependencies -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<!-- Start CompleteExample when openening the examples JAR -->
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>net.java.balloontip.examples.complete.CompleteExample</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		
+		<!-- When packaging, make sure to include all source files -->
+		<resources>        
+			<resource>
+				<directory>../balloontip/src/main/java</directory>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+			</resource>
+		</resources>
+	</build>
+	
+</project>
