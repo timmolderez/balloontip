@@ -11,7 +11,7 @@
 	
 	<!-- Project info -->
 	<name>Balloon tip project</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<description>Provides balloon tips for use in Java Swing applications.</description>
 	<url>https://balloontip.dev.java.net/</url>
 	<licenses>
@@ -42,7 +42,6 @@
 	<scm>
 		<connection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/branches/maven-transparency</connection>
 		<developerConnection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/branches/maven-transparency</developerConnection>
-		<tag>HEAD</tag>
 		<url>https://balloontip.dev.java.net/source/browse/balloontip/branches/maven-transparency</url>
 	</scm>
 	<repositories>
