@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.java.balloontip</groupId>
@@ -41,10 +40,10 @@
 		<url>https://balloontip.dev.java.net/servlets/ProjectIssues</url>
 	</issueManagement>
 	<scm>
-		<connection>scm:svn:https://balloontip.dev.java.net/svn/balloontip</connection>
-		<developerConnection>scm:svn:https://balloontip.dev.java.net/svn/balloontip</developerConnection>
+		<connection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/branches/maven-transparency</connection>
+		<developerConnection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/branches/maven-transparency</developerConnection>
 		<tag>HEAD</tag>
-		<url>https://balloontip.dev.java.net/source/browse/balloontip/</url>
+		<url>https://balloontip.dev.java.net/source/browse/balloontip/branches/maven-transparency</url>
 	</scm>
 	<repositories>
 		<repository>
@@ -108,7 +107,7 @@
 			<extension>
 				<groupId>org.jvnet.wagon-svn</groupId>
 				<artifactId>wagon-svn</artifactId>
-				<version>RELEASE</version>
+				<version>1.8</version>
 			</extension>
 		</extensions>
 	</build>
