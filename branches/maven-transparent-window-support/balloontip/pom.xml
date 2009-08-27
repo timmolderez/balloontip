@@ -6,12 +6,12 @@
 	<parent>
 		<artifactId>balloontip-parent</artifactId>
 		<groupId>net.java.balloontip</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0-transparent-window-support</version>
 	</parent>
 	
 	<!-- Project info -->
 	<name>Balloon tip</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0-transparent-window-support</version>
 	<url>https://balloontip.dev.java.net/</url>
 	
 </project>
