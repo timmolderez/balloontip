@@ -18,7 +18,7 @@
  * along with Balloontip.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package net.java.balloontip.examples.simple;
+package net.java.balloontip.examples.transparency;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -36,10 +36,11 @@ import net.java.balloontip.positioners.BasicBalloonTipPositioner;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 
 /**
- * Simple application demonstrating a BalloonTip
+ * Simple application demonstrating a BalloonTip being drawn on a transparent window
+ * Do note that this example will only work if Balloon tip is compiled for Java 1.6 update 12 (or higher)!
  * @author Tim Molderez
  */
-public class SimpleExample {
+public class TransparencyExample {
 	/**
 	 * Main method
 	 * @param args		command-line arguments (unused)
@@ -49,53 +50,39 @@ public class SimpleExample {
 			public void run() {
 				// Setup the application's window
 				JFrame frame = new JFrame("Simple BalloonTip example");
-				frame.setIconImage(new ImageIcon(SimpleExample.class.getResource("/net/java/balloontip/images/frameicon.png")).getImage());
+				frame.setIconImage(new ImageIcon(TransparencyExample.class.getResource("/net/java/balloontip/images/frameicon.png")).getImage());
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				
+
 				// Setup the content pane
 				JPanel contentPane = new JPanel();
 				contentPane.setLayout(new GridBagLayout());
 				frame.setContentPane(contentPane);
-				
+
 				// Add a button
 				final JButton button = new JButton("Show balloon tip");
 				button.setSelected(true);
 				contentPane.add(button, new GridBagConstraints(0,0,1,1,1,1, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, new Insets(0,0,60,120), 0, 0));
-				
-				/*** Balloon tip creation - START ***/
-				
-				// Create the look for our balloon tip
-				EdgedBalloonStyle style = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
-				
-				// Now construct the balloon tip
-				final BalloonTip balloonTip = new BalloonTip(
-					button,
-					"<html>This <font color=\"#0000ff\">balloon tip</font> is attached to the button.</html>",
-					style,
-					BalloonTip.Orientation.LEFT_ABOVE,
-					BalloonTip.AttachLocation.ALIGNED,
-					30, 10,
-					true
-				);
-				
-				((BasicBalloonTipPositioner)balloonTip.getPositioner()).enableOffsetCorrection(false);
-				((BasicBalloonTipPositioner)balloonTip.getPositioner()).enableOrientationCorrection(false);
-				
-				// Don't close the balloon when clicking the close-button, you just need to hide it
-				balloonTip.setCloseButtonActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						balloonTip.setVisible(false);
-					}
-				});
-				
-				/*** Balloon tip creation - END ***/
-				
+
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						balloonTip.setVisible(true);
+						/*** Balloon tip creation - START ***/
+						
+						EdgedBalloonStyle style = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
+						BalloonTip balloonTip = new BalloonTip(
+								button,
+								"<html>This <font color=\"#0000ff\">balloon tip</font> is drawn on a transparent window!</html>",
+								style,
+								BalloonTip.Orientation.LEFT_ABOVE,
+								BalloonTip.AttachLocation.ALIGNED,
+								30, 10,
+								true,
+								true	// This very last parameter will cause the balloon tip to be drawn on a transparent window
+						);
+						
+						/*** Balloon tip creation - END ***/
 					}
 				});
-				
+
 				frame.pack();
 				frame.setSize(320, 240);
 				frame.setLocationRelativeTo(null);

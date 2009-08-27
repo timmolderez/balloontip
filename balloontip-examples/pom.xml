@@ -8,18 +8,18 @@
 		<dependency>
 			<groupId>net.java.balloontip</groupId>
 			<artifactId>balloontip</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0-transparent-window-support</version>
 		</dependency>
 	</dependencies>
 	<parent>
 		<artifactId>balloontip-parent</artifactId>
 		<groupId>net.java.balloontip</groupId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0-transparent-window-support</version>
 	</parent>
 	
 	<!-- Project info -->
 	<name>Example applications</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0-transparent-window-support</version>
 	<url>https://balloontip.dev.java.net/</url>
 	
 	<!-- Build settings -->
@@ -39,7 +39,7 @@
 							<transformers>
 								<!-- Start CompleteExample when openening the examples JAR -->
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>net.java.balloontip.examples.complete.CompleteExample</mainClass>
+									<mainClass>net.java.balloontip.examples.transparency.TransparencyExample</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
