@@ -11,7 +11,7 @@
 	
 	<!-- Project info -->
 	<name>Balloon tip project</name>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<description>Provides balloon tips for use in Java Swing applications.</description>
 	<url>https://balloontip.dev.java.net/</url>
 	<licenses>

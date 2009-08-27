@@ -3,24 +3,15 @@
 	<formats>
 		<format>zip</format>
 	</formats>
-	<!--<moduleSets>
-		<moduleSet>
-			<includeSubModules>true</includeSubModules>
-
-			<binaries>
-				<outputDirectory>/</outputDirectory>
-			</binaries>
-		</moduleSet>
-	</moduleSets>-->
 	<fileSets>
 		<!-- Add balloontip source files -->
 		<fileSet>
 			<directory>balloontip</directory>
 			<outputDirectory>src/balloontip</outputDirectory>
 			<excludes>
-				<exclude>
-					target/
-				</exclude>
+				<exclude>target/</exclude>
+				<exclude>.*</exclude>
+				<exclude>.*/</exclude>
 			</excludes>
 		</fileSet>
 		
@@ -29,9 +20,9 @@
 			<directory>balloontip-examples</directory>
 			<outputDirectory>src/balloontip-examples</outputDirectory>
 			<excludes>
-				<exclude>
-					target/
-				</exclude>
+				<exclude>target/</exclude>
+				<exclude>.*</exclude>
+				<exclude>.*/</exclude>
 			</excludes>
 		</fileSet>
 		
@@ -58,6 +49,7 @@
 			<outputDirectory>doc/javadoc</outputDirectory>
 		</fileSet>
 	</fileSets>
+	
 	<files>
 		<!-- Add balloontip-parent POM -->
 		<file>
