@@ -8,13 +8,38 @@
 <h1>Balloon tips for Java</h1>
 <p>Provides balloon tips for use in Java Swing applications.</p>
 <p><a href="https://balloontip.dev.java.net/servlets/ProjectDocumentList"><strong>Download</strong> the latest release</a>.</p>
+<p><a href="https://balloontip.dev.java.net/source/browse/*checkout*/balloontip/trunk/project/manual/index.htm"><strong>View</strong> the project's manual</a>. (also included with each release)</p>
 <p>If you find this project useful and/or have any suggestions, please drop <a href="mailto:nferno@dev.java.net">Tim</a> or <a href="mailto:bernhard_pauler@dev.java.net">Bernhard</a> an email!</p>
 <p><img src="images/screenshot.png"></p>
 
-<h2>Releases</h2>
+<h2>Announcements</h2>
 
 
 <table bgcolor="#FFFDE5" width="100%" border="0">
+<tr><td>
+<b>2009-08-28, Balloon tip has switched to Maven, plus a brand-new special release:</b>
+</td></tr>
+<tr><td>
+<p>
+Just like the entire java.net website, our little project has recently undergone some infrastructural changes as well:
+<br />
+<br /> Firstly, as you might already know, our CVS source code repository has now been traded in for <u>a shiny new SVN repository</u>.
+
+<br />Secondly, the project has been adapted such that <u>we can now make use of Maven as our primary build tool</u>. Many thanks go to André Ricardo Barreto de Oliveira for helping out with this not-to-be-underestimated conversion process!
+<br />Whilst Ant build files will no longer be supplied with any future Balloon tip releases, Maven makes it very easy to generate fully functional Ant build files; check the latest <a href="https://balloontip.dev.java.net/source/browse/*checkout*/balloontip/trunk/project/manual/index.htm">Balloon tip manual</a> for more info.)
+<br />The switch to Maven has already resulted in some fine benefits: <u>The project now uses a regular version numbering scheme</u>, instead of using the release date to identify each new Balloon tip version, which was somewhat confusing. If you take a look at the <a href="https://balloontip.dev.java.net/servlets/ProjectDocumentList">Download page</a>, you'll see a new Balloon tip 1.0 release available. This 1.0 release contains the very same functionality as the previous release, but it is adapted for use with Maven.
+<br />A more significant advantage of Maven is that, if your project already makes use of Maven, it will be even easier to make use of Balloon tip within your project, as <u>Balloon tip now is also available on <a href="https://maven2-repository.dev.java.net/">java.net's Maven 2 repository</a></u>! Just make sure your project can access the repository and then add a new dependency with artifactId <b>balloontip</b> and groupId <b>net.java.balloontip</b>; that's all there is to it.
+</p>
+<p>A last, but certainly not least, announcement is the availability of a new  special release! As you might have already experienced, Balloon tip is currently constrained to drawing its balloon tips within the boundaries of your application's window. This special release will <u>allow your balloon tips to break free and let them go beyond the window's boundaries</u>. Many thanks go out to David Straw for making this magic happen!
+<br />Balloon tips can now be drawn outside a window because these will be drawn on a special seperate window that is completely transparent, which is a recent new Java feature. This implies you'll require Java 1.6 Update 12 (or higher). It should also be noted that this special release currently is only meant for experimentation, as it makes use of a Sun proprietary API, which you shouldn't rely upon. In other words, just have some fun with it, but don't use it in your stable builds just yet. If you'd like to see it in action, just open up balloontip-examples-1.0-transparent-window-support.jar , which comes supplied with the release. The source code for this example application can be found in the package net.java.balloontip.examples.transparency.
+</p>
+</td></tr>
+</table>
+
+<br />
+
+
+<table bgcolor="#ECECEC" width="100%" border="0">
 <tr><td>
 <b>2009-03-19, Legacy goodness:</b>
 </td></tr>
