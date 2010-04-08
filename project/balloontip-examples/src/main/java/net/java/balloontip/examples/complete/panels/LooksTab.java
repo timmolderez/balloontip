@@ -49,17 +49,18 @@ import net.java.balloontip.styles.RoundedBalloonStyle;
 import net.java.balloontip.styles.TexturedBalloonStyle;
 
 public class LooksTab extends JPanel {
-	private BalloonTip balloonTip = null;
-	private JComboBox stylePicker = null;
+	private final BalloonTip balloonTip;
+	private final JComboBox stylePicker;
+	private final JButton fillColorButton;
+	private final JButton borderColorButton;
 	private Color fillColor = Color.WHITE;
-	private JButton fillColorButton = null;
 	private Color borderColor = Color.BLUE;
-	private JButton borderColorButton = null;
 	
 	/**
 	 * Default constructor
 	 */
 	public LooksTab() {
+		super();
 		setLayout(new GridBagLayout());
 		int gridY = 0;
 		

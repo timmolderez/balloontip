@@ -48,16 +48,17 @@ import net.java.balloontip.positioners.Right_Below_Positioner;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 
 public class BehaviourTab extends JPanel {
-	private JComboBox alignmentPicker;
-	private JComboBox attachPicker;
-	private JCheckBox offsetCorrection;
-	private JCheckBox orientationCorrection;
-	private TablecellBalloonTip tableBalloon;
+	private final JComboBox alignmentPicker;
+	private final JComboBox attachPicker;
+	private final JCheckBox offsetCorrection;
+	private final JCheckBox orientationCorrection;
+	private final TablecellBalloonTip tableBalloon;
 	
-	private final int HOFFSET = 40;
-	private final int VOFFSET = 15;
+	private final static int HOFFSET = 40;
+	private final static int VOFFSET = 15;
 	
 	public BehaviourTab() {
+		super();
 		setLayout(new GridBagLayout());
 		int gridY = 0;
 		
