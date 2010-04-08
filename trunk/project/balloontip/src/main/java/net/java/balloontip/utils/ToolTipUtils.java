@@ -44,9 +44,9 @@ public class ToolTipUtils {
 	 * This class monitors when the balloon tooltip should be shown 
 	 */
 	private static class ToolTipController extends MouseAdapter {
-		private BalloonTip balloonTip; 
-		private Timer initialTimer;
-		private Timer showTimer;
+		private final BalloonTip balloonTip; 
+		private final Timer initialTimer;
+		private final Timer showTimer;
 
 		/**
 		 * Constructor

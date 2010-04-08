@@ -39,20 +39,20 @@ import java.awt.geom.GeneralPath;
  */
 public class ModernBalloonStyle extends BalloonTipStyle {
 
-	private int arcWidth;
-	private int arcHeight;
+	private final int arcWidth;
+	private final int arcHeight;
 
 	private boolean topLeft = true;
 	private boolean topRight = false;
-	boolean bottomLeft = false;
-	boolean bottomRight = true;
+	private boolean bottomLeft = false;
+	private boolean bottomRight = true;
 
 	private int borderThickness = 1;
 	private boolean AAenabled = false;
 
-	private Color topFillColor;
-	private Color bottomFillColor;
-	private Color borderColor;
+	private final Color topFillColor;
+	private final Color bottomFillColor;
+	private final Color borderColor;
 
 	/**
 	 * Constructor
@@ -63,6 +63,7 @@ public class ModernBalloonStyle extends BalloonTipStyle {
 	 * @param bottomFillColor	bottom color of the lineair gradient fill color
 	 */
 	public ModernBalloonStyle(int arcWidth, int arcHeight, Color topFillColor, Color bottomFillColor, Color borderColor) {
+		super();
 		this.arcWidth = arcWidth;
 		this.arcHeight = arcHeight;
 		this.topFillColor = topFillColor;

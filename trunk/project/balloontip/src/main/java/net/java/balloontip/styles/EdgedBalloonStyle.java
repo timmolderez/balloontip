@@ -34,8 +34,8 @@ import net.java.balloontip.utils.FlipUtils;
  * @author Bernhard Pauler
  */
 public class EdgedBalloonStyle extends BalloonTipStyle {
-	private Color borderColor;
-	private Color fillColor;
+	private final Color borderColor;
+	private final Color fillColor;
 
 	/**
 	 * Constructor
@@ -43,6 +43,7 @@ public class EdgedBalloonStyle extends BalloonTipStyle {
 	 * @param fillColor		fill color
 	 */
 	public EdgedBalloonStyle(Color fillColor, Color borderColor) {
+		super();
 		this.borderColor = borderColor;
 		this.fillColor = fillColor;
 	}

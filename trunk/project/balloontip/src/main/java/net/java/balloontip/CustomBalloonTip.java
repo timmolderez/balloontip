@@ -48,7 +48,7 @@ public class CustomBalloonTip extends BalloonTip {
 	private JViewport viewport = null;
 	
 	// If the viewport changes, so should the balloon tip
-	private ComponentAdapter viewportListenerListener = new ComponentAdapter() {
+	private final ComponentAdapter viewportListenerListener = new ComponentAdapter() {
 		public void componentMoved(ComponentEvent e) {
 			if (attachedComponent.isShowing()) {
 				refreshLocation();
