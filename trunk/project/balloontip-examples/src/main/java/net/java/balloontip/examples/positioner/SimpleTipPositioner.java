@@ -31,8 +31,8 @@ import net.java.balloontip.positioners.BalloonTipPositioner;
  * @author Tim Molderez
  */
 public class SimpleTipPositioner extends BalloonTipPositioner {
-	int x = 0;	// Current position of the balloon tip
-	int y = 0;
+	private int x = 0;	// Current position of the balloon tip
+	private int y = 0;
 	
 	public void setBalloonTip(BalloonTip bT) {
 		super.setBalloonTip(bT);

@@ -41,12 +41,13 @@ import net.java.balloontip.utils.TimingUtils;
 import net.java.balloontip.utils.ToolTipUtils;
 
 public class UtilitiesTab extends JPanel {
-	private BalloonTip tooltipBalloon;
+	private final BalloonTip tooltipBalloon;
 
 	/**
 	 * Default constructor
 	 */
 	public UtilitiesTab() {
+		super();
 		setLayout(new GridBagLayout());
 		int gridY = 0;
 
