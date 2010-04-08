@@ -35,11 +35,11 @@ import net.java.balloontip.utils.FlipUtils;
  */
 public class RoundedBalloonStyle extends BalloonTipStyle {
 
-	private int arcWidth;
-	private int arcHeight;
+	private final int arcWidth;
+	private final int arcHeight;
 
-	private Color fillColor;
-	private Color borderColor;
+	private final Color fillColor;
+	private final Color borderColor;
 
 	/**
 	 * Constructor
@@ -49,6 +49,7 @@ public class RoundedBalloonStyle extends BalloonTipStyle {
 	 * @param borderColor	border line color
 	 */
 	public RoundedBalloonStyle(int arcWidth, int arcHeight, Color fillColor, Color borderColor) {
+		super();
 		this.arcWidth = arcWidth;
 		this.arcHeight = arcHeight;
 		this.fillColor = fillColor;

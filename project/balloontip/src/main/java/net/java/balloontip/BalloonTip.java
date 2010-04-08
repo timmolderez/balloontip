@@ -33,6 +33,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -80,26 +81,26 @@ public class BalloonTip extends JPanel {
 	private static Icon rolloverIcon = new ImageIcon(BalloonTip.class.getResource("/net/java/balloontip/images/close_rollover.png"));
 	private static Icon pressedIcon  = new ImageIcon(BalloonTip.class.getResource("/net/java/balloontip/images/close_pressed.png"));
 
-	private JLabel label = new JLabel();
-	private JButton closeButton = null;
-	private boolean isVisible = true;
-	private boolean clickToClose = false;
-	private boolean clickToHide = false;
-	
-	private ComponentAdapter attachedComponentListener = new ComponentAdapter() {
+	protected JLabel label = new JLabel();
+	protected JButton closeButton = null;
+	protected boolean isVisible = true;
+	protected boolean clickToClose = false;
+	protected boolean clickToHide = false;
+
+	private final ComponentAdapter attachedComponentListener = new ComponentAdapter() {
 		public void componentMoved(ComponentEvent e) {refreshLocation();}
 		public void componentResized(ComponentEvent e) {refreshLocation();}
 		public void componentShown(ComponentEvent e) {checkVisibility();}
 		public void componentHidden(ComponentEvent e) {checkVisibility();}
 	};
-	private ComponentAdapter topLevelContainerListener = new ComponentAdapter() {
+	private final ComponentAdapter topLevelContainerListener = new ComponentAdapter() {
 		public void componentResized(ComponentEvent e) {
 			if (attachedComponent.isShowing()) {
 				refreshLocation();
 			}
 		}
 	};
-	private MouseAdapter clickListener = new MouseAdapter() {
+	private final MouseAdapter clickListener = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {e.consume();}
 		public void mouseReleased(MouseEvent e) {
 			if (clickToHide) {
@@ -110,10 +111,13 @@ public class BalloonTip extends JPanel {
 		}
 	};
 	private AncestorListener attachedComponentParentListener = null;
+	private ArrayList<JTabbedPane> tabbedPaneParents = null;
+	private ChangeListener tabbedPaneListener = null;
+	private ActionListener closeButtonActionListener = null;
 
 	protected BalloonTipStyle style;			// Determines the balloon's looks
 	protected BalloonTipPositioner positioner;	// Determines the balloon's position
-	
+
 	protected JLayeredPane topLevelContainer = null;	// The balloon is drawn on this pane
 	protected JComponent attachedComponent;		// The balloon is attached to this component
 
@@ -140,7 +144,7 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Constructor
-	 * @param attachedComponent		Attach the balloon tip to this componen
+	 * @param attachedComponent		Attach the balloon tip to this component
 	 * @param text					The contents of the balloon tip (may contain HTML)
 	 * @param style					The balloon tip's looks
 	 * @param orientation			Orientation of the balloon tip
@@ -151,12 +155,13 @@ public class BalloonTip extends JPanel {
 	 */
 	public BalloonTip(JComponent attachedComponent, String text, BalloonTipStyle style, Orientation orientation, AttachLocation attachLocation, 
 			int horizontalOffset, int verticalOffset, boolean useCloseButton) {
+		super();
 		// Setup the appropriate positioner
 		BasicBalloonTipPositioner positioner = null;
 		float attachX = 0.0f;
 		float attachY = 0.0f;
 		boolean fixedAttachLocation = true;
-		
+
 		switch (attachLocation) {
 		case ALIGNED:
 			fixedAttachLocation = false;
@@ -192,7 +197,7 @@ public class BalloonTip extends JPanel {
 		case NORTHWEST:
 			break;
 		}
-		
+
 		switch (orientation) {
 		case LEFT_ABOVE:
 			positioner = new Left_Above_Positioner(horizontalOffset, verticalOffset);
@@ -207,13 +212,13 @@ public class BalloonTip extends JPanel {
 			positioner = new Right_Below_Positioner(horizontalOffset, verticalOffset);
 			break;
 		}
-		
+
 		positioner.enableFixedAttachLocation(fixedAttachLocation);
 		positioner.setAttachLocation(attachX, attachY);
-		
+
 		initializePhase1(attachedComponent, text, style, positioner, useCloseButton);
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param attachedComponent		Attach the balloon tip to this component
@@ -223,11 +228,13 @@ public class BalloonTip extends JPanel {
 	 * @param useCloseButton		If true, the balloon tip gets a close button
 	 */
 	public BalloonTip(JComponent attachedComponent, String text, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton) {
+		super();
 		initializePhase1(attachedComponent, text, style, positioner, useCloseButton);
 	}
-	
-	public void finalize() {
+
+	protected void finalize() throws Throwable {
 		closeBalloon(); // This will remove all of the listeners a balloon tip uses...
+		super.finalize();
 	}
 
 	/**
@@ -282,7 +289,7 @@ public class BalloonTip extends JPanel {
 	public int getIconTextGap() {
 		return label.getIconTextGap();
 	}
-	
+
 	/**
 	 * Set the balloon tip's style
 	 * @param style
@@ -294,7 +301,7 @@ public class BalloonTip extends JPanel {
 		setBorder(this.style);
 		refreshLocation();
 	}
-	
+
 	/**
 	 * Get the balloon tip's style
 	 * @return The balloon tip's style
@@ -310,12 +317,12 @@ public class BalloonTip extends JPanel {
 	public void setPositioner(BalloonTipPositioner positioner) {
 		// Notify property listeners that the positioner has changed
 		firePropertyChange("positioner", this.positioner, positioner);
-		
+
 		this.positioner = positioner;
 		this.positioner.setBalloonTip(this);
 		refreshLocation();
 	}
-	
+
 	/**
 	 * Retrieve the BalloonTipPositioner that is used by this BalloonTip
 	 * @return The balloon tip's positioner
@@ -332,7 +339,7 @@ public class BalloonTip extends JPanel {
 		label.setBorder(new EmptyBorder(padding, padding, padding, padding));
 		refreshLocation();
 	}
-	
+
 	/**
 	 * Get the amount of padding in this balloon tip
 	 * @return The amount of padding in the balloon tip
@@ -340,7 +347,7 @@ public class BalloonTip extends JPanel {
 	public int getPadding() {
 		return label.getBorder().getBorderInsets(this).left;
 	}
-	
+
 	/**
 	 * Hide the balloon tip just by clicking anywhere on it
 	 * @param enabled	if true, the balloon hides when it's clicked 
@@ -348,7 +355,7 @@ public class BalloonTip extends JPanel {
 	public void enableClickToHide(boolean enabled) {
 		clickToHide = enabled;
 	}
-	
+
 	/**
 	 * Permanently close the balloon tip just by clicking anywhere on it
 	 * @param enabled	if true, the balloon permanently closes when it's clicked 
@@ -367,9 +374,18 @@ public class BalloonTip extends JPanel {
 		attachedComponent.removeComponentListener(attachedComponentListener);
 		if (topLevelContainer != null) {
 			topLevelContainer.remove(this);
-			topLevelContainer.removeComponentListener(attachedComponentListener);
+			topLevelContainer.removeComponentListener(topLevelContainerListener);
 		}
 		removeMouseListener(clickListener);
+		if (closeButton != null) {
+			closeButton.removeActionListener(closeButtonActionListener);
+		}
+		attachedComponent.removeAncestorListener(attachedComponentParentListener);
+		if (tabbedPaneListener != null) {
+			for (JTabbedPane p : tabbedPaneParents) {
+				p.removeChangeListener(tabbedPaneListener);
+			}
+		}
 	}
 
 	/**
@@ -406,12 +422,13 @@ public class BalloonTip extends JPanel {
 	 * @param act
 	 */
 	public void setCloseButtonActionListener(ActionListener act) {
-		// We assume there's one listener present...
-		ActionListener[] listeners = closeButton.getActionListeners();
-		closeButton.removeActionListener(listeners[0]);
-		closeButton.addActionListener(act);
+		if (closeButton != null) {
+			closeButton.removeActionListener(closeButtonActionListener);
+			closeButtonActionListener = act;
+			closeButton.addActionListener(closeButtonActionListener);
+		}
 	}
-	
+
 	/**
 	 * Retrieve the component this balloon tip is attached to
 	 * @return The attached component
@@ -419,7 +436,7 @@ public class BalloonTip extends JPanel {
 	public JComponent getAttachedComponent() {
 		return attachedComponent;
 	}
-	
+
 	/**
 	 * Retrieve the container this balloon tip is drawn on
 	 * If the balloon tip hasn't determined this container yet, null is returned
@@ -438,7 +455,7 @@ public class BalloonTip extends JPanel {
 			positioner.determineAndSetLocation(new Rectangle(location.x, location.y, attachedComponent.getWidth(), attachedComponent.getHeight()));
 		} catch (NullPointerException exc) {}
 	}
-	
+
 	public void setVisible(boolean visible) {
 		isVisible = visible;
 		super.setVisible(visible);
@@ -447,7 +464,7 @@ public class BalloonTip extends JPanel {
 	/*
 	 * Shows the balloon if the attached component is visible; hides the balloon if the attached component is invisible...
 	 */
-	private void checkVisibility() {
+	protected void checkVisibility() {
 		// If we can see the attached component, the balloon tip is not closed AND we want it to be visible, then show it...
 		if (attachedComponent.isShowing() && isVisible) {
 			refreshLocation();
@@ -456,7 +473,7 @@ public class BalloonTip extends JPanel {
 			super.setVisible(false);
 		}
 	}
-	
+
 	/*
 	 * Helper method for constructing a BalloonTip
 	 */
@@ -480,14 +497,15 @@ public class BalloonTip extends JPanel {
 			closeButton.setIcon(defaultIcon);
 			closeButton.setRolloverIcon(rolloverIcon);
 			closeButton.setPressedIcon(pressedIcon);
-			closeButton.addActionListener(new ActionListener() {
+			closeButtonActionListener = new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					closeBalloon();
 				}
-			});
+			};
+			closeButton.addActionListener(closeButtonActionListener);
 			add(closeButton, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
-		
+
 		// Attempt to run initializePhase2() ...
 		try {
 			initializePhase2();
@@ -500,6 +518,7 @@ public class BalloonTip extends JPanel {
 					initializePhase2();
 					// Remove yourself
 					attachedComponent.removeAncestorListener(attachedComponentParentListener);
+					attachedComponentParentListener = null;
 					refreshLocation();
 					repaint();
 				}
@@ -509,7 +528,7 @@ public class BalloonTip extends JPanel {
 			attachedComponent.addAncestorListener(attachedComponentParentListener);
 		}
 	}
-	
+
 	/*
 	 * Helper method for constructing a BalloonTip; when this method finishes, the balloon tip is ready for use
 	 * 
@@ -525,21 +544,26 @@ public class BalloonTip extends JPanel {
 				topLevelContainer = ((RootPaneContainer)parent).getLayeredPane();
 				// Exit the infinite loop
 				break;
-			// If you're a tab
+				// If you're a tab
 			} else if (parent instanceof JTabbedPane) {
 				/* Due to a bug in JTabbedPane, switching tabs does not cause component events
 				 * that tell which components are now visible / invisible.
 				 * This piece of code is a workaround. We'll check our attached component's visibility by listening to the JTabbedPane...
 				 */
-				((JTabbedPane)parent).addChangeListener(new ChangeListener() {
-					public void stateChanged(ChangeEvent e) {
-						checkVisibility();
-					}
-				});
+				if (tabbedPaneListener == null) {
+					tabbedPaneListener = new ChangeListener() {
+						public void stateChanged(ChangeEvent e) {
+							checkVisibility();
+						}
+					};
+					tabbedPaneParents = new ArrayList<JTabbedPane>();
+				}
+				tabbedPaneParents.add((JTabbedPane)parent);
+				((JTabbedPane)parent).addChangeListener(tabbedPaneListener);
 			}
 			parent = parent.getParent();
 		}
-		
+
 		// We use the popup layer of the top level container (frame or dialog) to show the balloon tip
 		topLevelContainer.add(this, JLayeredPane.POPUP_LAYER);
 		// If the attached component is moved/hidden/shown, the balloon tip should act accordingly
@@ -550,7 +574,7 @@ public class BalloonTip extends JPanel {
 		addMouseListener(clickListener);
 		// Finally pass the balloon tip to its positioner
 		this.positioner.setBalloonTip(this);
-		
+
 		refreshLocation();
 	}
 }

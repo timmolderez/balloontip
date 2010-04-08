@@ -42,12 +42,12 @@ import net.java.balloontip.utils.ImageUtils;
  */
 public class TexturedBalloonStyle extends BalloonTipStyle {
 
-	private int arcWidth;
-	private int arcHeight;
+	private final int arcWidth;
+	private final int arcHeight;
 
-	private BufferedImage bg;
-	private Rectangle bgBounds;
-	private Color borderColor;
+	private final BufferedImage bg;
+	private final Rectangle bgBounds;
+	private final Color borderColor;
 
 	/**
 	 * Constructor
@@ -57,6 +57,7 @@ public class TexturedBalloonStyle extends BalloonTipStyle {
 	 * @param borderColor	line color
 	 */
 	public TexturedBalloonStyle(int arcWidth, int arcHeight, Image background, Color borderColor) {
+		super();
 		this.arcWidth = arcWidth;
 		this.arcHeight = arcHeight;
 		this.bg = ImageUtils.toBufferedImage(background);
