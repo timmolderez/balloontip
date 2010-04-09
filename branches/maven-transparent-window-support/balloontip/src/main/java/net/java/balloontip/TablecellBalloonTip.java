@@ -20,7 +20,6 @@
 
 package net.java.balloontip;
 
-import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -37,19 +36,20 @@ import net.java.balloontip.styles.BalloonTipStyle;
  * @author Tim Molderez
  */
 public class TablecellBalloonTip extends CustomBalloonTip {
-	
-	private int row;
-	private int column;
-	
+
+	private final int row;
+	private final int column;
+	private AncestorListener attachedComponentParentListener = null;
+
 	// If someone messes with the table's columns, this will probably screw up the balloon tip's position, so we'll just close it
-	private TableColumnModelListener columnListener = new TableColumnModelListener()  {
+	private final TableColumnModelListener columnListener = new TableColumnModelListener()  {
 		public void columnAdded(TableColumnModelEvent e) {closeBalloon();}
 		public void columnMarginChanged(ChangeEvent e) {setCellPosition(row, column);}
 		public void columnMoved(TableColumnModelEvent e) {closeBalloon();}
 		public void columnRemoved(TableColumnModelEvent e) {closeBalloon();}
 		public void columnSelectionChanged(ListSelectionEvent e) {}
 	};
-	
+
 	// This class is needed when the table hasn't been set up yet during the constructor of this balloon tip
 	private class ConstructorHelper implements AncestorListener {
 		public void ancestorAdded(AncestorEvent event) {
@@ -70,19 +70,20 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 * @param column	Which column is the balloon tip attached to
 	 */
 	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
-		super(table, text, ((JTable)table).getCellRect(row, column, true), style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
-		
+		super(table, text, table.getCellRect(row, column, true), style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
+
 		this.row = row;
 		this.column = column;
-		
+
 		// We can only add the columnListener if we're sure the table has already been properly set up (which is the case if our super-constructor was able to determine the top level container...)
 		if (getTopLevelContainer() != null) {
 			table.getColumnModel().addColumnModelListener(columnListener);
 		} else {
-			table.addAncestorListener(new ConstructorHelper());
+			attachedComponentParentListener = new ConstructorHelper();
+			table.addAncestorListener(attachedComponentParentListener);
 		}
 	}
-	
+
 	/**
 	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, String, BalloonTipStyle, BalloonTipPositioner, boolean)
 	 * @param table		The table to attach the balloon tip to
@@ -90,16 +91,17 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 * @param column	Which column is the balloon tip attached to
 	 */
 	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton) {
-		super(table, text, ((JTable)table).getCellRect(row, column, true), style, positioner, useCloseButton);
-		
+		super(table, text, table.getCellRect(row, column, true), style, positioner, useCloseButton);
+
 		this.row = row;
 		this.column = column;
-		
+
 		// We can only add the columnListener if we're sure the table has already been properly set up (which is the case if our super-constructor was able to determine the top level container...)
 		if (getTopLevelContainer() != null) {
 			table.getColumnModel().addColumnModelListener(columnListener);
 		} else {
-			table.addAncestorListener(new ConstructorHelper());
+			attachedComponentParentListener = new ConstructorHelper();
+			table.addAncestorListener(attachedComponentParentListener);
 		}
 	}
 
@@ -116,5 +118,6 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	public void closeBalloon() {
 		super.closeBalloon();
 		((JTable)attachedComponent).getColumnModel().removeColumnModelListener(columnListener);
+		attachedComponent.removeAncestorListener(attachedComponentParentListener);
 	}
 }
