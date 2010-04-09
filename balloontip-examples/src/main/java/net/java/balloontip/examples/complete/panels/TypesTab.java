@@ -44,13 +44,14 @@ import net.java.balloontip.TablecellBalloonTip;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 
 public class TypesTab extends JPanel {
-	private TablecellBalloonTip tableBalloon;
-	private CustomBalloonTip customBalloon;
+	private final TablecellBalloonTip tableBalloon;
+	private final CustomBalloonTip customBalloon;
 	
 	/**
 	 * Default constructor
 	 */
 	public TypesTab() {
+		super();
 		setLayout(new GridBagLayout());
 		int gridY = 0;
 		

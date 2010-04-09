@@ -36,6 +36,7 @@ public class MainPanel extends JPanel {
 	 * Default constructor
 	 */
 	public MainPanel() {
+		super();
 		setLayout(new GridBagLayout());
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
