@@ -31,8 +31,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import net.java.balloontip.BalloonTip;
-import net.java.balloontip.positioners.BasicBalloonTipPositioner;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 
 /**
@@ -63,23 +63,32 @@ public class TransparencyExample {
 				button.setSelected(true);
 				contentPane.add(button, new GridBagConstraints(0,0,1,1,1,1, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, new Insets(0,0,60,120), 0, 0));
 
+				/*** Balloon tip creation - START ***/
+
+				EdgedBalloonStyle style = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
+				final BalloonTip balloonTip = new BalloonTip(
+						button,
+						"<html>This <font color=\"#0000ff\">balloon tip</font> is drawn on a transparent window!</html>",
+						style,
+						BalloonTip.Orientation.LEFT_ABOVE,
+						BalloonTip.AttachLocation.ALIGNED,
+						30, 10,
+						true,
+						true	// This very last parameter will cause the balloon tip to be drawn on a transparent window
+				);
+				// Don't close the balloon when clicking the close-button, you just need to hide it
+				balloonTip.setCloseButtonActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						balloonTip.setVisible(false);
+					}
+				});
+				balloonTip.setVisible(false);
+
+				/*** Balloon tip creation - END ***/
+
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						/*** Balloon tip creation - START ***/
-						
-						EdgedBalloonStyle style = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
-						BalloonTip balloonTip = new BalloonTip(
-								button,
-								"<html>This <font color=\"#0000ff\">balloon tip</font> is drawn on a transparent window!</html>",
-								style,
-								BalloonTip.Orientation.LEFT_ABOVE,
-								BalloonTip.AttachLocation.ALIGNED,
-								30, 10,
-								true,
-								true	// This very last parameter will cause the balloon tip to be drawn on a transparent window
-						);
-						
-						/*** Balloon tip creation - END ***/
+						balloonTip.setVisible(true);
 					}
 				});
 
