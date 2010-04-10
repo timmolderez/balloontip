@@ -41,6 +41,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -125,7 +127,9 @@ public class BalloonTip extends JPanel {
 				moveRefreshTimer = new Timer(MOVE_REFRESH_DELAY, new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if ((System.currentTimeMillis() - BalloonTip.this.lastMouseMoveTime) > MOVE_REFRESH_DELAY) {
-							refreshLocation();
+							if (attachedComponent.isShowing()) {
+								refreshLocation();
+							}
 							BalloonTip.this.moveRefreshTimer.stop();
 						}
 					}
@@ -139,6 +143,13 @@ public class BalloonTip extends JPanel {
 			if (!moveRefreshTimer.isRunning())
 			{
 				moveRefreshTimer.start();
+			}
+		}
+	};
+	private PropertyChangeListener visibilityListener = new PropertyChangeListener() {
+		public void propertyChange(PropertyChangeEvent e) {
+			if (getDrawOutsideParent() && (Boolean)e.getNewValue()) {
+				refreshLocation();
 			}
 		}
 	};
@@ -512,6 +523,7 @@ public class BalloonTip extends JPanel {
 			transparentWindow.remove(this);
 		}
 		if (topLevelWindow != null) {
+			this.removePropertyChangeListener("visible", visibilityListener);
 			topLevelWindow.removeComponentListener(topLevelWindowComponentListener);
 			if (topLevelWindow instanceof Window) {
 				((Window)topLevelWindow).removeWindowListener(minimizeListener);
@@ -599,10 +611,9 @@ public class BalloonTip extends JPanel {
 	}
 
 	public void setVisible(boolean visible) {
+		// Notify property listeners that the visibility has changed
+		firePropertyChange("visible", isVisible, visible);
 		isVisible = visible;
-		if (getDrawOutsideParent() && visible) {
-			refreshLocation();
-		}
 		super.setVisible(visible);
 	}
 
@@ -800,6 +811,7 @@ public class BalloonTip extends JPanel {
 			newTransparentWindow.setVisible(true);
 
 			if (topLevelWindow != null) {
+				this.addPropertyChangeListener("visible", visibilityListener);
 				topLevelWindow.addComponentListener(topLevelWindowComponentListener);
 				// Make sure the Balloon tip disappears whenever the window is minimized.
 				if (topLevelWindow instanceof Window) {
