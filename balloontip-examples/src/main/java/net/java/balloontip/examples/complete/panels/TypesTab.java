@@ -41,12 +41,13 @@ import javax.swing.table.TableColumn;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.CustomBalloonTip;
 import net.java.balloontip.TablecellBalloonTip;
+import net.java.balloontip.examples.complete.Complete;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 
 public class TypesTab extends JPanel {
 	private final TablecellBalloonTip tableBalloon;
 	private final CustomBalloonTip customBalloon;
-	
+
 	/**
 	 * Default constructor
 	 */
@@ -54,11 +55,11 @@ public class TypesTab extends JPanel {
 		super();
 		setLayout(new GridBagLayout());
 		int gridY = 0;
-		
+
 		/*
 		 * Draw the GUI
 		 */
-		
+
 		// Regular balloon tip
 		JPanel regularPanel = new JPanel();
 		regularPanel.setLayout(new GridBagLayout());
@@ -71,7 +72,7 @@ public class TypesTab extends JPanel {
 		regularPanel.setBorder(BorderFactory.createTitledBorder("Regular balloon tip:"));
 		add(regularPanel, new GridBagConstraints(0,gridY,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10,10,10,10), 0, 0));
 		++gridY;
-		
+
 		// Tablecell balloon tip
 		JPanel tableCellPanel = new JPanel();
 		tableCellPanel.setLayout(new GridBagLayout());
@@ -83,17 +84,17 @@ public class TypesTab extends JPanel {
 		TableColumn column = null;
 		for (int i=0; i<64; ++i) {
 			column = table.getColumnModel().getColumn(i);
-		    column.setPreferredWidth(50);
+			column.setPreferredWidth(50);
 		}		
 		final JScrollPane tableScrollPane = new JScrollPane(table);
-		
-		
+
+
 		tableCellPanel.add(tableScrollPane, new GridBagConstraints(0,1,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10,10,10,10), 0, 0));
 		tableCellPanel.setBorder(BorderFactory.createTitledBorder("Table-cell balloon tip:"));
-		
+
 		add(tableCellPanel, new GridBagConstraints(0,gridY,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10,10,10,10), 0, 0));
 		++gridY;
-		
+
 		// Custom balloon tip
 		JPanel customPanel = new JPanel();
 		customPanel.setLayout(new GridBagLayout());
@@ -112,29 +113,31 @@ public class TypesTab extends JPanel {
 		final JScrollPane customScrollPane = new JScrollPane(customComponent);
 		customPanel.add(customScrollPane, new GridBagConstraints(0,1,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10,10,10,10), 0, 0));
 		customPanel.setBorder(BorderFactory.createTitledBorder("Custom balloon tip:"));
-		
+
 		add(customPanel, new GridBagConstraints(0,gridY,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10,10,10,10), 0, 0));
 		++gridY;
-		
+
 		/*
 		 * Add the GUI's behaviour
 		 */
-		
+
 		// Regular balloon tip
 		new BalloonTip(label, "I'm a BalloonTip!",
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
 				20, 20, 
-				false);
-		
+				false,
+				Complete.isDrawnOutsideParent());
+
 		// Tablecell balloon tip
 		tableBalloon = new TablecellBalloonTip(table, "I'm a TableCellBalloonTip!", 32, 32,
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
 				20, 20, 
-				false);
+				false,
+				Complete.isDrawnOutsideParent());
 		tableBalloon.setViewport(tableScrollPane.getViewport());
 		table.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
@@ -142,9 +145,9 @@ public class TypesTab extends JPanel {
 			}
 			public void ancestorMoved(AncestorEvent event) {}
 			public void ancestorRemoved(AncestorEvent event) {}
-			
+
 		});
-		
+
 		// Custom balloon tip
 		customBalloon = new CustomBalloonTip(customComponent, 
 				"I'm a CustomBalloonTip!",
@@ -153,7 +156,8 @@ public class TypesTab extends JPanel {
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
 				20, 20, 
-				false);
+				false,
+				Complete.isDrawnOutsideParent());
 		customBalloon.setViewport(customScrollPane.getViewport());
 		customComponent.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
@@ -161,7 +165,7 @@ public class TypesTab extends JPanel {
 			}
 			public void ancestorMoved(AncestorEvent event) {}
 			public void ancestorRemoved(AncestorEvent event) {}
-			
+
 		});
 	}
 }

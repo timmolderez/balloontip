@@ -27,21 +27,21 @@ import net.java.balloontip.examples.complete.panels.MainPanel;
 
 /**
  * Main class for the Balloontip example application.
- * All Balloontips will be drawn inside the main frame.
- * @author Tim Molderez
+ * All Balloontips will be drawn on a single transparent window.
+ * @author Thierry Blind
  */
-public class CompleteExample extends Complete {
+public class CompleteTransparencyExample extends Complete {
 	/**
 	 * Main method
 	 * @param args		command-line arguments (unused)
 	 */
 	public static void main(String[] args) {
-		setDrawnOutsideParent(false);
+		setDrawnOutsideParent(true);
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				JFrame frame = new JFrame("BalloonTip example");
-				frame.setIconImage(new ImageIcon(CompleteExample.class.getResource("/net/java/balloontip/images/frameicon.png")).getImage());
+				frame.setIconImage(new ImageIcon(CompleteTransparencyExample.class.getResource("/net/java/balloontip/images/frameicon.png")).getImage());
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setContentPane(new MainPanel());
 				frame.pack();

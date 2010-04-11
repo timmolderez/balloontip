@@ -40,6 +40,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import net.java.balloontip.BalloonTip;
+import net.java.balloontip.examples.complete.Complete;
 import net.java.balloontip.examples.complete.CompleteExample;
 import net.java.balloontip.positioners.BasicBalloonTipPositioner;
 import net.java.balloontip.styles.EdgedBalloonStyle;
@@ -55,7 +56,7 @@ public class LooksTab extends JPanel {
 	private final JButton borderColorButton;
 	private Color fillColor = Color.WHITE;
 	private Color borderColor = Color.BLUE;
-	
+
 	/**
 	 * Default constructor
 	 */
@@ -63,15 +64,15 @@ public class LooksTab extends JPanel {
 		super();
 		setLayout(new GridBagLayout());
 		int gridY = 0;
-		
+
 		/*
 		 * Draw the GUI
 		 */
-		
+
 		// Description label
 		add(new JLabel("Toy around with these settings to change the balloon tip's looks."), new GridBagConstraints(0,gridY,2,1,1.0,0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10,10,25,0), 0, 0));
 		++gridY;
-		
+
 		// Contents textbox
 		add(new JLabel("Contents:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		final JTextField contents = new JTextField("<html>I'm a <u>balloon tip</u></html>");
@@ -79,14 +80,14 @@ public class LooksTab extends JPanel {
 		contents.setPreferredSize(new Dimension(250,25));
 		add(contents, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
-		
+
 		// Styles combobox
 		add(new JLabel("Style:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		String[] stylesOptions = {"Edged", "Rounded", "Modern", "Minimal", "Textured"};
 		stylePicker = new JComboBox(stylesOptions);
 		add(stylePicker, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
-		
+
 		// Fill color
 		add(new JLabel("Fill color:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		fillColorButton = new JButton();
@@ -94,7 +95,7 @@ public class LooksTab extends JPanel {
 		fillColorButton.setPreferredSize(new Dimension(35,25));
 		add(fillColorButton, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
-		
+
 		// Border color
 		add(new JLabel("Border color:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		borderColorButton = new JButton();
@@ -102,65 +103,66 @@ public class LooksTab extends JPanel {
 		borderColorButton.setPreferredSize(new Dimension(35,25));
 		add(borderColorButton, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
-		
+
 		// Horizontal offset textbox
 		add(new JLabel("Horizontal offset:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		final JTextField hOffset = new JTextField("20");
 		hOffset.setPreferredSize(new Dimension(30,25));
 		add(hOffset, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
-		
+
 		// Vertical offset textbox
 		add(new JLabel("Vertical offset:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		final JTextField vOffset = new JTextField("10");
 		vOffset.setPreferredSize(new Dimension(30,25));
 		add(vOffset, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
-		
+
 		// Padding textbox
 		add(new JLabel("Padding:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		final JTextField padding = new JTextField("5");
 		padding.setPreferredSize(new Dimension(30,25));
 		add(padding, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
-		
+
 		// Show icon checkbox
 		add(new JLabel("Show an icon:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		final JCheckBox showIcon = new JCheckBox();
 		showIcon.setSelected(false);
 		add(showIcon, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
-		
+
 		// Text to icon gap textbox
 		add(new JLabel("Icon-text gap:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		final JTextField iconTextGap = new JTextField("10");
 		iconTextGap.setPreferredSize(new Dimension(30,25));
 		add(iconTextGap, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
-		
+
 		// Close button border textbox
 		add(new JLabel("Close-button border:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		final JTextField closeButtonBorder = new JTextField("5");
 		closeButtonBorder.setPreferredSize(new Dimension(30,25));
 		add(closeButtonBorder, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
-		
+
 		// Balloon tip
 		final JButton attachedComponent = new JButton("Show balloon tip");
 		add(attachedComponent, new GridBagConstraints(0,gridY,2,1,1.0,1.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, new Insets(50,0,25,0), 0, 0));
-		
+
 		/*
 		 * Add the GUI's behaviour
 		 */
-		
+
 		// Create the balloon tip
 		balloonTip = new BalloonTip(attachedComponent, contents.getText(),
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
 				20, 10, 
-				true);
-		
+				true,
+				Complete.isDrawnOutsideParent());
+
 		// Don't close the balloon when clicking the close-button, you just need to hide it
 		balloonTip.setCloseButtonActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -170,14 +172,14 @@ public class LooksTab extends JPanel {
 		balloonTip.setIconTextGap(Integer.parseInt(iconTextGap.getText()));
 		int value = Integer.parseInt(closeButtonBorder.getText());
 		balloonTip.setCloseButtonBorder(value, value, value, value);
-		
+
 		// (Re)show the balloon tip when clicking attachedComponent 
 		attachedComponent.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				balloonTip.setVisible(true);
 			}
 		});
-		
+
 		// Contents
 		contents.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -190,14 +192,14 @@ public class LooksTab extends JPanel {
 				balloonTip.setText(contents.getText());
 			}
 		});
-		
+
 		// Style
 		stylePicker.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setBalloonTipStyle();
 			}
 		});
-		
+
 		// Fill color
 		fillColorButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -206,7 +208,7 @@ public class LooksTab extends JPanel {
 				fillColorButton.setBackground(fillColor);
 			}
 		});
-		
+
 		// Border color
 		borderColorButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -215,7 +217,7 @@ public class LooksTab extends JPanel {
 				borderColorButton.setBackground(borderColor);
 			}
 		});
-		
+
 		// Horizontal offset
 		hOffset.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -227,7 +229,7 @@ public class LooksTab extends JPanel {
 			public void removeUpdate(DocumentEvent e) {
 				setHorizontalOffset();
 			}
-			
+
 			private void setHorizontalOffset() {
 				try {
 					((BasicBalloonTipPositioner)balloonTip.getPositioner()).setPreferredHorizontalOffset(Integer.parseInt(hOffset.getText()));
@@ -240,7 +242,7 @@ public class LooksTab extends JPanel {
 				}
 			}
 		});
-		
+
 		// Vertical offset
 		vOffset.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -252,7 +254,7 @@ public class LooksTab extends JPanel {
 			public void removeUpdate(DocumentEvent e) {
 				setVerticalOffset();
 			}
-			
+
 			private void setVerticalOffset() {
 				try {
 					((BasicBalloonTipPositioner)balloonTip.getPositioner()).setPreferredVerticalOffset(Integer.parseInt(vOffset.getText()));
@@ -265,7 +267,7 @@ public class LooksTab extends JPanel {
 				}
 			}
 		});
-		
+
 		// Padding
 		padding.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -277,7 +279,7 @@ public class LooksTab extends JPanel {
 			public void removeUpdate(DocumentEvent e) {
 				setPadding();
 			}
-			
+
 			private void setPadding() {
 				try {
 					balloonTip.setPadding(Integer.parseInt(padding.getText()));
@@ -288,7 +290,7 @@ public class LooksTab extends JPanel {
 				}
 			}
 		});
-		
+
 		// Show icon
 		showIcon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -299,7 +301,7 @@ public class LooksTab extends JPanel {
 				}
 			}
 		});
-		
+
 		// Icon-text gap
 		iconTextGap.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -311,7 +313,7 @@ public class LooksTab extends JPanel {
 			public void removeUpdate(DocumentEvent e) {
 				setIconTextGap();
 			}
-			
+
 			private void setIconTextGap() {
 				try {
 					balloonTip.setIconTextGap(Integer.parseInt(iconTextGap.getText()));
@@ -322,7 +324,7 @@ public class LooksTab extends JPanel {
 				}
 			}
 		});
-		
+
 		// Close-button border
 		closeButtonBorder.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
@@ -334,7 +336,7 @@ public class LooksTab extends JPanel {
 			public void removeUpdate(DocumentEvent e) {
 				setCloseButtonBorder();
 			}
-			
+
 			private void setCloseButtonBorder() {
 				try {
 					int value = Integer.parseInt(closeButtonBorder.getText());
@@ -347,7 +349,7 @@ public class LooksTab extends JPanel {
 			}
 		});
 	}
-	
+
 	private void setBalloonTipStyle() {
 		switch (stylePicker.getSelectedIndex()) {
 		case 0:

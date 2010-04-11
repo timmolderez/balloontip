@@ -38,6 +38,7 @@ import net.java.balloontip.styles.EdgedBalloonStyle;
 /**
  * Simple application demonstrating a BalloonTip being drawn on a transparent window
  * Do note that this example will only work if Balloon tip is compiled for Java 1.6 update 12 (or higher)!
+ * Otherwise Balloon tip will be drawn inside the main frame.
  * @author Tim Molderez
  */
 public class TransparencyExample {
