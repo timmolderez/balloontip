@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import net.java.balloontip.BalloonTip;
+import net.java.balloontip.examples.complete.Complete;
 import net.java.balloontip.examples.complete.CompleteExample;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 import net.java.balloontip.utils.TimingUtils;
@@ -90,7 +91,7 @@ public class UtilitiesTab extends JPanel {
 		/*
 		 * Add the GUI's behaviour
 		 */
-		
+
 		// Timed balloon tip
 		showBalloon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -102,7 +103,8 @@ public class UtilitiesTab extends JPanel {
 							BalloonTip.Orientation.LEFT_ABOVE, 
 							BalloonTip.AttachLocation.ALIGNED, 
 							20, 20, 
-							false);
+							false,
+							Complete.isDrawnOutsideParent());
 					TimingUtils.showTimedBalloon(balloonTip, timeoutVal);
 				} catch (Exception exc) {
 					if (!timeout.getText().equals("")) {
@@ -118,7 +120,8 @@ public class UtilitiesTab extends JPanel {
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
 				20, 20, 
-				false);
+				false,
+				Complete.isDrawnOutsideParent());
 		ToolTipUtils.balloonToToolTip(tooltipBalloon, 500, 3000);
 
 	}
