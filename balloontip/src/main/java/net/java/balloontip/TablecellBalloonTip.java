@@ -37,8 +37,8 @@ import net.java.balloontip.styles.BalloonTipStyle;
  */
 public class TablecellBalloonTip extends CustomBalloonTip {
 
-	private final int row;
-	private final int column;
+	private int row;
+	private int column;
 	private AncestorListener attachedComponentParentListener = null;
 
 	// If someone messes with the table's columns, this will probably screw up the balloon tip's position, so we'll just close it
@@ -71,17 +71,19 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 */
 	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
 		super(table, text, table.getCellRect(row, column, true), style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
+		initialize(table, row, column);
+	}
 
-		this.row = row;
-		this.column = column;
-
-		// We can only add the columnListener if we're sure the table has already been properly set up (which is the case if our super-constructor was able to determine the top level container...)
-		if (getTopLevelContainer() != null) {
-			table.getColumnModel().addColumnModelListener(columnListener);
-		} else {
-			attachedComponentParentListener = new ConstructorHelper();
-			table.addAncestorListener(attachedComponentParentListener);
-		}
+	/**
+	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, String, BalloonTipStyle, Orientation, AttachLocation, int, int, boolean)
+	 * @param table		The table to attach the balloon tip to
+	 * @param row		Which row is the balloon tip attached to
+	 * @param column	Which column is the balloon tip attached to
+	 * @param drawOutsideParent If true, the balloon tip will be bounded by the screen area instead of the parent window
+	 */
+	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton, boolean drawOutsideParent) {
+		super(table, text, table.getCellRect(row, column, true), style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton, drawOutsideParent);
+		initialize(table, row, column);
 	}
 
 	/**
@@ -92,17 +94,19 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 */
 	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton) {
 		super(table, text, table.getCellRect(row, column, true), style, positioner, useCloseButton);
+		initialize(table, row, column);
+	}
 
-		this.row = row;
-		this.column = column;
-
-		// We can only add the columnListener if we're sure the table has already been properly set up (which is the case if our super-constructor was able to determine the top level container...)
-		if (getTopLevelContainer() != null) {
-			table.getColumnModel().addColumnModelListener(columnListener);
-		} else {
-			attachedComponentParentListener = new ConstructorHelper();
-			table.addAncestorListener(attachedComponentParentListener);
-		}
+	/**
+	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, String, BalloonTipStyle, BalloonTipPositioner, boolean)
+	 * @param table		The table to attach the balloon tip to
+	 * @param row		Which row is the balloon tip attached to
+	 * @param column	Which column is the balloon tip attached to
+	 * @param drawOutsideParent If true, the balloon tip will be bounded by the screen area instead of the parent window
+	 */
+	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton, boolean drawOutsideParent) {
+		super(table, text, table.getCellRect(row, column, true), style, positioner, useCloseButton, drawOutsideParent);
+		initialize(table, row, column);
 	}
 
 	/**
@@ -119,5 +123,21 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 		super.closeBalloon();
 		((JTable)attachedComponent).getColumnModel().removeColumnModelListener(columnListener);
 		attachedComponent.removeAncestorListener(attachedComponentParentListener);
+	}
+
+	/*
+	 * Helper method for constructing a TablecellBalloonTip
+	 */
+	private void initialize(JTable table, int row, int column) {
+		this.row = row;
+		this.column = column;
+
+		// We can only add the columnListener if we're sure the table has already been properly set up (which is the case if our super-constructor was able to determine the top level container...)
+		if (getTopLevelContainer() != null) {
+			table.getColumnModel().addColumnModelListener(columnListener);
+		} else {
+			attachedComponentParentListener = new ConstructorHelper();
+			table.addAncestorListener(attachedComponentParentListener);
+		}
 	}
 }
