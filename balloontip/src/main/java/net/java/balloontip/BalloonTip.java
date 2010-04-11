@@ -735,6 +735,7 @@ public class BalloonTip extends JPanel {
 	 */
 	private synchronized void initializePhase2() {
 		JLayeredPane newTopLevelContainer = null;
+		Container newTopLevelWindow = null;
 		ArrayList<JTabbedPane> newTabbedPaneParents = new ArrayList<JTabbedPane>();
 
 		Container parent = attachedComponent.getParent();
@@ -743,6 +744,7 @@ public class BalloonTip extends JPanel {
 			// If you're a top level container (JFrame, JDialog, JInternalFrame, JApplet or JWindow)
 			if (parent instanceof RootPaneContainer) {
 				newTopLevelContainer = ((RootPaneContainer)parent).getLayeredPane();
+				newTopLevelWindow = parent;
 				// Exit the infinite loop
 				break;
 				// If you're a tab
@@ -759,13 +761,14 @@ public class BalloonTip extends JPanel {
 		// At this point, it's sure there's a top level container,
 		// otherwise a NullPointerException would have be thrown.
 		topLevelContainer = newTopLevelContainer;
+		topLevelWindow = newTopLevelWindow;
 		tabbedPaneParents = newTabbedPaneParents;
 		for (JTabbedPane p : tabbedPaneParents) {
 			p.addChangeListener(tabbedPaneListener);
 		}
 
 		Boolean isTranslucencySupported = Boolean.FALSE;
-		JWindow newTransparentWindow = null;
+		JWindow newTransparentWindow = transparentWindow;
 
 		// Support for drawing outside parent window bounds - only possible if the
 		// system supports transparent windows
