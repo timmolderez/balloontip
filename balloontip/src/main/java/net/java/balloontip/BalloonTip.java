@@ -164,9 +164,17 @@ public class BalloonTip extends JPanel {
 		}
 	};
 	private AncestorListener attachedComponentParentListener = null;
-	private ArrayList<JTabbedPane> tabbedPaneParents = null;
-	private ChangeListener tabbedPaneListener = null;
-	private ActionListener closeButtonActionListener = null;
+	private ArrayList<JTabbedPane> tabbedPaneParents = new ArrayList<JTabbedPane>();
+	private ChangeListener tabbedPaneListener = new ChangeListener() {
+		public void stateChanged(ChangeEvent e) {
+			checkVisibility();
+		}
+	};
+	private ActionListener closeButtonActionListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			closeBalloon();
+		}
+	};
 	private WindowListener minimizeListener = new WindowListener() {
 		public void windowOpened(WindowEvent e) {}
 		public void windowIconified(WindowEvent e) {
@@ -513,11 +521,11 @@ public class BalloonTip extends JPanel {
 		if (closeButton != null) {
 			closeButton.removeActionListener(closeButtonActionListener);
 		}
-		attachedComponent.removeAncestorListener(attachedComponentParentListener);
-		if (tabbedPaneListener != null) {
-			for (JTabbedPane p : tabbedPaneParents) {
-				p.removeChangeListener(tabbedPaneListener);
-			}
+		if (attachedComponentParentListener != null) {
+			attachedComponent.removeAncestorListener(attachedComponentParentListener);
+		}
+		for (JTabbedPane p : tabbedPaneParents) {
+			p.removeChangeListener(tabbedPaneListener);
 		}
 		if (transparentWindow != null) {
 			transparentWindow.remove(this);
@@ -692,11 +700,6 @@ public class BalloonTip extends JPanel {
 			closeButton.setIcon(defaultIcon);
 			closeButton.setRolloverIcon(rolloverIcon);
 			closeButton.setPressedIcon(pressedIcon);
-			closeButtonActionListener = new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					closeBalloon();
-				}
-			};
 			closeButton.addActionListener(closeButtonActionListener);
 			add(closeButton, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
@@ -731,13 +734,15 @@ public class BalloonTip extends JPanel {
 	 * (This is done by following the path of parent Components, starting at the attached component...)
 	 */
 	private synchronized void initializePhase2() {
+		JLayeredPane newTopLevelContainer = null;
+		ArrayList<JTabbedPane> newTabbedPaneParents = new ArrayList<JTabbedPane>();
+
 		Container parent = attachedComponent.getParent();
 		// Follow the path of parents of the attached component until you find the top level container
 		while (true) {
 			// If you're a top level container (JFrame, JDialog, JInternalFrame, JApplet or JWindow)
 			if (parent instanceof RootPaneContainer) {
-				topLevelContainer = ((RootPaneContainer)parent).getLayeredPane();
-				topLevelWindow = parent;
+				newTopLevelContainer = ((RootPaneContainer)parent).getLayeredPane();
 				// Exit the infinite loop
 				break;
 				// If you're a tab
@@ -746,22 +751,21 @@ public class BalloonTip extends JPanel {
 				 * that tell which components are now visible / invisible.
 				 * This piece of code is a workaround. We'll check our attached component's visibility by listening to the JTabbedPane...
 				 */
-				if (tabbedPaneListener == null) {
-					tabbedPaneListener = new ChangeListener() {
-						public void stateChanged(ChangeEvent e) {
-							checkVisibility();
-						}
-					};
-					tabbedPaneParents = new ArrayList<JTabbedPane>();
-				}
-				tabbedPaneParents.add((JTabbedPane)parent);
-				((JTabbedPane)parent).addChangeListener(tabbedPaneListener);
+				newTabbedPaneParents.add((JTabbedPane)parent);
 			}
 			parent = parent.getParent();
 		}
 
+		// At this point, it's sure there's a top level container,
+		// otherwise a NullPointerException would have be thrown.
+		topLevelContainer = newTopLevelContainer;
+		tabbedPaneParents = newTabbedPaneParents;
+		for (JTabbedPane p : tabbedPaneParents) {
+			p.addChangeListener(tabbedPaneListener);
+		}
+
 		Boolean isTranslucencySupported = Boolean.FALSE;
-		JWindow newTransparentWindow = transparentWindow;
+		JWindow newTransparentWindow = null;
 
 		// Support for drawing outside parent window bounds - only possible if the
 		// system supports transparent windows
