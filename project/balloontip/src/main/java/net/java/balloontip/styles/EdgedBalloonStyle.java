@@ -51,9 +51,8 @@ public class EdgedBalloonStyle extends BalloonTipStyle {
 	public Insets getBorderInsets(Component c) {
 		if (flipY) {
 			return new Insets(verticalOffset + 1, 1, 1, 1);
-		} else {
-			return new Insets(1, 1, verticalOffset + 1 , 1);
 		}
+		return new Insets(1, 1, verticalOffset + 1 , 1);
 	}
 
 	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
