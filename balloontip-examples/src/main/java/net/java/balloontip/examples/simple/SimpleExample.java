@@ -32,7 +32,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import net.java.balloontip.BalloonTip;
-import net.java.balloontip.positioners.BasicBalloonTipPositioner;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 
 /**
@@ -77,9 +76,6 @@ public class SimpleExample {
 					30, 10,
 					true
 				);
-				
-				((BasicBalloonTipPositioner)balloonTip.getPositioner()).enableOffsetCorrection(false);
-				((BasicBalloonTipPositioner)balloonTip.getPositioner()).enableOrientationCorrection(false);
 				
 				// Don't close the balloon when clicking the close-button, you just need to hide it
 				balloonTip.setCloseButtonActionListener(new ActionListener() {
