@@ -203,18 +203,24 @@ public class LooksTab extends JPanel {
 		// Fill color
 		fillColorButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				fillColor = JColorChooser.showDialog(null, "Choose a fill color", fillColor);
-				setBalloonTipStyle();
-				fillColorButton.setBackground(fillColor);
+				Color newFillColor = JColorChooser.showDialog(null, "Choose a fill color", fillColor);
+				if (newFillColor != null) {
+					fillColor = newFillColor;
+					setBalloonTipStyle();
+					fillColorButton.setBackground(fillColor);
+				}
 			}
 		});
 
 		// Border color
 		borderColorButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				borderColor = JColorChooser.showDialog(null, "Choose a border color", borderColor);
-				setBalloonTipStyle();
-				borderColorButton.setBackground(borderColor);
+				Color newBorderColor = JColorChooser.showDialog(null, "Choose a border color", borderColor);
+				if (newBorderColor != null) {
+					borderColor = newBorderColor;
+					setBalloonTipStyle();
+					borderColorButton.setBackground(borderColor);
+				}
 			}
 		});
 
