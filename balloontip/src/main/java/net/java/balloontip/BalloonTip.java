@@ -115,7 +115,7 @@ public class BalloonTip extends JPanel {
 			}
 		}
 	};
-	private ComponentAdapter topLevelWindowComponentListener = new ComponentAdapter() {
+	private final ComponentAdapter topLevelWindowComponentListener = new ComponentAdapter() {
 		public void componentMoved(ComponentEvent e) {
 			BalloonTip.this.lastMouseMoveTime = System.currentTimeMillis();
 
@@ -146,14 +146,14 @@ public class BalloonTip extends JPanel {
 			}
 		}
 	};
-	private PropertyChangeListener visibilityListener = new PropertyChangeListener() {
+	private final PropertyChangeListener visibilityListener = new PropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent e) {
 			if (getDrawOutsideParent() && (Boolean)e.getNewValue()) {
 				refreshLocation();
 			}
 		}
 	};
-	private MouseAdapter clickListener = new MouseAdapter() {
+	private final MouseAdapter clickListener = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {e.consume();}
 		public void mouseReleased(MouseEvent e) {
 			if (clickToHide) {
@@ -165,7 +165,7 @@ public class BalloonTip extends JPanel {
 	};
 	private AncestorListener attachedComponentParentListener = null;
 	private ArrayList<JTabbedPane> tabbedPaneParents = new ArrayList<JTabbedPane>();
-	private ChangeListener tabbedPaneListener = new ChangeListener() {
+	private final ChangeListener tabbedPaneListener = new ChangeListener() {
 		public void stateChanged(ChangeEvent e) {
 			checkVisibility();
 		}
@@ -175,7 +175,7 @@ public class BalloonTip extends JPanel {
 			closeBalloon();
 		}
 	};
-	private WindowListener minimizeListener = new WindowListener() {
+	private final WindowListener minimizeListener = new WindowListener() {
 		public void windowOpened(WindowEvent e) {}
 		public void windowIconified(WindowEvent e) {
 			if (isVisible()) {
@@ -600,6 +600,23 @@ public class BalloonTip extends JPanel {
 			return transparentWindow;
 		}
 		return topLevelContainer;
+	}
+
+	/**
+	 * Gets a value indicating whether or not the balloon tip is actually
+	 * drawn outside the bounds of its parent window. This value depends both
+	 * on the user's input and the ability of the system to support transparent
+	 * windows. If isDrawnOutsideParent() returns true, then getTopLevelContainer()
+	 * will return the (non-null) transparent window used as the container
+	 * to draw this balloon tip on.
+	 * @return <code>true</code> if the <code>BalloonTip</code> is
+	 *         drawn outside the bounds of its parent window. Otherwise
+	 *         <code>false</code>
+	 */
+	public boolean isDrawnOutsideParent() {
+		// NB : getDrawOutsideParent() is a private method
+		// that should not be overridden.
+		return getDrawOutsideParent();
 	}
 
 	/**
