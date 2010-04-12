@@ -20,6 +20,7 @@
 
 package net.java.balloontip;
 
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -61,7 +62,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 		}
 		public void ancestorMoved(AncestorEvent event) {}
 		public void ancestorRemoved(AncestorEvent event) {}
-	};
+	}
 
 	/**
 	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, String, BalloonTipStyle, Orientation, AttachLocation, int, int, boolean)

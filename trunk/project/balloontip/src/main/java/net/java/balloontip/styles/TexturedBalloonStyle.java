@@ -68,9 +68,8 @@ public class TexturedBalloonStyle extends BalloonTipStyle {
 	public Insets getBorderInsets(Component c) {
 		if (flipY) {
 			return new Insets(verticalOffset+arcHeight, arcWidth, arcHeight, arcWidth);
-		} else {
-			return new Insets(arcHeight, arcWidth, arcHeight+verticalOffset, arcWidth);
 		}
+		return new Insets(arcHeight, arcWidth, arcHeight+verticalOffset, arcWidth);
 	}
 
 	public boolean isBorderOpaque() {
@@ -79,7 +78,7 @@ public class TexturedBalloonStyle extends BalloonTipStyle {
 
 	public void paintBorder(Component c, Graphics g, int x, int y, int bWidth, int bHeight) {
 		Graphics2D g2d = (Graphics2D) g;
-		
+
 		int rectY = y;
 		if (flipY) {
 			rectY = y + verticalOffset;
@@ -123,7 +122,7 @@ public class TexturedBalloonStyle extends BalloonTipStyle {
 		g2d.drawLine(triangleX[0], triangleY[0], triangleX[2], triangleY[2]);
 		g2d.drawLine(triangleX[1], triangleY[1], triangleX[2], triangleY[2]);
 	}
-	
+
 	public int getMinimalHorizontalOffset() {
 		return arcWidth + verticalOffset;
 	}

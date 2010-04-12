@@ -70,12 +70,12 @@ public class BalloonTip extends JPanel {
 	/**
 	 * Should the balloon be placed above, below, right or left of the attached component?
 	 */
-	public enum Orientation {LEFT_ABOVE, RIGHT_ABOVE, LEFT_BELOW, RIGHT_BELOW};
+	public enum Orientation {LEFT_ABOVE, RIGHT_ABOVE, LEFT_BELOW, RIGHT_BELOW}
 	/**
 	 * Where should the balloon's tip be located, relative to the attached component
 	 * ALIGNED makes sure the balloon's edge is aligned with the attached component
 	 */
-	public enum AttachLocation {ALIGNED, CENTER, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
+	public enum AttachLocation {ALIGNED, CENTER, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST}
 
 	private static Icon defaultIcon  = new ImageIcon(BalloonTip.class.getResource("/net/java/balloontip/images/close_default.png"));
 	private static Icon rolloverIcon = new ImageIcon(BalloonTip.class.getResource("/net/java/balloontip/images/close_rollover.png"));
@@ -112,7 +112,7 @@ public class BalloonTip extends JPanel {
 	};
 	private AncestorListener attachedComponentParentListener = null;
 	private ArrayList<JTabbedPane> tabbedPaneParents = new ArrayList<JTabbedPane>();
-	private ChangeListener tabbedPaneListener = new ChangeListener() {
+	private final ChangeListener tabbedPaneListener = new ChangeListener() {
 		public void stateChanged(ChangeEvent e) {
 			checkVisibility();
 		}
@@ -303,11 +303,12 @@ public class BalloonTip extends JPanel {
 	 * @param style
 	 */
 	public void setStyle(BalloonTipStyle style) {
-		// Notify property listeners that the style has changed
-		firePropertyChange("style", this.style, style);
+		BalloonTipStyle oldStyle = this.style;
 		this.style = style;
 		setBorder(this.style);
 		refreshLocation();
+		// Notify property listeners that the style has changed
+		firePropertyChange("style", oldStyle, style);
 	}
 
 	/**
@@ -323,12 +324,12 @@ public class BalloonTip extends JPanel {
 	 * @param positioner
 	 */
 	public void setPositioner(BalloonTipPositioner positioner) {
-		// Notify property listeners that the positioner has changed
-		firePropertyChange("positioner", this.positioner, positioner);
-
+		BalloonTipPositioner oldPositioner = this.positioner;
 		this.positioner = positioner;
 		this.positioner.setBalloonTip(this);
 		refreshLocation();
+		// Notify property listeners that the positioner has changed
+		firePropertyChange("positioner", oldPositioner, positioner);
 	}
 
 	/**
@@ -394,6 +395,7 @@ public class BalloonTip extends JPanel {
 		for (JTabbedPane p : tabbedPaneParents) {
 			p.removeChangeListener(tabbedPaneListener);
 		}
+		tabbedPaneParents.clear();
 	}
 
 	/**

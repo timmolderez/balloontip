@@ -36,7 +36,7 @@ public class TimingUtils {
 	/*
 	 * Disallow instantiating this class
 	 */
-	private TimingUtils() {};
+	private TimingUtils() {}
 	
 	/**
 	 * Displays a balloon tip for a certain time.

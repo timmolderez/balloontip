@@ -101,13 +101,12 @@ public class ModernBalloonStyle extends BalloonTipStyle {
 	public void enableAntiAliasing(boolean enable) {
 		AAenabled = enable;
 	}
-	
+
 	public Insets getBorderInsets(Component c) {
 		if (flipY) {
 			return new Insets(verticalOffset+arcHeight, arcWidth, arcHeight, arcWidth);
-		} else {
-			return new Insets(arcHeight, arcWidth, arcHeight+verticalOffset, arcWidth);
 		}
+		return new Insets(arcHeight, arcWidth, arcHeight+verticalOffset, arcWidth);
 	}
 
 	public boolean isBorderOpaque() {
@@ -206,7 +205,7 @@ public class ModernBalloonStyle extends BalloonTipStyle {
 		g2d.draw(outline);
 		g2d.setStroke(backup);
 	}
-	
+
 	public int getMinimalHorizontalOffset() {
 		return arcWidth + verticalOffset + borderThickness;
 	}
