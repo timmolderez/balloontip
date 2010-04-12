@@ -59,9 +59,8 @@ public class RoundedBalloonStyle extends BalloonTipStyle {
 	public Insets getBorderInsets(Component c) {
 		if (flipY) {
 			return new Insets(verticalOffset+arcHeight, arcWidth, arcHeight, arcWidth);
-		} else {
-			return new Insets(arcHeight, arcWidth, arcHeight+verticalOffset, arcWidth);
 		}
+		return new Insets(arcHeight, arcWidth, arcHeight+verticalOffset, arcWidth);
 	}
 
 	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
@@ -108,7 +107,7 @@ public class RoundedBalloonStyle extends BalloonTipStyle {
 		g.drawLine(triangleX[0], triangleY[0], triangleX[0], triangleY[0]);
 		g.drawLine(triangleX[1], triangleY[1], triangleX[1], triangleY[1]);
 	}
-	
+
 	public int getMinimalHorizontalOffset() {
 		return arcWidth + verticalOffset;
 	}
