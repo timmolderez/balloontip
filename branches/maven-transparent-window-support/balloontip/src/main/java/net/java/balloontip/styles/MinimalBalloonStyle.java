@@ -51,9 +51,8 @@ public class MinimalBalloonStyle extends BalloonTipStyle {
 	public Insets getBorderInsets(Component c) {
 		if (flipY) {
 			return new Insets(verticalOffset+arcWidth, arcWidth, arcWidth, arcWidth);
-		} else {
-			return new Insets(arcWidth, arcWidth, arcWidth+verticalOffset, arcWidth);
 		}
+		return new Insets(arcWidth, arcWidth, arcWidth+verticalOffset, arcWidth);
 	}
 
 	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
@@ -76,10 +75,10 @@ public class MinimalBalloonStyle extends BalloonTipStyle {
 
 		// Top left corner
 		outline.quadTo(x, yTop, x, yTop + arcWidth);
-		
+
 		// Left side
 		outline.lineTo(x, yBottom - arcWidth);
-		
+
 		// Bottom left corner
 		outline.quadTo(x, yBottom, x + arcWidth, yBottom);
 
@@ -94,7 +93,7 @@ public class MinimalBalloonStyle extends BalloonTipStyle {
 			outline.lineTo(x + width - horizontalOffset + verticalOffset, yBottom);
 		}
 		outline.lineTo(x + width - arcWidth, yBottom);
-		
+
 		// Bottom right corner
 		outline.quadTo(x + width, yBottom, x + width, yBottom - arcWidth);
 
@@ -121,11 +120,11 @@ public class MinimalBalloonStyle extends BalloonTipStyle {
 		g2d.setPaint(fillColor);
 		g2d.fill(outline);
 	}
-	
+
 	public int getMinimalHorizontalOffset() {
 		return arcWidth + verticalOffset;
 	}
-	
+
 	public boolean isBorderOpaque() {
 		return fillColor.getAlpha()==255;
 	}

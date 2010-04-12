@@ -42,7 +42,7 @@ public class ImageUtils {
 	/*
 	 * Disallow instantiating this class
 	 */
-	private ImageUtils() {};
+	private ImageUtils() {}
 	
 	/**
 	 * This method returns true if the specified image has transparent pixels

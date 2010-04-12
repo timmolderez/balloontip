@@ -31,7 +31,7 @@ public class FlipUtils {
 	/*
 	 * Disallow instantiating this class
 	 */
-	private FlipUtils() {};
+	private FlipUtils() {}
 
 	/**
 	 * Flip a point around a horizontal axis

@@ -433,11 +433,12 @@ public class BalloonTip extends JPanel {
 	 * @param style
 	 */
 	public void setStyle(BalloonTipStyle style) {
-		// Notify property listeners that the style has changed
-		firePropertyChange("style", this.style, style);
+		BalloonTipStyle oldStyle = this.style;
 		this.style = style;
 		setBorder(this.style);
 		refreshLocation();
+		// Notify property listeners that the style has changed
+		firePropertyChange("style", oldStyle, style);
 	}
 
 	/**
@@ -453,12 +454,12 @@ public class BalloonTip extends JPanel {
 	 * @param positioner
 	 */
 	public void setPositioner(BalloonTipPositioner positioner) {
-		// Notify property listeners that the positioner has changed
-		firePropertyChange("positioner", this.positioner, positioner);
-
+		BalloonTipPositioner oldPositioner = this.positioner;
 		this.positioner = positioner;
 		this.positioner.setBalloonTip(this);
 		refreshLocation();
+		// Notify property listeners that the positioner has changed
+		firePropertyChange("positioner", oldPositioner, positioner);
 	}
 
 	/**
@@ -527,6 +528,7 @@ public class BalloonTip extends JPanel {
 		for (JTabbedPane p : tabbedPaneParents) {
 			p.removeChangeListener(tabbedPaneListener);
 		}
+		tabbedPaneParents.clear();
 		if (transparentWindow != null) {
 			transparentWindow.remove(this);
 		}
@@ -597,9 +599,7 @@ public class BalloonTip extends JPanel {
 		if (getDrawOutsideParent()) {
 			return transparentWindow;
 		}
-		else {
-			return topLevelContainer;
-		}
+		return topLevelContainer;
 	}
 
 	/**
@@ -619,10 +619,11 @@ public class BalloonTip extends JPanel {
 	}
 
 	public void setVisible(boolean visible) {
-		// Notify property listeners that the visibility has changed
-		firePropertyChange("visible", isVisible, visible);
+		boolean wasVisible = isVisible;
 		isVisible = visible;
 		super.setVisible(visible);
+		// Notify property listeners that the visibility has changed
+		firePropertyChange("visible", wasVisible, visible);
 	}
 
 	public void setBorder(final Border border) {
@@ -779,6 +780,9 @@ public class BalloonTip extends JPanel {
 				Method mIsTranslucencySupported = awtUtilitiesClass.getMethod("isTranslucencySupported", awtTranslucencyClass);
 				Field fPERPIXEL = awtTranslucencyClass.getField("PERPIXEL_TRANSPARENT");
 
+				// Same as : isTranslucencySupported =
+				// com.sun.awt.AWTUtilities.isTranslucencySupported(
+				// com.sun.awt.AWTUtilities.Translucency.PERPIXEL_TRANSPARENT);
 				isTranslucencySupported = (Boolean) mIsTranslucencySupported.invoke(null, fPERPIXEL.get(null));
 
 				if (Boolean.TRUE.equals(isTranslucencySupported)
@@ -788,6 +792,7 @@ public class BalloonTip extends JPanel {
 					newTransparentWindow.setFocusableWindowState(false);
 
 					Method mSetWindowOpacity = awtUtilitiesClass.getMethod("setWindowOpaque", Window.class, boolean.class);
+					// Same as : com.sun.awt.AWTUtilities.setWindowOpaque(newTransparentWindow, false);
 					mSetWindowOpacity.invoke(null, newTransparentWindow, false);
 
 					// Get the bounds union of all screens
@@ -814,8 +819,7 @@ public class BalloonTip extends JPanel {
 			this.setDoubleBuffered(false);
 
 			newTransparentWindow.getLayeredPane().add(this, JLayeredPane.POPUP_LAYER);
-			// Make sure the transparent window is visible.
-			newTransparentWindow.setVisible(true);
+			newTransparentWindow.setVisible(false);
 
 			if (topLevelWindow != null) {
 				this.addPropertyChangeListener("visible", visibilityListener);
@@ -827,6 +831,14 @@ public class BalloonTip extends JPanel {
 			}
 
 			transparentWindow = newTransparentWindow;
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					// Make sure the transparent window is visible.
+					// On some systems, its display may need to be delayed a bit,
+					// otherwise the main window won't get the focus (at startup).
+					transparentWindow.setVisible(true);
+				}
+			});
 		}
 		else
 		{

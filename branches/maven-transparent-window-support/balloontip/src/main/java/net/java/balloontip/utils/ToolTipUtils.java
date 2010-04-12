@@ -38,7 +38,7 @@ public class ToolTipUtils {
 	/*
 	 * Disallow instantiating this class
 	 */
-	private ToolTipUtils() {};
+	private ToolTipUtils() {}
 
 	/*
 	 * This class monitors when the balloon tooltip should be shown 
@@ -82,7 +82,7 @@ public class ToolTipUtils {
 		public void mouseExited(MouseEvent e) {
 			initialTimer.stop();
 		}
-	};
+	}
 
 	/**
 	 * Turns a balloon tip into a tooltip
