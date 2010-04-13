@@ -61,7 +61,6 @@ import net.java.balloontip.positioners.Right_Below_Positioner;
 import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.RoundedBalloonStyle;
 
-
 /**
  * A balloon tip which can be attached to about any JComponent
  * @author Bernhard Pauler
@@ -471,7 +470,7 @@ public class BalloonTip extends JPanel {
 		super.setVisible(visible);
 	}
 
-	/*
+	/**
 	 * Shows the balloon if the attached component is visible; hides the balloon if the attached component is invisible...
 	 */
 	protected void checkVisibility() {
