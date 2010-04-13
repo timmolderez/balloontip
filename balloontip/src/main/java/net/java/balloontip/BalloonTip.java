@@ -282,6 +282,7 @@ public class BalloonTip extends JPanel {
 	 */
 	public BalloonTip(JComponent attachedComponent, String text, BalloonTipStyle style, Orientation orientation, AttachLocation attachLocation, 
 			int horizontalOffset, int verticalOffset, boolean useCloseButton, boolean drawOutsideParent) {
+		super();
 		// Setup the appropriate positioner
 		BasicBalloonTipPositioner positioner = null;
 		float attachX = 0.0f;
@@ -367,6 +368,7 @@ public class BalloonTip extends JPanel {
 	 * @param drawOutsideParent     If true, the balloon tip will be bounded by the screen area instead of the parent window
 	 */
 	public BalloonTip(JComponent attachedComponent, String text, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton, boolean drawOutsideParent) {
+		super();
 		initializePhase1(attachedComponent, text, style, positioner, useCloseButton, drawOutsideParent);
 	}
 
@@ -668,7 +670,7 @@ public class BalloonTip extends JPanel {
 		super.setBorder(actualBorder);
 	}
 
-	/*
+	/**
 	 * Shows the balloon if the attached component is visible; hides the balloon if the attached component is invisible...
 	 */
 	protected void checkVisibility() {
