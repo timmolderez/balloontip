@@ -84,12 +84,12 @@ public class BalloonTip extends JPanel {
 	/**
 	 * Should the balloon be placed above, below, right or left of the attached component?
 	 */
-	public enum Orientation {LEFT_ABOVE, RIGHT_ABOVE, LEFT_BELOW, RIGHT_BELOW};
+	public enum Orientation {LEFT_ABOVE, RIGHT_ABOVE, LEFT_BELOW, RIGHT_BELOW}
 	/**
 	 * Where should the balloon's tip be located, relative to the attached component
 	 * ALIGNED makes sure the balloon's edge is aligned with the attached component
 	 */
-	public enum AttachLocation {ALIGNED, CENTER, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST};
+	public enum AttachLocation {ALIGNED, CENTER, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST}
 
 	private static Icon defaultIcon  = new ImageIcon(BalloonTip.class.getResource("/net/java/balloontip/images/close_default.png"));
 	private static Icon rolloverIcon = new ImageIcon(BalloonTip.class.getResource("/net/java/balloontip/images/close_rollover.png"));
@@ -438,9 +438,9 @@ public class BalloonTip extends JPanel {
 		BalloonTipStyle oldStyle = this.style;
 		this.style = style;
 		setBorder(this.style);
-		refreshLocation();
 		// Notify property listeners that the style has changed
 		firePropertyChange("style", oldStyle, style);
+		refreshLocation();
 	}
 
 	/**
@@ -459,9 +459,9 @@ public class BalloonTip extends JPanel {
 		BalloonTipPositioner oldPositioner = this.positioner;
 		this.positioner = positioner;
 		this.positioner.setBalloonTip(this);
-		refreshLocation();
 		// Notify property listeners that the positioner has changed
 		firePropertyChange("positioner", oldPositioner, positioner);
+		refreshLocation();
 	}
 
 	/**
@@ -779,7 +779,7 @@ public class BalloonTip extends JPanel {
 		}
 
 		// At this point, it's sure there's a top level container,
-		// otherwise a NullPointerException would have be thrown.
+		// otherwise a NullPointerException would have been thrown.
 		topLevelContainer = newTopLevelContainer;
 		topLevelWindow = newTopLevelWindow;
 		tabbedPaneParents = newTabbedPaneParents;
