@@ -41,12 +41,12 @@ import net.java.balloontip.styles.BalloonTipStyle;
  * @author Tim Molderez
  */
 public class CustomBalloonTip extends BalloonTip {
-	
+
 	// A rectangular shape within the custom component; the balloon tip will attach to this rectangle
 	protected Rectangle offset = new Rectangle(0,0,1,1);
 	// If the custom component is located in a viewport, we'll need it to determine when the balloon tip should hide itself
 	private JViewport viewport = null;
-	
+
 	// If the viewport changes, so should the balloon tip
 	private final ComponentAdapter viewportListenerListener = new ComponentAdapter() {
 		public void componentMoved(ComponentEvent e) {
@@ -60,7 +60,7 @@ public class CustomBalloonTip extends BalloonTip {
 			}
 		}
 	};
-	
+
 	/**
 	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, String, BalloonTipStyle, Orientation, AttachLocation, int, int, boolean)
 	 * @param attachedComponent	The custom component to attach the balloon tip to
@@ -72,7 +72,7 @@ public class CustomBalloonTip extends BalloonTip {
 		this.offset = offset;
 		refreshLocation();
 	}
-	
+
 	/**
 	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, String, BalloonTipStyle, BalloonTipPositioner, boolean)
 	 * @param attachedComponent	The custom component to attach the balloon tip to
@@ -84,7 +84,7 @@ public class CustomBalloonTip extends BalloonTip {
 		this.offset = offset;
 		refreshLocation();
 	}
-	
+
 	/**
 	 * Set the offset within the attached component
 	 * @param offset
@@ -100,7 +100,7 @@ public class CustomBalloonTip extends BalloonTip {
 		}
 		super.closeBalloon();
 	}
-	
+
 	/**
 	 * Sets up the balloon tip such that it will only be shown if
 	 * the table cell we're attached to is visible within this viewport.
@@ -112,7 +112,7 @@ public class CustomBalloonTip extends BalloonTip {
 		this.viewport = viewport;
 		viewport.addComponentListener(viewportListenerListener);
 	}
-	
+
 	/**
 	 * Retrieve the viewport that this balloon tip is monitoring, such that the balloon tip will hide itself 
 	 * once the balloon's tip is outside of this viewport.
@@ -121,7 +121,7 @@ public class CustomBalloonTip extends BalloonTip {
 	public JViewport getViewport() {
 		return viewport;
 	}
-	
+
 	public void refreshLocation() {
 		Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
 		try {

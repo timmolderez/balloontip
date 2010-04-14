@@ -126,7 +126,7 @@ public class BalloonTip extends JPanel {
 	protected BalloonTipPositioner positioner;	// Determines the balloon's position
 
 	protected JLayeredPane topLevelContainer = null;	// The balloon is drawn on this pane
-	protected JComponent attachedComponent;		// The balloon is attached to this component
+	protected JComponent attachedComponent;				// The balloon is attached to this component
 
 	/**
 	 * Constructor
@@ -305,9 +305,9 @@ public class BalloonTip extends JPanel {
 		BalloonTipStyle oldStyle = this.style;
 		this.style = style;
 		setBorder(this.style);
-		refreshLocation();
 		// Notify property listeners that the style has changed
 		firePropertyChange("style", oldStyle, style);
+		refreshLocation();
 	}
 
 	/**
@@ -326,9 +326,9 @@ public class BalloonTip extends JPanel {
 		BalloonTipPositioner oldPositioner = this.positioner;
 		this.positioner = positioner;
 		this.positioner.setBalloonTip(this);
-		refreshLocation();
 		// Notify property listeners that the positioner has changed
 		firePropertyChange("positioner", oldPositioner, positioner);
+		refreshLocation();
 	}
 
 	/**

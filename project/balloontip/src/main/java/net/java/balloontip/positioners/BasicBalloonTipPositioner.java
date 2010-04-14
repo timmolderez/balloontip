@@ -77,7 +77,6 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 				style.setHorizontalOffset(preferredHorizontalOffset);
 				style.setVerticalOffset(preferredVerticalOffset);
 				minimumHorizontalOffset = style.getMinimalHorizontalOffset();
-				balloonTip.refreshLocation();
 			}
 		});
 	}
