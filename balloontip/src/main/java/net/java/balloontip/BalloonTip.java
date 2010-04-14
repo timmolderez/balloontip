@@ -777,6 +777,9 @@ public class BalloonTip extends JPanel {
 			parent = parent.getParent();
 		}
 
+		// If the window is resized, we should check if the balloon still fits
+		newTopLevelContainer.addComponentListener(topLevelContainerListener);
+
 		// At this point, it's sure there's a top level container,
 		// otherwise a NullPointerException would have been thrown.
 		topLevelContainer = newTopLevelContainer;
@@ -869,8 +872,6 @@ public class BalloonTip extends JPanel {
 
 		// If the attached component is moved/hidden/shown, the balloon tip should act accordingly
 		attachedComponent.addComponentListener(attachedComponentListener);
-		// If the window is resized, we should check if the balloon still fits
-		topLevelContainer.addComponentListener(topLevelContainerListener);
 		// Don't allow to click 'through' the component; will also enable to close the balloon when it's clicked
 		addMouseListener(clickListener);
 		// Finally pass the balloon tip to its positioner
