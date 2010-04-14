@@ -523,7 +523,6 @@ public class BalloonTip extends JPanel {
 					// Remove yourself
 					attachedComponent.removeAncestorListener(attachedComponentParentListener);
 					attachedComponentParentListener = null;
-					refreshLocation();
 					repaint();
 				}
 				public void ancestorMoved(AncestorEvent event) {}
