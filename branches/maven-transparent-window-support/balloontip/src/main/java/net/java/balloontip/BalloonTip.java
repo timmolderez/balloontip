@@ -806,6 +806,7 @@ public class BalloonTip extends JPanel {
 				if (Boolean.TRUE.equals(isTranslucencySupported)
 						&& newTransparentWindow == null) {
 					newTransparentWindow = new JWindow();
+					newTransparentWindow.setVisible(false);
 					newTransparentWindow.setAlwaysOnTop(true);
 					newTransparentWindow.setFocusableWindowState(false);
 
@@ -837,26 +838,25 @@ public class BalloonTip extends JPanel {
 			this.setDoubleBuffered(false);
 
 			newTransparentWindow.getLayeredPane().add(this, JLayeredPane.POPUP_LAYER);
-			newTransparentWindow.setVisible(false);
 
-			if (topLevelWindow != null) {
-				this.addPropertyChangeListener("visible", visibilityListener);
-				topLevelWindow.addComponentListener(topLevelWindowComponentListener);
-				// Make sure the Balloon tip disappears whenever the window is minimized.
-				if (topLevelWindow instanceof Window) {
-					((Window)topLevelWindow).addWindowListener(minimizeListener);
-				}
+			this.addPropertyChangeListener("visible", visibilityListener);
+			topLevelWindow.addComponentListener(topLevelWindowComponentListener);
+			// Make sure the Balloon tip disappears whenever the window is minimized.
+			if (topLevelWindow instanceof Window) {
+				((Window)topLevelWindow).addWindowListener(minimizeListener);
 			}
 
 			transparentWindow = newTransparentWindow;
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					// Make sure the transparent window is visible.
-					// On some systems, its display may need to be delayed a bit,
-					// otherwise the main window won't get the focus (at startup).
-					transparentWindow.setVisible(true);
-				}
-			});
+			if (!transparentWindow.isVisible()) {
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						// Make sure the transparent window is visible.
+						// On some systems, its display may need to be delayed a bit,
+						// otherwise the main window won't get the focus (at startup).
+						transparentWindow.setVisible(true);
+					}
+				});
+			}
 		}
 		else
 		{
