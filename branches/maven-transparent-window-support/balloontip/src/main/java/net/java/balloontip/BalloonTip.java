@@ -531,15 +531,16 @@ public class BalloonTip extends JPanel {
 			p.removeChangeListener(tabbedPaneListener);
 		}
 		tabbedPaneParents.clear();
-		if (transparentWindow != null) {
-			transparentWindow.remove(this);
+		if (transparentWindow != null
+				&& transparentWindow.getLayeredPane() != null) {
+			transparentWindow.getLayeredPane().remove(this);
 		}
+		this.removePropertyChangeListener("visible", visibilityListener);
 		if (topLevelWindow != null) {
-			this.removePropertyChangeListener("visible", visibilityListener);
 			topLevelWindow.removeComponentListener(topLevelWindowComponentListener);
-			if (topLevelWindow instanceof Window) {
-				((Window)topLevelWindow).removeWindowListener(minimizeListener);
-			}
+		}
+		if (topLevelWindow instanceof Window) {
+			((Window)topLevelWindow).removeWindowListener(minimizeListener);
 		}
 	}
 
