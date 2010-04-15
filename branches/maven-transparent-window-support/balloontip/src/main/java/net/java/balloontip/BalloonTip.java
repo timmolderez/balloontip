@@ -167,6 +167,22 @@ public class BalloonTip extends JPanel {
 	private ArrayList<JTabbedPane> tabbedPaneParents = new ArrayList<JTabbedPane>();
 	private final ChangeListener tabbedPaneListener = new ChangeListener() {
 		public void stateChanged(ChangeEvent e) {
+			// In case this balloon tip is drawn on a transparent window,
+			// it's better to delay the processing of ChangeEvents because :
+			// - we can set the right location of the balloon tip using ComponentEvents,
+			//   but not using ChangeEvents
+			// - ChangeEvents seem to be fired before ComponentEvents,
+			//   so this balloon tip could be firstly drawn at the wrong position,
+			//   before (quickly after) be drawn at the right position
+			if (getDrawOutsideParent()) {
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						checkVisibility();
+					}
+				});
+
+				return;
+			}
 			checkVisibility();
 		}
 	};
