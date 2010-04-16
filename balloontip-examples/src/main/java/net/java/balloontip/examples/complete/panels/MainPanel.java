@@ -20,12 +20,12 @@
 
 package net.java.balloontip.examples.complete.panels;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+
+import net.java.balloontip.examples.complete.Complete;
 
 /**
  * Panel that contains all tabs of the Balloontip example application
@@ -37,15 +37,18 @@ public class MainPanel extends JPanel {
 	 */
 	public MainPanel() {
 		super();
-		setLayout(new GridBagLayout());
-		
+		setLayout(new BorderLayout());
+
 		JTabbedPane tabbedPane = new JTabbedPaneEx();
 		tabbedPane.setTabPlacement(JTabbedPane.TOP);
 		tabbedPane.addTab("Looks", new LooksTab());
 		tabbedPane.addTab("Behaviour", new BehaviourTab());
 		tabbedPane.addTab("Types", new TypesTab());
 		tabbedPane.addTab("Utilities", new UtilitiesTab());
-		
-		add(tabbedPane, new GridBagConstraints(0,0,1,1,1,1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10,10,10,10), 0, 0));
+
+		add(tabbedPane, BorderLayout.CENTER);
+		if (Complete.isDrawnOutsideParent()) {
+			add(new RedrawPanel(), BorderLayout.SOUTH);
+		}
 	}
 }
