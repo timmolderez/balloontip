@@ -151,9 +151,14 @@ public class CustomBalloonTip extends BalloonTip {
 	public void refreshLocation() {
 		Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
 		try {
+			// This method should *at least* set the new location of the balloon tip.
 			positioner.determineAndSetLocation(new Rectangle(location.x + offset.x, location.y + offset.y, offset.width, offset.height));
 
-			if (viewport != null) {
+			// This method should not change the visibility of the balloon tip if it's called with
+			// an "attachedComponent" that is not showing on screen, because there's no reason to call
+			// setVisible(true) to make a balloon tip visible when it's "attachedComponent" is not showing on screen.
+			// NB : "showing on screen" means here that the "attachedComponent" simply must be on a "showing" view port.
+			if (viewport != null && viewport.isShowing()) {
 				// Determine whether the point that visually connects the balloon and the table cell still is visible...
 				Rectangle view = new Rectangle(SwingUtilities.convertPoint(viewport, viewport.getLocation(), getTopLevelContainer()), viewport.getSize());
 				Point tipLocation = positioner.getTipLocation();

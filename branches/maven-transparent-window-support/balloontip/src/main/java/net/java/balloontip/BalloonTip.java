@@ -633,9 +633,42 @@ public class BalloonTip extends JPanel {
 	 *         <code>false</code>
 	 */
 	public boolean isDrawnOutsideParent() {
-		// NB : getDrawOutsideParent() is a private method
+		// NB : getDrawOutsideParent() is a method for private use,
 		// that should not be overridden.
 		return getDrawOutsideParent();
+	}
+
+	/**
+	 * All balloon tips that are drawn outside the bounds of their parent windows
+	 * (using a transparent window) will now be drawn inside the bounds of their parent windows
+	 */
+	public static synchronized void drawAllInsideParent() {
+		if (transparentWindow != null) {
+			for (int count = transparentWindow.getLayeredPane().getComponentCount(), i = count - 1; i >= 0; i--) {
+				Component c = transparentWindow.getLayeredPane().getComponent(i);
+				if (c instanceof BalloonTip) {
+					((BalloonTip) c).drawInsideParent();
+				}
+			}
+		}
+	}
+
+	/**
+	 * If this balloon tip is configurated to be drawn outside the bounds of its parent window
+	 * (using a transparent window), it will now be drawn inside the bounds of its parent window
+	 */
+	public synchronized void drawInsideParent() {
+		if (getDrawOutsideParent()) {
+			transparentWindow.getLayeredPane().remove(this);
+			transparentWindow.getLayeredPane().repaint();
+			drawOutsideParent = false;
+			// We use the popup layer of the top level container (frame or dialog) to show the balloon tip
+			topLevelContainer.add(this, JLayeredPane.POPUP_LAYER);
+			refreshLocation();
+		}
+		// Be sure to remember our actual choice,
+		// if transparentWindow isn't initialized yet.
+		drawOutsideParent = false;
 	}
 
 	/**
