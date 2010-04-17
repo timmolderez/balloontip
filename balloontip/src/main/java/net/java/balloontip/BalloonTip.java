@@ -103,8 +103,8 @@ public class BalloonTip extends JPanel {
 	protected boolean clickToHide = false;
 
 	private final ComponentAdapter attachedComponentListener = new ComponentAdapter() {
-		public void componentMoved(ComponentEvent e) {refreshLocation();}
-		public void componentResized(ComponentEvent e) {refreshLocation();}
+		public void componentMoved(ComponentEvent e) {if (attachedComponent.isShowing()) refreshLocation();}
+		public void componentResized(ComponentEvent e) {checkVisibility(); /* New size could be zero, so better check visibility */}
 		public void componentShown(ComponentEvent e) {checkVisibility();}
 		public void componentHidden(ComponentEvent e) {checkVisibility();}
 	};
@@ -675,10 +675,10 @@ public class BalloonTip extends JPanel {
 	 * Redetermines and sets the balloon tip's location
 	 */
 	public void refreshLocation() {
-		// Check first if attachedComponent is displayable.
+		// First check if attachedComponent is displayable.
 		// When transparentWindow is defined and made visible for the first time,
 		// attachedComponent could still not be displayable,
-		// so wrong location is calculated in method initializePhase2().
+		// so wrong location would be calculated in method initializePhase2().
 		if (attachedComponent.isDisplayable()) {
 			Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
 			try {
@@ -725,7 +725,9 @@ public class BalloonTip extends JPanel {
 	 */
 	protected void checkVisibility() {
 		// If we can see the attached component, the balloon tip is not closed AND we want it to be visible, then show it...
-		if (attachedComponent.isShowing() && isVisible) {
+		if (attachedComponent.isShowing() && isVisible
+				&& attachedComponent.getWidth() > 0
+				&& attachedComponent.getHeight() > 0 /* To be seen, the area of the attached component must be > 0 */) {
 			refreshLocation();
 			super.setVisible(true);
 		} else {
