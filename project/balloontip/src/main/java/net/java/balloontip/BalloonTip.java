@@ -87,8 +87,8 @@ public class BalloonTip extends JPanel {
 	protected boolean clickToHide = false;
 
 	private final ComponentAdapter attachedComponentListener = new ComponentAdapter() {
-		public void componentMoved(ComponentEvent e) {refreshLocation();}
-		public void componentResized(ComponentEvent e) {refreshLocation();}
+		public void componentMoved(ComponentEvent e) {if (attachedComponent.isShowing()) refreshLocation();}
+		public void componentResized(ComponentEvent e) {checkVisibility(); /* New size could be zero, so better check visibility */}
 		public void componentShown(ComponentEvent e) {checkVisibility();}
 		public void componentHidden(ComponentEvent e) {checkVisibility();}
 	};
@@ -475,7 +475,9 @@ public class BalloonTip extends JPanel {
 	 */
 	protected void checkVisibility() {
 		// If we can see the attached component, the balloon tip is not closed AND we want it to be visible, then show it...
-		if (attachedComponent.isShowing() && isVisible) {
+		if (attachedComponent.isShowing() && isVisible
+				&& attachedComponent.getWidth() > 0
+				&& attachedComponent.getHeight() > 0 /* To be seen, the area of the attached component must be > 0 */) {
 			refreshLocation();
 			super.setVisible(true);
 		} else {
