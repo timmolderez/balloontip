@@ -43,7 +43,7 @@ public class RedrawPanel extends JPanel {
 		JPanel redrawPanel = new JPanel();
 		redrawPanel.setLayout(new GridBagLayout());
 		redrawPanel.add(new JLabel("BalloonTips drawn outside the bounds of this window will again be fully drawn inside."), new GridBagConstraints(0,0,3,1,1.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5,5,5,5), 0, 0));
-		final JButton redrawButton = new JButton("Fully draw balloonTips inside the window");
+		final JButton redrawButton = new JButton("Fully draw balloonTips inside this window");
 		JPanel labelRedrawPanel = new JPanel(new GridBagLayout());
 		labelRedrawPanel.add(redrawButton, new GridBagConstraints(0,0,1,1,1.0,1.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, new Insets(0,5,5,5), 0, 0));
 		redrawPanel.add(labelRedrawPanel, new GridBagConstraints(0,1,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0,0,0,0), 0, 0));
