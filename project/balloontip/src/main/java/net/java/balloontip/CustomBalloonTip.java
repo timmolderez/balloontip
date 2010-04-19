@@ -109,8 +109,13 @@ public class CustomBalloonTip extends BalloonTip {
 	 * @param viewport
 	 */
 	public void setViewport(JViewport viewport) {
+		if (this.viewport != null) {
+			this.viewport.removeComponentListener(viewportListenerListener);
+		}
 		this.viewport = viewport;
-		viewport.addComponentListener(viewportListenerListener);
+		if (this.viewport != null) {
+			this.viewport.addComponentListener(viewportListenerListener);
+		}
 	}
 
 	/**
