@@ -45,7 +45,7 @@ public class CustomBalloonTip extends BalloonTip {
 	// A rectangular shape within the custom component; the balloon tip will attach to this rectangle
 	protected Rectangle offset = null;
 	// If the custom component is located in a viewport, we'll need it to determine when the balloon tip should hide itself
-	private JViewport viewport = null;
+	protected JViewport viewport = null;
 
 	// If the viewport changes, so should the balloon tip
 	private final ChangeListener viewportListener = new ChangeListener() {
@@ -109,6 +109,7 @@ public class CustomBalloonTip extends BalloonTip {
 		this.offset = offset;
 		refreshLocation();
 	}
+
 	/**
 	 * Set the offset within the attached component
 	 * @param offset
@@ -116,6 +117,14 @@ public class CustomBalloonTip extends BalloonTip {
 	public void setOffset(Rectangle offset) {
 		this.offset = offset;
 		refreshLocation();
+	}
+
+	/**
+	 * Get the offset within the attached component
+	 * @return The offset
+	 */
+	public Rectangle getOffset() {
+		return offset;
 	}
 
 	public void closeBalloon() {
