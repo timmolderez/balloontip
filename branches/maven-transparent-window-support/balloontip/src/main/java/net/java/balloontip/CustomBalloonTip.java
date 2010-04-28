@@ -22,12 +22,12 @@ package net.java.balloontip;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 import javax.swing.JComponent;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import net.java.balloontip.positioners.BalloonTipPositioner;
 import net.java.balloontip.styles.BalloonTipStyle;
@@ -43,18 +43,13 @@ import net.java.balloontip.styles.BalloonTipStyle;
 public class CustomBalloonTip extends BalloonTip {
 
 	// A rectangular shape within the custom component; the balloon tip will attach to this rectangle
-	protected Rectangle offset = new Rectangle(0,0,1,1);
+	protected Rectangle offset = null;
 	// If the custom component is located in a viewport, we'll need it to determine when the balloon tip should hide itself
 	private JViewport viewport = null;
 
 	// If the viewport changes, so should the balloon tip
-	private final ComponentAdapter viewportListener = new ComponentAdapter() {
-		public void componentMoved(ComponentEvent e) {
-			if (attachedComponent.isShowing()) {
-				refreshLocation();
-			}
-		}
-		public void componentResized(ComponentEvent e) {
+	private final ChangeListener viewportListener = new ChangeListener() {
+		public void stateChanged(ChangeEvent e) {
 			if (attachedComponent.isShowing()) {
 				refreshLocation();
 			}
@@ -66,6 +61,7 @@ public class CustomBalloonTip extends BalloonTip {
 	 * @param attachedComponent	The custom component to attach the balloon tip to
 	 * @param offset			Specifies a rectangle within the attached component; the balloon tip will attach to this rectangle.
 	 * 							Do note that the coordinates should be relative to the attached component's top left corner.
+	 * 							If offset is null, the balloon tip will attach to the whole component.
 	 */
 	public CustomBalloonTip(JComponent attachedComponent, String text, Rectangle offset, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
 		super(attachedComponent, text, style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
@@ -78,6 +74,7 @@ public class CustomBalloonTip extends BalloonTip {
 	 * @param attachedComponent	The custom component to attach the balloon tip to
 	 * @param offset			Specifies a rectangle within the attached component; the balloon tip will attach to this rectangle.
 	 * 							Do note that the coordinates should be relative to the attached component's top left corner.
+	 * 							If offset is null, the balloon tip will attach to the whole component.
 	 * @param drawOutsideParent If true, the balloon tip will be bounded by the screen area instead of the parent window
 	 */
 	public CustomBalloonTip(JComponent attachedComponent, String text, Rectangle offset, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton, boolean drawOutsideParent) {
@@ -91,6 +88,7 @@ public class CustomBalloonTip extends BalloonTip {
 	 * @param attachedComponent	The custom component to attach the balloon tip to
 	 * @param offset			Specifies a rectangle within the attached component; the balloon tip will attach to this rectangle.
 	 * 							Do note that the coordinates should be relative to the attached component's top left corner.
+	 * 							If offset is null, the balloon tip will attach to the whole component.
 	 */
 	public CustomBalloonTip(JComponent attachedComponent, String text, Rectangle offset, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton) {
 		super(attachedComponent, text, style, positioner, useCloseButton);
@@ -103,6 +101,7 @@ public class CustomBalloonTip extends BalloonTip {
 	 * @param attachedComponent	The custom component to attach the balloon tip to
 	 * @param offset			Specifies a rectangle within the attached component; the balloon tip will attach to this rectangle.
 	 * 							Do note that the coordinates should be relative to the attached component's top left corner.
+	 * 							If offset is null, the balloon tip will attach to the whole component.
 	 * @param drawOutsideParent If true, the balloon tip will be bounded by the screen area instead of the parent window
 	 */
 	public CustomBalloonTip(JComponent attachedComponent, String text, Rectangle offset, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton, boolean drawOutsideParent) {
@@ -110,7 +109,6 @@ public class CustomBalloonTip extends BalloonTip {
 		this.offset = offset;
 		refreshLocation();
 	}
-
 	/**
 	 * Set the offset within the attached component
 	 * @param offset
@@ -122,7 +120,7 @@ public class CustomBalloonTip extends BalloonTip {
 
 	public void closeBalloon() {
 		if (viewport != null) {
-			viewport.removeComponentListener(viewportListener);
+			viewport.removeChangeListener(viewportListener);
 		}
 		super.closeBalloon();
 	}
@@ -136,11 +134,11 @@ public class CustomBalloonTip extends BalloonTip {
 	 */
 	public void setViewport(JViewport viewport) {
 		if (this.viewport != null) {
-			this.viewport.removeComponentListener(viewportListener);
+			this.viewport.removeChangeListener(viewportListener);
 		}
 		this.viewport = viewport;
 		if (this.viewport != null) {
-			this.viewport.addComponentListener(viewportListener);
+			this.viewport.addChangeListener(viewportListener);
 		}
 	}
 
@@ -156,8 +154,11 @@ public class CustomBalloonTip extends BalloonTip {
 	public void refreshLocation() {
 		Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
 		try {
-			// This method should *at least* set the new location of the balloon tip.
-			positioner.determineAndSetLocation(new Rectangle(location.x + offset.x, location.y + offset.y, offset.width, offset.height));
+			Rectangle attached = offset != null
+			? new Rectangle(location.x + offset.x, location.y + offset.y, offset.width, offset.height)
+			: new Rectangle(location.x, location.y, attachedComponent.getWidth(), attachedComponent.getHeight());
+			// refreshLocation() should *at least* set the new location of the balloon tip.
+			positioner.determineAndSetLocation(attached);
 
 			// This method should not change the visibility of the balloon tip if it's called with
 			// an "attachedComponent" that is not showing on screen, because there's no reason to call
