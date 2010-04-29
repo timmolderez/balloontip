@@ -85,6 +85,8 @@ public class BalloonTip extends JPanel {
 	protected boolean isVisible = true;
 	protected boolean clickToClose = false;
 	protected boolean clickToHide = false;
+	// Remember if balloon tip was actually hidden through mouse click
+	protected boolean wasClickedToHide = false;
 
 	private final ComponentAdapter attachedComponentListener = new ComponentAdapter() {
 		public void componentMoved(ComponentEvent e) {if (attachedComponent.isShowing()) refreshLocation();}
@@ -103,6 +105,7 @@ public class BalloonTip extends JPanel {
 		public void mouseClicked(MouseEvent e) {e.consume();}
 		public void mouseReleased(MouseEvent e) {
 			if (clickToHide) {
+				wasClickedToHide = true;
 				setVisible(false);
 			} else if (clickToClose) {
 				closeBalloon();
@@ -467,6 +470,9 @@ public class BalloonTip extends JPanel {
 
 	public void setVisible(boolean visible) {
 		isVisible = visible;
+		if (visible) {
+			wasClickedToHide = false;
+		}
 		super.setVisible(visible);
 	}
 
