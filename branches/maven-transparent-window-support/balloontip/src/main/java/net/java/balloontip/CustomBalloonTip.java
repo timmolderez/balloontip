@@ -112,7 +112,7 @@ public class CustomBalloonTip extends BalloonTip {
 
 	/**
 	 * Set the offset within the attached component
-	 * @param offset
+	 * @param offset (if null, the balloon tip will attach to the whole component)
 	 */
 	public void setOffset(Rectangle offset) {
 		this.offset = offset;
@@ -121,7 +121,7 @@ public class CustomBalloonTip extends BalloonTip {
 
 	/**
 	 * Get the offset within the attached component
-	 * @return The offset
+	 * @return The offset (if null, the balloon tip is attached to the whole component)
 	 */
 	public Rectangle getOffset() {
 		return offset;
