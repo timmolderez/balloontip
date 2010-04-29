@@ -144,8 +144,9 @@ public class CustomBalloonTip extends BalloonTip {
 			// This method should not change the visibility of the balloon tip if it's called with
 			// an "attachedComponent" that is not showing on screen, because there's no reason to call
 			// setVisible(true) to make a balloon tip visible when it's "attachedComponent" is not showing on screen.
-			// NB : "showing on screen" means here that the "attachedComponent" simply must be on a "showing" view port.
-			if (viewport != null && viewport.isShowing()) {
+			// NB : - "showing on screen" means here that the "attachedComponent" simply must be on a "showing" view port
+			//      - the balloon tip could have been hidden through mouse click
+			if (!wasClickedToHide && viewport != null && viewport.isShowing()) {
 				// Determine whether the point that visually connects the balloon and the table cell still is visible...
 				Rectangle view = new Rectangle(SwingUtilities.convertPoint(viewport, viewport.getLocation(), getTopLevelContainer()), viewport.getSize());
 				Point tipLocation = positioner.getTipLocation();
