@@ -1,6 +1,6 @@
 /**
  * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007, 2008 Bernhard Pauler, Tim Molderez
+ * Copyright 2007, 2008, 2010 Bernhard Pauler, Tim Molderez, Thierry Blind
  * 
  * This file is part of Balloontip.
  * 
@@ -31,7 +31,6 @@ import javax.swing.event.ChangeListener;
 
 import net.java.balloontip.positioners.BalloonTipPositioner;
 import net.java.balloontip.styles.BalloonTipStyle;
-
 
 /**
  * Provides the same functionality as a BalloonTip, but you can add a certain offset, 
