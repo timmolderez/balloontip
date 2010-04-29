@@ -121,8 +121,8 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	}
 
 	public void closeBalloon() {
-		((JTable)attachedComponent).getColumnModel().removeColumnModelListener(columnListener);
 		attachedComponent.removeAncestorListener(attachedComponentParentListener);
+		((JTable)attachedComponent).getColumnModel().removeColumnModelListener(columnListener);
 		super.closeBalloon();
 	}
 

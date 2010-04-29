@@ -528,35 +528,35 @@ public class BalloonTip extends JPanel {
 	 */
 	public void closeBalloon() {
 		setVisible(false);
-		if (moveRefreshTimer != null && moveRefreshTimer.isRunning()) {
-			moveRefreshTimer.stop();
-		}
-		attachedComponent.removeComponentListener(attachedComponentListener);
-		if (topLevelContainer != null) {
-			topLevelContainer.remove(this);
-			topLevelContainer.removeComponentListener(topLevelContainerListener);
-		}
-		removeMouseListener(clickListener);
-		if (closeButton != null) {
-			closeButton.removeActionListener(closeButtonActionListener);
-		}
 		if (attachedComponentParentListener != null) {
 			attachedComponent.removeAncestorListener(attachedComponentParentListener);
 		}
-		for (JTabbedPane p : tabbedPaneParents) {
-			p.removeChangeListener(tabbedPaneListener);
+		if (moveRefreshTimer != null && moveRefreshTimer.isRunning()) {
+			moveRefreshTimer.stop();
 		}
-		tabbedPaneParents.clear();
 		if (transparentWindow != null
 				&& transparentWindow.getLayeredPane() != null) {
 			transparentWindow.getLayeredPane().remove(this);
 		}
-		this.removePropertyChangeListener("visible", visibilityListener);
 		if (topLevelWindow != null) {
 			topLevelWindow.removeComponentListener(topLevelWindowComponentListener);
 		}
 		if (topLevelWindow instanceof Window) {
 			((Window)topLevelWindow).removeWindowListener(minimizeListener);
+		}
+		if (topLevelContainer != null) {
+			topLevelContainer.remove(this);
+			topLevelContainer.removeComponentListener(topLevelContainerListener);
+		}
+		for (JTabbedPane p : tabbedPaneParents) {
+			p.removeChangeListener(tabbedPaneListener);
+		}
+		tabbedPaneParents.clear();
+		attachedComponent.removeComponentListener(attachedComponentListener);
+		removePropertyChangeListener("visible", visibilityListener);
+		removeMouseListener(clickListener);
+		if (closeButton != null) {
+			closeButton.removeActionListener(closeButtonActionListener);
 		}
 	}
 
@@ -894,7 +894,7 @@ public class BalloonTip extends JPanel {
 
 			newTransparentWindow.getLayeredPane().add(this, JLayeredPane.POPUP_LAYER);
 
-			this.addPropertyChangeListener("visible", visibilityListener);
+			addPropertyChangeListener("visible", visibilityListener);
 			topLevelWindow.addComponentListener(topLevelWindowComponentListener);
 			// Make sure the Balloon tip disappears whenever the window is minimized.
 			if (topLevelWindow instanceof Window) {
