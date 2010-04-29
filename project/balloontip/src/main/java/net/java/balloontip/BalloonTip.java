@@ -379,22 +379,22 @@ public class BalloonTip extends JPanel {
 	 */
 	public void closeBalloon() {
 		setVisible(false);
-		attachedComponent.removeComponentListener(attachedComponentListener);
+		if (attachedComponentParentListener != null) {
+			attachedComponent.removeAncestorListener(attachedComponentParentListener);
+		}
 		if (topLevelContainer != null) {
 			topLevelContainer.remove(this);
 			topLevelContainer.removeComponentListener(topLevelContainerListener);
-		}
-		removeMouseListener(clickListener);
-		if (closeButton != null) {
-			closeButton.removeActionListener(closeButtonActionListener);
-		}
-		if (attachedComponentParentListener != null) {
-			attachedComponent.removeAncestorListener(attachedComponentParentListener);
 		}
 		for (JTabbedPane p : tabbedPaneParents) {
 			p.removeChangeListener(tabbedPaneListener);
 		}
 		tabbedPaneParents.clear();
+		attachedComponent.removeComponentListener(attachedComponentListener);
+		removeMouseListener(clickListener);
+		if (closeButton != null) {
+			closeButton.removeActionListener(closeButtonActionListener);
+		}
 	}
 
 	/**
