@@ -587,7 +587,7 @@ public class BalloonTip extends JPanel {
 		// Don't allow to click 'through' the component; will also enable to close the balloon when it's clicked
 		addMouseListener(clickListener);
 		// Finally pass the balloon tip to its positioner
-		this.positioner.setBalloonTip(this);
+		positioner.setBalloonTip(this);
 
 		refreshLocation();
 	}
