@@ -751,7 +751,7 @@ public class BalloonTip extends JPanel {
 	 *         <code>false</code>
 	 */
 	private boolean getDrawOutsideParent() {
-		return this.drawOutsideParent && BalloonTip.transparentWindow != null;
+		return drawOutsideParent && BalloonTip.transparentWindow != null;
 	}
 
 	/*
@@ -852,7 +852,7 @@ public class BalloonTip extends JPanel {
 
 		// Support for drawing outside parent window bounds - only possible if the
 		// system supports transparent windows
-		if (this.drawOutsideParent) {
+		if (drawOutsideParent) {
 			try {
 				Class<?> awtUtilitiesClass = Class.forName("com.sun.awt.AWTUtilities");
 				Class<?> awtTranslucencyClass = Class.forName("com.sun.awt.AWTUtilities$Translucency");
@@ -895,8 +895,8 @@ public class BalloonTip extends JPanel {
 
 		if (Boolean.TRUE.equals(isTranslucencySupported))
 		{
-			this.setOpaque(false);
-			this.setDoubleBuffered(false);
+			setOpaque(false);
+			setDoubleBuffered(false);
 
 			newTransparentWindow.getLayeredPane().add(this, JLayeredPane.POPUP_LAYER);
 
@@ -933,7 +933,7 @@ public class BalloonTip extends JPanel {
 		// Don't allow to click 'through' the component; will also enable to close the balloon when it's clicked
 		addMouseListener(clickListener);
 		// Finally pass the balloon tip to its positioner
-		this.positioner.setBalloonTip(this);
+		positioner.setBalloonTip(this);
 
 		refreshLocation();
 	}
