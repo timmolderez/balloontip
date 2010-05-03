@@ -484,8 +484,8 @@ public class BalloonTip extends JPanel {
 		if (attachedComponent.isShowing() && isVisible
 				&& attachedComponent.getWidth() > 0
 				&& attachedComponent.getHeight() > 0 /* To be seen, the area of the attached component must be > 0 */) {
-			refreshLocation();
 			super.setVisible(true);
+			refreshLocation();
 		} else {
 			super.setVisible(false);
 		}
