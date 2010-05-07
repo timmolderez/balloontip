@@ -33,6 +33,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -85,6 +87,7 @@ public class BalloonTip extends JPanel {
 	protected boolean isVisible = true;
 	protected boolean clickToClose = false;
 	protected boolean clickToHide = false;
+	protected boolean visibilityControl = false;
 	// Remember if balloon tip was actually hidden through mouse click
 	protected boolean wasClickedToHide = false;
 
@@ -98,6 +101,14 @@ public class BalloonTip extends JPanel {
 		public void componentResized(ComponentEvent e) {
 			if (attachedComponent.isShowing()) {
 				refreshLocation();
+			}
+		}
+	};
+	private final PropertyChangeListener visibilityListener = new PropertyChangeListener() {
+		public void propertyChange(PropertyChangeEvent e) {
+			Boolean visible = (Boolean) e.getNewValue();
+			if (visibilityControl && visible) {
+				checkVisibility();
 			}
 		}
 	};
@@ -376,6 +387,20 @@ public class BalloonTip extends JPanel {
 	}
 
 	/**
+	 * When the balloon tip is explicitely made visible, through setVisible(true),
+	 * control if the attached component is also visible (and showing on screen), otherwise hide the balloon tip.
+	 * The balloon tip will be shown again as soon as attached component will become visible.
+	 * @param enabled	if true, the balloon will be shown on screen only if attached component is also showing on screen
+	 */
+	public void enableVisibilityControl(boolean enabled) {
+		visibilityControl = enabled;
+		// Start with a visibility control
+		if (visibilityControl && isVisible) {
+			checkVisibility();
+		}
+	}
+
+	/**
 	 * If you want to permanently close the balloon, use this method.
 	 * (If you just need to hide the balloon, use setVisible(false);)
 	 * You cannot use this BalloonTip-instance anymore after calling this method!
@@ -394,6 +419,7 @@ public class BalloonTip extends JPanel {
 		}
 		tabbedPaneParents.clear();
 		attachedComponent.removeComponentListener(attachedComponentListener);
+		removePropertyChangeListener("visible", visibilityListener);
 		removeMouseListener(clickListener);
 		if (closeButton != null) {
 			closeButton.removeActionListener(closeButtonActionListener);
@@ -469,11 +495,14 @@ public class BalloonTip extends JPanel {
 	}
 
 	public void setVisible(boolean visible) {
+		boolean wasVisible = isVisible;
 		isVisible = visible;
 		if (visible) {
 			wasClickedToHide = false;
 		}
 		super.setVisible(visible);
+		// Notify property listeners that the visibility has changed
+		firePropertyChange("visible", wasVisible, visible);
 	}
 
 	/**
@@ -584,6 +613,9 @@ public class BalloonTip extends JPanel {
 		topLevelContainer.add(this, JLayeredPane.POPUP_LAYER);
 		// If the attached component is moved/hidden/shown, the balloon tip should act accordingly
 		attachedComponent.addComponentListener(attachedComponentListener);
+		// If the balloon tip is explicitely made visible, through setVisible(true),
+		// check if the attached component is also visible, otherwise hide the balloon tip
+		addPropertyChangeListener("visible", visibilityListener);
 		// Don't allow to click 'through' the component; will also enable to close the balloon when it's clicked
 		addMouseListener(clickListener);
 		// Finally pass the balloon tip to its positioner
