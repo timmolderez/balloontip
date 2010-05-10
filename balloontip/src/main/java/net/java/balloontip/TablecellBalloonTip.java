@@ -1,9 +1,9 @@
 /**
  * Balloontip - Balloon tips for Java Swing applications
  * Copyright 2007, 2008 Bernhard Pauler, Tim Molderez
- * 
+ *
  * This file is part of Balloontip.
- * 
+ *
  * Balloontip is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -69,6 +69,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 * @param table		The table to attach the balloon tip to
 	 * @param row		Which row is the balloon tip attached to
 	 * @param column	Which column is the balloon tip attached to
+	 * @exception NullPointerException if at least one parameter (except for parameters text and style) is <code>null</code>
 	 */
 	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
 		super(table, text, table.getCellRect(row, column, true), style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
@@ -81,6 +82,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 * @param row		Which row is the balloon tip attached to
 	 * @param column	Which column is the balloon tip attached to
 	 * @param drawOutsideParent If true, the balloon tip will be bounded by the screen area instead of the parent window
+	 * @exception NullPointerException if at least one parameter (except for parameters text and style) is <code>null</code>
 	 */
 	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton, boolean drawOutsideParent) {
 		super(table, text, table.getCellRect(row, column, true), style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton, drawOutsideParent);
@@ -92,6 +94,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 * @param table		The table to attach the balloon tip to
 	 * @param row		Which row is the balloon tip attached to
 	 * @param column	Which column is the balloon tip attached to
+	 * @exception NullPointerException if at least one parameter (except for parameters text and style) is <code>null</code>
 	 */
 	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton) {
 		super(table, text, table.getCellRect(row, column, true), style, positioner, useCloseButton);
@@ -104,6 +107,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 * @param row		Which row is the balloon tip attached to
 	 * @param column	Which column is the balloon tip attached to
 	 * @param drawOutsideParent If true, the balloon tip will be bounded by the screen area instead of the parent window
+	 * @exception NullPointerException if at least one parameter (except for parameters text and style) is <code>null</code>
 	 */
 	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton, boolean drawOutsideParent) {
 		super(table, text, table.getCellRect(row, column, true), style, positioner, useCloseButton, drawOutsideParent);
@@ -111,7 +115,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	}
 
 	/**
-	 * Sets the table cell the balloon tip should attach to
+	 * Set the table cell the balloon tip should attach to
 	 * @param row
 	 * @param column
 	 */
