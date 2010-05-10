@@ -45,6 +45,7 @@ public class MainPanel extends JPanel {
 		tabbedPane.addTab("Behaviour", new BehaviourTab());
 		tabbedPane.addTab("Types", new TypesTab());
 		tabbedPane.addTab("Utilities", new UtilitiesTab());
+		tabbedPane.addTab("Layered Pane", new LayeredPaneTab());
 
 		add(tabbedPane, BorderLayout.CENTER);
 		if (Complete.isDrawnOutsideParent()) {
