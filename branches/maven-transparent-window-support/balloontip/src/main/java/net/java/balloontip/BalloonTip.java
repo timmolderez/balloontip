@@ -645,11 +645,34 @@ public class BalloonTip extends JPanel {
 	}
 
 	/**
+	 * Set the container this balloon tip is drawn on
+	 * @param topLevelContainer
+	 * @exception NullPointerException if topLevelContainer is <code>null</code>
+	 */
+	public synchronized void setTopLevelContainer(JLayeredPane topLevelContainer) {
+		// Make sure the value is not null
+		if (topLevelContainer == null) {
+			throw new NullPointerException();
+		}
+		if (this.topLevelContainer != null) {
+			this.topLevelContainer.remove(this);
+			this.topLevelContainer.removeComponentListener(topLevelContainerListener);
+		}
+		this.topLevelContainer = topLevelContainer;
+		// If the window is resized, we should check if the balloon still fits
+		this.topLevelContainer.addComponentListener(topLevelContainerListener);
+		if (!getDrawOutsideParent()) {
+			// We use the popup layer of the top level container (frame or dialog) to show the balloon tip
+			this.topLevelContainer.add(this, JLayeredPane.POPUP_LAYER);
+		}
+	}
+
+	/**
 	 * Retrieve the container this balloon tip is drawn on
 	 * If the balloon tip hasn't determined this container yet, null is returned
 	 * @return The balloon tip's top level container
 	 */
-	public Container getTopLevelContainer() {
+	public synchronized Container getTopLevelContainer() {
 		if (getDrawOutsideParent()) {
 			return transparentWindow;
 		}
@@ -867,8 +890,16 @@ public class BalloonTip extends JPanel {
 			parent = parent.getParent();
 		}
 
-		// If the window is resized, we should check if the balloon still fits
-		newTopLevelContainer.addComponentListener(topLevelContainerListener);
+		// If user previously set the top level container, through setTopLevelContainer(),
+		// don't overwrite it ...
+		boolean topLevelAlreadySet = (topLevelContainer != null);
+		if (topLevelAlreadySet) {
+			newTopLevelContainer = topLevelContainer;
+		} else {
+			// ... and don't re-add topLevelContainerListener !
+			// If the window is resized, we should check if the balloon still fits
+			newTopLevelContainer.addComponentListener(topLevelContainerListener);
+		}
 
 		// At this point, it's sure there's a top level container,
 		// otherwise a NullPointerException would have been thrown.
@@ -929,6 +960,11 @@ public class BalloonTip extends JPanel {
 		{
 			setOpaque(false);
 			setDoubleBuffered(false);
+			// if user previously set the top level container, through setTopLevelContainer(),
+			// remove the balloon tip !
+			if (topLevelAlreadySet) {
+				topLevelContainer.remove(this);
+			}
 
 			newTransparentWindow.getLayeredPane().add(this, JLayeredPane.POPUP_LAYER);
 
@@ -955,8 +991,12 @@ public class BalloonTip extends JPanel {
 			// Be sure to remember our actual choice,
 			// if transparentWindow is initialized afterwards.
 			drawOutsideParent = false;
-			// We use the popup layer of the top level container (frame or dialog) to show the balloon tip
-			topLevelContainer.add(this, JLayeredPane.POPUP_LAYER);
+			// We use the popup layer of the top level container (frame or dialog) to show the balloon tip.
+			// NB : if user previously set the top level container, through setTopLevelContainer(),
+			// don't re-add the balloon tip !
+			if (!topLevelAlreadySet) {
+				topLevelContainer.add(this, JLayeredPane.POPUP_LAYER);
+			}
 		}
 
 		// If the attached component is moved/hidden/shown, the balloon tip should act accordingly
