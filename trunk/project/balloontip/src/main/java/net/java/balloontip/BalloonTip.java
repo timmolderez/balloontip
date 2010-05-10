@@ -1,9 +1,9 @@
 /**
  * Balloontip - Balloon tips for Java Swing applications
  * Copyright 2007, 2008, 2010 Bernhard Pauler, Tim Molderez, Thierry Blind
- * 
+ *
  * This file is part of Balloontip.
- * 
+ *
  * Balloontip is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -147,6 +147,7 @@ public class BalloonTip extends JPanel {
 	 * A simple constructor, the balloon tip will get a default look
 	 * @param attachedComponent		Attach the balloon tip to this component
 	 * @param text					The contents of the balloon tip (may contain HTML)
+	 * @exception NullPointerException if attachedComponent is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, String text) {
 		this(attachedComponent, text, new RoundedBalloonStyle(5,5,Color.WHITE, Color.BLACK), true);
@@ -158,6 +159,7 @@ public class BalloonTip extends JPanel {
 	 * @param text					The contents of the balloon tip (may contain HTML)
 	 * @param style					The balloon tip's looks
 	 * @param useCloseButton		If true, the balloon tip gets a close button
+	 * @exception NullPointerException if attachedComponent is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, String text, BalloonTipStyle style, boolean useCloseButton) {
 		this(attachedComponent, text, style, Orientation.LEFT_ABOVE, AttachLocation.ALIGNED, 16, 20, useCloseButton);
@@ -173,8 +175,9 @@ public class BalloonTip extends JPanel {
 	 * @param horizontalOffset		Horizontal offset for the balloon's tip
 	 * @param verticalOffset		Vertical offset for the balloon's tip
 	 * @param useCloseButton		If true, the balloon tip gets a close button
+	 * @exception NullPointerException if at least one parameter (except for parameters text and style) is <code>null</code>
 	 */
-	public BalloonTip(JComponent attachedComponent, String text, BalloonTipStyle style, Orientation orientation, AttachLocation attachLocation, 
+	public BalloonTip(JComponent attachedComponent, String text, BalloonTipStyle style, Orientation orientation, AttachLocation attachLocation,
 			int horizontalOffset, int verticalOffset, boolean useCloseButton) {
 		super();
 		// Setup the appropriate positioner
@@ -247,6 +250,7 @@ public class BalloonTip extends JPanel {
 	 * @param style					The balloon tip's looks
 	 * @param positioner			Determines the way the balloon tip is positioned
 	 * @param useCloseButton		If true, the balloon tip gets a close button
+	 * @exception NullPointerException if attachedComponent or positioner are <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, String text, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton) {
 		super();
@@ -295,7 +299,7 @@ public class BalloonTip extends JPanel {
 	}
 
 	/**
-	 * Sets the distance (in px) between the icon and the text label 
+	 * Set the distance (in px) between the icon and the text label
 	 * @param iconTextGap
 	 */
 	public void setIconTextGap(int iconTextGap) {
@@ -304,7 +308,7 @@ public class BalloonTip extends JPanel {
 	}
 
 	/**
-	 * Get the distance (in px) between the icon and the text label 
+	 * Get the distance (in px) between the icon and the text label
 	 * @return The distance between the balloon tip's icon and its text
 	 */
 	public int getIconTextGap() {
@@ -335,8 +339,13 @@ public class BalloonTip extends JPanel {
 	/**
 	 * Set a new BalloonTipPositioner
 	 * @param positioner
+	 * @exception NullPointerException if positioner is <code>null</code>
 	 */
 	public void setPositioner(BalloonTipPositioner positioner) {
+		// Make sure the value is not null
+		if (positioner == null) {
+			throw new NullPointerException();
+		}
 		BalloonTipPositioner oldPositioner = this.positioner;
 		this.positioner = positioner;
 		this.positioner.setBalloonTip(this);
@@ -372,7 +381,7 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Hide the balloon tip just by clicking anywhere on it
-	 * @param enabled	if true, the balloon hides when it's clicked 
+	 * @param enabled	if true, the balloon hides when it's clicked
 	 */
 	public void enableClickToHide(boolean enabled) {
 		clickToHide = enabled;
@@ -380,7 +389,7 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Permanently close the balloon tip just by clicking anywhere on it
-	 * @param enabled	if true, the balloon permanently closes when it's clicked 
+	 * @param enabled	if true, the balloon permanently closes when it's clicked
 	 */
 	public void enableClickToClose(boolean enabled) {
 		clickToClose = enabled;
@@ -427,7 +436,7 @@ public class BalloonTip extends JPanel {
 	}
 
 	/**
-	 * Set the close-button icons for all balloon tips 
+	 * Set the close-button icons for all balloon tips
 	 * @param normal
 	 * @param pressed
 	 * @param rollover		If you don't want a rollover, just set this to null...
@@ -439,7 +448,7 @@ public class BalloonTip extends JPanel {
 	}
 
 	/**
-	 * Sets the border of the balloon tip's close button.
+	 * Set the border of the balloon tip's close button.
 	 * If no close button is used, nothing will happen.
 	 * @param top
 	 * @param left
@@ -473,6 +482,27 @@ public class BalloonTip extends JPanel {
 	 */
 	public JComponent getAttachedComponent() {
 		return attachedComponent;
+	}
+
+	/**
+	 * Set the container this balloon tip is drawn on
+	 * @param topLevelContainer
+	 * @exception NullPointerException if topLevelContainer is <code>null</code>
+	 */
+	public void setTopLevelContainer(JLayeredPane topLevelContainer) {
+		// Make sure the value is not null
+		if (topLevelContainer == null) {
+			throw new NullPointerException();
+		}
+		if (this.topLevelContainer != null) {
+			this.topLevelContainer.remove(this);
+			this.topLevelContainer.removeComponentListener(topLevelContainerListener);
+		}
+		this.topLevelContainer = topLevelContainer;
+		// If the window is resized, we should check if the balloon still fits
+		this.topLevelContainer.addComponentListener(topLevelContainerListener);
+		// We use the popup layer of the top level container (frame or dialog) to show the balloon tip
+		this.topLevelContainer.add(this, JLayeredPane.POPUP_LAYER);
 	}
 
 	/**
@@ -571,7 +601,7 @@ public class BalloonTip extends JPanel {
 
 	/*
 	 * Helper method for constructing a BalloonTip; when this method finishes, the balloon tip is ready for use
-	 * 
+	 *
 	 * The main task here is to attempt to determine the top level container, which is where the balloon tip is drawn.
 	 * (This is done by following the path of parent Components, starting at the attached component...)
 	 */
@@ -598,6 +628,12 @@ public class BalloonTip extends JPanel {
 			parent = parent.getParent();
 		}
 
+		// If user previously set the top level container, through setTopLevelContainer(),
+		// don't overwrite it !
+		boolean topLevelAlreadySet = topLevelContainer != null;
+		if (topLevelAlreadySet) {
+			newTopLevelContainer = topLevelContainer;
+		}
 		// If the window is resized, we should check if the balloon still fits
 		newTopLevelContainer.addComponentListener(topLevelContainerListener);
 
@@ -609,8 +645,12 @@ public class BalloonTip extends JPanel {
 			p.addChangeListener(tabbedPaneListener);
 		}
 
-		// We use the popup layer of the top level container (frame or dialog) to show the balloon tip
-		topLevelContainer.add(this, JLayeredPane.POPUP_LAYER);
+		// We use the popup layer of the top level container (frame or dialog) to show the balloon tip.
+		// NB : if user previously set the top level container, through setTopLevelContainer(),
+		// don't re-add the balloon tip !
+		if (!topLevelAlreadySet) {
+			topLevelContainer.add(this, JLayeredPane.POPUP_LAYER);
+		}
 		// If the attached component is moved/hidden/shown, the balloon tip should act accordingly
 		attachedComponent.addComponentListener(attachedComponentListener);
 		// If the balloon tip is explicitely made visible, through setVisible(true),
