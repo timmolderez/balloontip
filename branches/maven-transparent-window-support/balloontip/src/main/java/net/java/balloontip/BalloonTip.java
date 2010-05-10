@@ -719,9 +719,10 @@ public class BalloonTip extends JPanel {
 		if (getDrawOutsideParent()) {
 			transparentWindow.getLayeredPane().remove(this);
 			transparentWindow.getLayeredPane().repaint();
+			// Be sure to set drawOutsideParent to false
+			// before calling setTopLevelContainer().
 			drawOutsideParent = false;
-			// We use the popup layer of the top level container (frame or dialog) to show the balloon tip
-			topLevelContainer.add(this, JLayeredPane.POPUP_LAYER);
+			setTopLevelContainer(topLevelContainer);
 			refreshLocation();
 		}
 		// Be sure to remember our actual choice,
