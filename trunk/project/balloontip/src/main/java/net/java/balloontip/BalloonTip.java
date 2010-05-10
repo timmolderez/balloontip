@@ -629,13 +629,15 @@ public class BalloonTip extends JPanel {
 		}
 
 		// If user previously set the top level container, through setTopLevelContainer(),
-		// don't overwrite it !
-		boolean topLevelAlreadySet = topLevelContainer != null;
+		// don't overwrite it ...
+		boolean topLevelAlreadySet = (topLevelContainer != null);
 		if (topLevelAlreadySet) {
 			newTopLevelContainer = topLevelContainer;
+		} else {
+			// ... and don't re-add topLevelContainerListener !
+			// If the window is resized, we should check if the balloon still fits
+			newTopLevelContainer.addComponentListener(topLevelContainerListener);
 		}
-		// If the window is resized, we should check if the balloon still fits
-		newTopLevelContainer.addComponentListener(topLevelContainerListener);
 
 		// At this point, it's sure there's a top level container,
 		// otherwise a NullPointerException would have been thrown.
