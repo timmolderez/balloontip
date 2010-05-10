@@ -45,6 +45,7 @@ public class MainPanel extends JPanel {
 		tabbedPane.addTab("Behaviour", new BehaviourTab());
 		tabbedPane.addTab("Types", new TypesTab());
 		tabbedPane.addTab("Utilities", new UtilitiesTab());
+		tabbedPane.addTab("Layered Pane", new LayeredPaneTab());
 		
 		add(tabbedPane, new GridBagConstraints(0,0,1,1,1,1, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10,10,10,10), 0, 0));
 	}
