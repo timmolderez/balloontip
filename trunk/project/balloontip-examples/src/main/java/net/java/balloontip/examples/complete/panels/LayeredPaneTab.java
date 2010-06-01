@@ -31,13 +31,26 @@
 
 package net.java.balloontip.examples.complete.panels;
 
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.styles.EdgedBalloonStyle;
-
-import java.awt.*;
-import java.awt.event.*;
 
 /*
  * Class taken and adapted from the Sun tutorial "How to Use Layered Panes".
@@ -132,10 +145,9 @@ MouseMotionListener {
 		java.net.URL imgURL = LayeredPaneTab.class.getResource(path);
 		if (imgURL != null) {
 			return new ImageIcon(imgURL);
-		} else {
-			System.err.println("Couldn't find file: " + path);
-			return null;
 		}
+		System.err.println("Couldn't find file: " + path);
+		return null;
 	}
 
 	//Create and set up a colored label.
