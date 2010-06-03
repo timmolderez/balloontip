@@ -92,16 +92,14 @@ public class BalloonTip extends JPanel {
 	protected boolean wasClickedToHide = false;
 
 	private final ComponentAdapter attachedComponentListener = new ComponentAdapter() {
-		public void componentMoved(ComponentEvent e) {if (attachedComponent.isShowing()) refreshLocation();}
+		public void componentMoved(ComponentEvent e) {refreshLocation();}
 		public void componentResized(ComponentEvent e) {checkVisibility(); /* New size could be zero, so better check visibility */}
 		public void componentShown(ComponentEvent e) {checkVisibility();}
 		public void componentHidden(ComponentEvent e) {checkVisibility();}
 	};
 	private final ComponentAdapter topLevelContainerListener = new ComponentAdapter() {
 		public void componentResized(ComponentEvent e) {
-			if (attachedComponent.isShowing()) {
-				refreshLocation();
-			}
+			refreshLocation();
 		}
 	};
 	private final PropertyChangeListener visibilityListener = new PropertyChangeListener() {
@@ -515,7 +513,10 @@ public class BalloonTip extends JPanel {
 	}
 
 	/**
-	 * Redetermines and sets the balloon tip's location
+	 * Redetermines and sets the balloon tip's location.
+	 * Must be able to update balloon tip's location
+	 * even if the balloon tip or the attached component
+	 * are not showing on screen.
 	 */
 	public void refreshLocation() {
 		Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
@@ -536,13 +537,24 @@ public class BalloonTip extends JPanel {
 	}
 
 	/**
+	 * Gets a value indicating whether or not the attached component is
+	 * showing on screen AND its area is greater than zero.
+	 * @return <code>true</code> if the <code>attached component</code> is
+	 *         showing on screen and if its area is greater than zero. Otherwise
+	 *         <code>false</code>
+	 */
+	protected boolean isAttachedComponentReallyShowing() {
+		return attachedComponent.isShowing()
+		&& attachedComponent.getWidth() > 0
+		&& attachedComponent.getHeight() > 0 /* To be seen, the area of the attached component must be > 0 */;
+	}
+
+	/**
 	 * Shows the balloon if the attached component is visible; hides the balloon if the attached component is invisible...
 	 */
 	protected void checkVisibility() {
 		// If we can see the attached component, the balloon tip is not closed AND we want it to be visible, then show it...
-		if (attachedComponent.isShowing() && isVisible
-				&& attachedComponent.getWidth() > 0
-				&& attachedComponent.getHeight() > 0 /* To be seen, the area of the attached component must be > 0 */) {
+		if (isAttachedComponentReallyShowing() && isVisible) {
 			super.setVisible(true);
 			refreshLocation();
 		} else {
