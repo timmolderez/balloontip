@@ -725,11 +725,12 @@ public class BalloonTip extends JPanel {
 	 * are not showing on screen.
 	 */
 	public void refreshLocation() {
-		// First check if attachedComponent is displayable.
+		// First check if attachedComponent is in a valid state.
 		// When transparentWindow is defined and made visible for the first time,
-		// attachedComponent could still not be displayable,
-		// so wrong location would be calculated in method initializePhase2().
-		if (attachedComponent.isDisplayable()) {
+		// attachedComponent could still not be correctly sized and positioned
+		// within its parent container, so wrong location would be calculated
+		// in method initializePhase2().
+		if (attachedComponent.isValid()) {
 			Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
 			try {
 				positioner.determineAndSetLocation(new Rectangle(location.x, location.y, attachedComponent.getWidth(), attachedComponent.getHeight()));
