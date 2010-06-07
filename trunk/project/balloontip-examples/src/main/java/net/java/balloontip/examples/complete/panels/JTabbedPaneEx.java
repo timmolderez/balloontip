@@ -36,7 +36,7 @@ public class JTabbedPaneEx extends JTabbedPane {
 	/**
 	 * Can be overridden to manually disable the implemented JTabbedPane bug correction.
 	 */
-	public static boolean ADD_JAVA_1_5_CORRECTION = SystemUtils.IS_JAVA_1_5;
+	public static boolean ADD_JAVA_CORRECTION = (SystemUtils.IS_JAVA_1_4 && SystemUtils.JAVA_VERSION_FLOAT >= 1.42f) || SystemUtils.IS_JAVA_1_5;
 
 	public JTabbedPaneEx() {
 		super();
@@ -305,7 +305,7 @@ public class JTabbedPaneEx extends JTabbedPane {
 
 	@Override
 	protected void fireStateChanged() {
-		if (ADD_JAVA_1_5_CORRECTION) {
+		if (ADD_JAVA_CORRECTION) {
 			fireStateChangedEx();
 		} else {
 			super.fireStateChanged();
@@ -314,7 +314,7 @@ public class JTabbedPaneEx extends JTabbedPane {
 
 	@Override
 	public void removeTabAt(int index) {
-		if (ADD_JAVA_1_5_CORRECTION) {
+		if (ADD_JAVA_CORRECTION) {
 			removeTabAtEx(index);
 		} else {
 			super.removeTabAt(index);
@@ -323,7 +323,7 @@ public class JTabbedPaneEx extends JTabbedPane {
 
 	@Override
 	public void setComponentAt(int index, Component component) {
-		if (ADD_JAVA_1_5_CORRECTION) {
+		if (ADD_JAVA_CORRECTION) {
 			setComponentAtEx(index, component);
 		} else {
 			super.setComponentAt(index, component);
