@@ -27,7 +27,6 @@ import javax.swing.event.EventListenerList;
  *
  * @author Thierry Blind
  */
-@SuppressWarnings("deprecation")
 public class JTabbedPaneEx extends JTabbedPane {
 
 	private static final long serialVersionUID = -737693676859360737L;
@@ -303,7 +302,6 @@ public class JTabbedPaneEx extends JTabbedPane {
 	// END CODE TAKEN FROM JDK 1.6.0.14
 	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	@Override
 	protected void fireStateChanged() {
 		if (ADD_JAVA_CORRECTION) {
 			fireStateChangedEx();
@@ -312,7 +310,6 @@ public class JTabbedPaneEx extends JTabbedPane {
 		}
 	}
 
-	@Override
 	public void removeTabAt(int index) {
 		if (ADD_JAVA_CORRECTION) {
 			removeTabAtEx(index);
@@ -321,7 +318,6 @@ public class JTabbedPaneEx extends JTabbedPane {
 		}
 	}
 
-	@Override
 	public void setComponentAt(int index, Component component) {
 		if (ADD_JAVA_CORRECTION) {
 			setComponentAtEx(index, component);
