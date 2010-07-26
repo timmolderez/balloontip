@@ -104,7 +104,7 @@ MouseMotionListener {
 		for (int i = 0; i < layerStrings.length; i++) {
 			JLabel label = createColoredLabel(layerStrings[i],
 					layerColors[i], origin);
-			layeredPane.add(label, Integer.valueOf(i));
+			layeredPane.add(label, new Integer(i));
 			origin.x += offset;
 			origin.y += offset;
 		}
@@ -123,7 +123,7 @@ MouseMotionListener {
 			XFUDGE = 30;
 			YFUDGE = 30;
 		}
-		layeredPane.add(dukeLabel, Integer.valueOf(2), 0);
+		layeredPane.add(dukeLabel, new Integer(2), 0);
 		balloonTip = new BalloonTip(dukeLabel, "Hello, I'm Duke !",
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE),
 				BalloonTip.Orientation.LEFT_ABOVE,
