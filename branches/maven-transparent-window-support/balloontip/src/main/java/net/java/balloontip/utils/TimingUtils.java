@@ -1,9 +1,9 @@
 /**
  * Balloontip - Balloon tips for Java Swing applications
  * Copyright 2007, 2008 Bernhard Pauler, Tim Molderez
- * 
+ *
  * This file is part of Balloontip.
- * 
+ *
  * Balloontip is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -32,12 +32,21 @@ import net.java.balloontip.BalloonTip;
  * @author Tim
  */
 public class TimingUtils {
-	
+
 	/*
 	 * Disallow instantiating this class
 	 */
 	private TimingUtils() {}
-	
+
+	/**
+	 * Displays a balloon tip for a certain time.
+	 * @param balloon			the BalloonTip
+	 * @param time				show the balloon for this amount of milliseconds
+	 */
+	public static void showTimedBalloon(final BalloonTip balloon, int time) {
+		showTimedBalloon(balloon, new Integer(time));
+	}
+
 	/**
 	 * Displays a balloon tip for a certain time.
 	 * @param balloon			the BalloonTip
@@ -51,7 +60,7 @@ public class TimingUtils {
 			}
 		});
 		timer.setRepeats(false);
-		timer.setInitialDelay(time);
+		timer.setInitialDelay(time.intValue());
 		timer.start();
 	}
 }
