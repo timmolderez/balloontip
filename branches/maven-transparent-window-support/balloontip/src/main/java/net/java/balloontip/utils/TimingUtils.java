@@ -43,6 +43,8 @@ public class TimingUtils {
 	 * @param balloon			the BalloonTip
 	 * @param time				show the balloon for this amount of milliseconds
 	 */
+	// This method was created to have "compiler compliancy" with all versions of java
+	// and with all existing versions of the balloon tip library.
 	public static void showTimedBalloon(final BalloonTip balloon, int time) {
 		showTimedBalloon(balloon, new Integer(time));
 	}
