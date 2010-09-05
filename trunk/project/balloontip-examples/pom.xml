@@ -8,18 +8,18 @@
 		<dependency>
 			<groupId>net.java.balloontip</groupId>
 			<artifactId>balloontip</artifactId>
-			<version>1.1-SNAPSHOT</version>
+			<version>1.01</version>
 		</dependency>
 	</dependencies>
 	<parent>
 		<artifactId>balloontip-parent</artifactId>
 		<groupId>net.java.balloontip</groupId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.01</version>
 	</parent>
 	
 	<!-- Project info -->
 	<name>Example applications</name>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.01</version>
 	<url>https://balloontip.dev.java.net/</url>
 	
 	<!-- Build settings -->
