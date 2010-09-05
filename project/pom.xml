@@ -11,7 +11,7 @@
 	
 	<!-- Project info -->
 	<name>Balloon tip project</name>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.01</version>
 	<description>Provides balloon tips for use in Java Swing applications.</description>
 	<url>https://balloontip.dev.java.net/</url>
 	<licenses>
@@ -40,9 +40,9 @@
 		<url>https://balloontip.dev.java.net/servlets/ProjectIssues</url>
 	</issueManagement>
 	<scm>
-		<connection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/branches/maven-transparency</connection>
-		<developerConnection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/branches/maven-transparency</developerConnection>
-		<url>https://balloontip.dev.java.net/source/browse/balloontip/branches/maven-transparency</url>
+		<connection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/tags/JTabbedPaneEx</connection>
+		<developerConnection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/tags/JTabbedPaneEx</developerConnection>
+		<url>https://balloontip.dev.java.net/source/browse/balloontip/tags/JTabbedPaneEx</url>
 	</scm>
 	<repositories>
 		<repository>
