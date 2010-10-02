@@ -23,6 +23,7 @@ package net.java.balloontip;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
@@ -33,10 +34,8 @@ import net.java.balloontip.positioners.BalloonTipPositioner;
 import net.java.balloontip.styles.BalloonTipStyle;
 
 /**
- * Provides the same functionality as a BalloonTip, but you can add a certain offset,
- * which can come in handy if attached to custom components.
- * Also, if the attached component is part of a JScrollPane, the balloon tip can be set such that it will
- * only be visible if the chosen offset point is visible.
+ * Provides the same functionality as a BalloonTip, but you can add a certain offset to its position, which can come in handy if attached to custom components.
+ * Also, if the attached component is part of a JScrollPane, the balloon tip can be set such that it will only be visible if the chosen offset point is visible.
  * @author Tim Molderez
  */
 public class CustomBalloonTip extends BalloonTip {
@@ -61,10 +60,9 @@ public class CustomBalloonTip extends BalloonTip {
 	 * 							If offset is null, the balloon tip will attach to the whole component.
 	 * @exception NullPointerException if at least one parameter (except for parameters text and style) is <code>null</code>
 	 */
-	public CustomBalloonTip(JComponent attachedComponent, String text, Rectangle offset, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
-		super(attachedComponent, text, style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
-		this.offset = offset;
-		refreshLocation();
+	public CustomBalloonTip(JComponent attachedComponent, JComponent component, Rectangle offset, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
+		super(attachedComponent, component, style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
+		setOffset(offset);
 	}
 
 	/**
@@ -75,10 +73,9 @@ public class CustomBalloonTip extends BalloonTip {
 	 * 							If offset is null, the balloon tip will attach to the whole component.
 	 * @exception NullPointerException if attachedComponent or positioner are <code>null</code>
 	 */
-	public CustomBalloonTip(JComponent attachedComponent, String text, Rectangle offset, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton) {
-		super(attachedComponent, text, style, positioner, useCloseButton);
-		this.offset = offset;
-		refreshLocation();
+	public CustomBalloonTip(JComponent attachedComponent, JComponent component, Rectangle offset, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
+		super(attachedComponent, component, style, positioner, closeButton);
+		setOffset(offset);
 	}
 
 	/**
@@ -99,15 +96,12 @@ public class CustomBalloonTip extends BalloonTip {
 	}
 
 	public void closeBalloon() {
-		if (viewport != null) {
-			viewport.removeChangeListener(viewportListener);
-		}
+		setViewport(null);
 		super.closeBalloon();
 	}
 
 	/**
-	 * Sets up the balloon tip such that it will only be shown if
-	 * the table cell we're attached to is visible within this viewport.
+	 * Sets up the balloon tip such that it will only be shown if the table cell we're attached to is visible within this viewport.
 	 * This is very useful if, for example, the JTable with this balloon tip is inside a JScrollpane.
 	 * (You can also remove the viewport by calling setViewport(null).)
 	 * @param viewport
@@ -134,28 +128,21 @@ public class CustomBalloonTip extends BalloonTip {
 	public void refreshLocation() {
 		Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
 		try {
-			Rectangle attached = offset != null
-			? new Rectangle(location.x + offset.x, location.y + offset.y, offset.width, offset.height)
-			: new Rectangle(location.x, location.y, attachedComponent.getWidth(), attachedComponent.getHeight());
-			// refreshLocation() should *at least* set the new location of the balloon tip.
+			Rectangle attached = (offset != null) ? new Rectangle(location.x + offset.x, location.y + offset.y, offset.width, offset.height)
+				: new Rectangle(location.x, location.y, attachedComponent.getWidth(), attachedComponent.getHeight());
 			positioner.determineAndSetLocation(attached);
 
-			// This method should not change the visibility of the balloon tip if it's called with
-			// an "attachedComponent" that is not showing on screen, because there's no reason to call
-			// setVisible(true) to make a balloon tip visible when it's "attachedComponent" is not showing on screen.
-			// NB : - "showing on screen" means here that the "attachedComponent" simply must be on a "showing" view port
-			//      - the balloon tip could have been hidden through mouse click
-			if (isAttachedComponentReallyShowing() && !wasClickedToHide && viewport != null && viewport.isShowing()) {
-				// Determine whether the point that visually connects the balloon and the table cell still is visible...
+			// Determine whether the balloon's tip still is visible in the viewport
+			if (viewport != null && viewport.isShowing()) {
 				Rectangle view = new Rectangle(SwingUtilities.convertPoint(viewport, viewport.getLocation(), getTopLevelContainer()), viewport.getSize());
 				Point tipLocation = positioner.getTipLocation();
 				if (tipLocation.y >= view.y-1 // -1 because we still want to allow balloons that are attached to the very top...
 						&& tipLocation.y <= (view.y + view.height)
 						&& (tipLocation.x) >= view.x
 						&& (tipLocation.x) <= (view.x + view.width)) {
-					setVisible(true);
+					visibilityControl.setCriteriumAndUpdate("withinViewport", true);
 				} else {
-					setVisible(false);
+					visibilityControl.setCriteriumAndUpdate("withinViewport", false);
 				}
 			}
 		} catch (NullPointerException exc) {}

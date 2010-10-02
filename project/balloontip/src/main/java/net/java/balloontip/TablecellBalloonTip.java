@@ -20,29 +20,35 @@
 
 package net.java.balloontip;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterEvent.Type;
+import javax.swing.event.RowSorterListener;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 import net.java.balloontip.positioners.BalloonTipPositioner;
 import net.java.balloontip.styles.BalloonTipStyle;
 
 /**
- * Provides the same functionality as a BalloonTip, but can attach itself to a specific JTable's cell.
+ * Provides the same functionality as a BalloonTip, but can attach itself to a cell in a JTable.
  * @author Tim Molderez
  */
 public class TablecellBalloonTip extends CustomBalloonTip {
 
-	private final int row;
-	private final int column;
+	protected int row;
+	protected int column;
 	private AncestorListener attachedComponentParentListener = null;
 
-	// If someone messes with the table's columns, this will probably screw up the balloon tip's position, so we'll just close it
+	// If someone messes with the table's columns, this might screw up the balloon tip's position, so we'll just close it..
 	private final TableColumnModelListener columnListener = new TableColumnModelListener()  {
 		public void columnAdded(TableColumnModelEvent e) {closeBalloon();}
 		public void columnMarginChanged(ChangeEvent e) {setCellPosition(row, column);}
@@ -50,12 +56,30 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 		public void columnRemoved(TableColumnModelEvent e) {closeBalloon();}
 		public void columnSelectionChanged(ListSelectionEvent e) {}
 	};
+	
+	// If someone adds/removes rows, ...
+	private final TableModelListener tableModelListener = new TableModelListener() {
+		public void tableChanged(TableModelEvent e) {
+			if (e.getType()==TableModelEvent.INSERT || e.getType()==TableModelEvent.DELETE) {
+				closeBalloon();
+			}
+		}
+	};
+	
+	// If someone messes with the table's sorting order, ...
+	private final RowSorterListener rowSorterListener = new RowSorterListener() {
+		public void sorterChanged(RowSorterEvent e) {
+			if (e.getType()==Type.SORT_ORDER_CHANGED) {
+				closeBalloon();
+			}
+		}
+	};
 
 	// This class is needed when the table hasn't been set up yet during the constructor of this balloon tip
 	private class ConstructorHelper implements AncestorListener {
 		public void ancestorAdded(AncestorEvent event) {
-			((JTable)attachedComponent).getColumnModel().addColumnModelListener(columnListener);
-			// Don't forget to reposition yourself! During the constructor the table wasn't set up yet, so you couldn't determine the table cell's position then...
+			addListeners();
+			// Don't forget to reposition yourself! During the constructor the table wasn't set up yet, so you couldn't determine the table cell's position...
 			setCellPosition(row, column);
 			// Remove yourself
 			((JTable)attachedComponent).removeAncestorListener(this);
@@ -71,19 +95,9 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 * @param column	Which column is the balloon tip attached to
 	 * @exception NullPointerException if at least one parameter (except for parameters text and style) is <code>null</code>
 	 */
-	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
-		super(table, text, table.getCellRect(row, column, true), style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
-
-		this.row = row;
-		this.column = column;
-
-		// We can only add the columnListener if we're sure the table has already been properly set up (which is the case if our super-constructor was able to determine the top level container...)
-		if (getTopLevelContainer() != null) {
-			table.getColumnModel().addColumnModelListener(columnListener);
-		} else {
-			attachedComponentParentListener = new ConstructorHelper();
-			table.addAncestorListener(attachedComponentParentListener);
-		}
+	public TablecellBalloonTip(JTable table, JComponent component, int row, int column, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
+		super(table, component, table.getCellRect(row, column, true), style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
+		setup(table, row, column);
 	}
 
 	/**
@@ -93,19 +107,9 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 * @param column	Which column is the balloon tip attached to
 	 * @exception NullPointerException if at least one parameter (except for parameters text and style) is <code>null</code>
 	 */
-	public TablecellBalloonTip(JTable table, String text, int row, int column, BalloonTipStyle style, BalloonTipPositioner positioner, boolean useCloseButton) {
-		super(table, text, table.getCellRect(row, column, true), style, positioner, useCloseButton);
-
-		this.row = row;
-		this.column = column;
-
-		// We can only add the columnListener if we're sure the table has already been properly set up (which is the case if our super-constructor was able to determine the top level container...)
-		if (getTopLevelContainer() != null) {
-			table.getColumnModel().addColumnModelListener(columnListener);
-		} else {
-			attachedComponentParentListener = new ConstructorHelper();
-			table.addAncestorListener(attachedComponentParentListener);
-		}
+	public TablecellBalloonTip(JTable table, JComponent component, int row, int column, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
+		super(table, component, table.getCellRect(row, column, true), style, positioner, closeButton);
+		setup(table, row, column);
 	}
 
 	/**
@@ -120,7 +124,51 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 
 	public void closeBalloon() {
 		attachedComponent.removeAncestorListener(attachedComponentParentListener);
-		((JTable)attachedComponent).getColumnModel().removeColumnModelListener(columnListener);
+		removeListeners();
 		super.closeBalloon();
+	}
+	
+	/*
+	 * A helper method needed when constructing a TablecellBalloonTip instance
+	 * @param table		The table to which this balloon tip attaches itself to
+	 * @param row		The row of the cell to which this balloon tip attaches itself to
+	 * @param column	The column of the cell to which this balloon tip attaches itself to
+	 */
+	private void setup(JTable table, int row, int column) {
+		this.row = row;
+		this.column = column;
+
+		// We can only add the columnListener if we're sure the table has already been properly set up (which is the case if our super-constructor was able to determine the top level container...)
+		if (getTopLevelContainer() != null) {
+			addListeners();
+		} else {
+			attachedComponentParentListener = new ConstructorHelper();
+			table.addAncestorListener(attachedComponentParentListener);
+		}
+	}
+	
+	/*
+	 * Adds the necessary listeners to the attached JTable, such that
+	 * this balloon tip will adjust itself to changes in the JTable 
+	 */
+	private void addListeners() {
+		JTable attachedTable=((JTable)attachedComponent);
+		attachedTable.getColumnModel().addColumnModelListener(columnListener);
+		attachedTable.getModel().addTableModelListener(tableModelListener);
+		if (attachedTable.getRowSorter()!=null) {
+			attachedTable.getRowSorter().addRowSorterListener(rowSorterListener);
+		}
+	}
+	
+	/*
+	 * Removes all listeners from the attached JTable
+	 */
+	private void removeListeners() {
+		JTable attachedTable=((JTable)attachedComponent);
+		attachedTable.getColumnModel().removeColumnModelListener(columnListener);
+		attachedTable.getModel().removeTableModelListener(tableModelListener);
+		if (attachedTable.getRowSorter()!=null) {
+			attachedTable.getRowSorter().removeRowSorterListener(rowSorterListener);
+		}
 	}
 }

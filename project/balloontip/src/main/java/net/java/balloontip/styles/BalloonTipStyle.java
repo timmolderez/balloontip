@@ -35,7 +35,6 @@ public abstract class BalloonTipStyle implements Border {
 	protected boolean flipX = false;
 	protected boolean flipY = false;
 	
-	
 	/**
 	 * Sets a new value for the horizontal offset.
 	 * @param px	horizontal offset (in pixels)
