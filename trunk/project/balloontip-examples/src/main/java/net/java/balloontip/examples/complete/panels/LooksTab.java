@@ -30,7 +30,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -124,27 +123,6 @@ public class LooksTab extends JPanel {
 		add(padding, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
 
-		// Show icon checkbox
-		add(new JLabel("Show an icon:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
-		final JCheckBox showIcon = new JCheckBox();
-		showIcon.setSelected(false);
-		add(showIcon, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
-		++gridY;
-
-		// Text to icon gap textbox
-		add(new JLabel("Icon-text gap:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
-		final JTextField iconTextGap = new JTextField("10");
-		iconTextGap.setPreferredSize(new Dimension(30,25));
-		add(iconTextGap, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
-		++gridY;
-
-		// Close button border textbox
-		add(new JLabel("Close-button border:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
-		final JTextField closeButtonBorder = new JTextField("5");
-		closeButtonBorder.setPreferredSize(new Dimension(30,25));
-		add(closeButtonBorder, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
-		++gridY;
-
 		// Balloon tip
 		final JButton attachedComponent = new JButton("Show balloon tip");
 		add(attachedComponent, new GridBagConstraints(0,gridY,2,1,1.0,1.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, new Insets(50,0,25,0), 0, 0));
@@ -154,7 +132,7 @@ public class LooksTab extends JPanel {
 		 */
 
 		// Create the balloon tip
-		balloonTip = new BalloonTip(attachedComponent, contents.getText(),
+		balloonTip = new BalloonTip(attachedComponent, new JLabel(contents.getText()),
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
@@ -162,14 +140,7 @@ public class LooksTab extends JPanel {
 				true);
 
 		// Don't close the balloon when clicking the close-button, you just need to hide it
-		balloonTip.setCloseButtonActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				balloonTip.setVisible(false);
-			}
-		});
-		balloonTip.setIconTextGap(Integer.parseInt(iconTextGap.getText()));
-		int value = Integer.parseInt(closeButtonBorder.getText());
-		balloonTip.setCloseButtonBorder(value, value, value, value);
+		balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(),false, false);
 
 		// (Re)show the balloon tip when clicking attachedComponent 
 		attachedComponent.addActionListener(new ActionListener() {
@@ -181,13 +152,13 @@ public class LooksTab extends JPanel {
 		// Contents
 		contents.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent e) {
-				balloonTip.setText(contents.getText());
+				balloonTip.setContents(new JLabel(contents.getText()));
 			}
 			public void insertUpdate(DocumentEvent e) {
-				balloonTip.setText(contents.getText());
+				balloonTip.setContents(new JLabel(contents.getText()));
 			}
 			public void removeUpdate(DocumentEvent e) {
-				balloonTip.setText(contents.getText());
+				balloonTip.setContents(new JLabel(contents.getText()));
 			}
 		});
 
@@ -290,64 +261,6 @@ public class LooksTab extends JPanel {
 				} catch (Exception e) {
 					if (!padding.getText().equals("")) {
 						CompleteExample.showErrorMessage(padding, "Please enter a positive padding value");
-					}
-				}
-			}
-		});
-
-		// Show icon
-		showIcon.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (showIcon.isSelected()) {
-					balloonTip.setIcon(new ImageIcon(CompleteExample.class.getResource("/net/java/balloontip/images/frameicon.png")));
-				} else {
-					balloonTip.setIcon(null);
-				}
-			}
-		});
-
-		// Icon-text gap
-		iconTextGap.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-				setIconTextGap();
-			}
-			public void insertUpdate(DocumentEvent e) {
-				setIconTextGap();
-			}
-			public void removeUpdate(DocumentEvent e) {
-				setIconTextGap();
-			}
-
-			private void setIconTextGap() {
-				try {
-					balloonTip.setIconTextGap(Integer.parseInt(iconTextGap.getText()));
-				} catch (Exception e) {
-					if (!iconTextGap.getText().equals("")) {
-						CompleteExample.showErrorMessage(iconTextGap, "Please enter a positive icon-text gap value");
-					}
-				}
-			}
-		});
-
-		// Close-button border
-		closeButtonBorder.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent e) {
-				setCloseButtonBorder();
-			}
-			public void insertUpdate(DocumentEvent e) {
-				setCloseButtonBorder();
-			}
-			public void removeUpdate(DocumentEvent e) {
-				setCloseButtonBorder();
-			}
-
-			private void setCloseButtonBorder() {
-				try {
-					int value = Integer.parseInt(closeButtonBorder.getText());
-					balloonTip.setCloseButtonBorder(value, value, value, value);
-				} catch (Exception e) {
-					if (!closeButtonBorder.getText().equals("")) {
-						CompleteExample.showErrorMessage(closeButtonBorder, "Please enter a positive close-button border width");
 					}
 				}
 			}

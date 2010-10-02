@@ -30,6 +30,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.java.balloontip.BalloonTip;
@@ -65,24 +66,15 @@ public class SimplePositionerExample {
 				button.setSelected(true);
 				contentPane.add(button, new GridBagConstraints(0,0,1,1,1,1, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, new Insets(0,0,60,200), 0, 0));
 				
-				// Create the look for our balloon tip
-				EdgedBalloonStyle style = new EdgedBalloonStyle(Color.WHITE, Color.BLUE);
-				
 				// Now construct the balloon tip, with our own positioner
 				final BalloonTip balloonTip = new BalloonTip(
 					button, 
-					"A balloon tip with a custom positioner",
-					style,
+					new JLabel("A balloon tip with a custom positioner"),
+					new EdgedBalloonStyle(Color.WHITE, Color.BLUE),
 					new SimpleTipPositioner(),
-					true
+					null
 				);
-				
-				// Don't close the balloon when clicking the close-button, you just need to hide it
-				balloonTip.setCloseButtonActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						balloonTip.setVisible(false);
-					}
-				});
+				balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(),false, false);
 				
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {

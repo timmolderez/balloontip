@@ -52,7 +52,7 @@ import javax.swing.JPanel;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 
-/*
+/**
  * Class taken and adapted from the Sun tutorial "How to Use Layered Panes".
  * Source : http://java.sun.com/docs/books/tutorial/uiswing/components/layeredpane.html
  * LayeredPaneTab.java requires dukeWaveRed.gif.
@@ -124,7 +124,7 @@ MouseMotionListener {
 			YFUDGE = 30;
 		}
 		layeredPane.add(dukeLabel, new Integer(2), 0);
-		balloonTip = new BalloonTip(dukeLabel, "Hello, I'm Duke !",
+		balloonTip = new BalloonTip(dukeLabel, new JLabel("Hello, I'm Duke !"),
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE),
 				BalloonTip.Orientation.LEFT_ABOVE,
 				BalloonTip.AttachLocation.ALIGNED,

@@ -25,6 +25,7 @@ import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.panels.MainPanel;
@@ -67,8 +68,8 @@ public class CompleteExample {
 	 */
 	public static void setToolTip(final JComponent comp, final String text) {
 		BalloonTipStyle style = new MinimalBalloonStyle(new Color(169, 205, 221, 220), 5);
-		final BalloonTip balloon = new BalloonTip(comp, text, style, BalloonTip.Orientation.LEFT_ABOVE, BalloonTip.AttachLocation.ALIGNED, 15, 10, false);
-		balloon.enableClickToHide(true);
+		final BalloonTip balloon = new BalloonTip(comp, new JLabel(text), style, BalloonTip.Orientation.LEFT_ABOVE, BalloonTip.AttachLocation.ALIGNED, 15, 10, false);
+		balloon.addDefaultMouseListener(false);
 		ToolTipUtils.balloonToToolTip(balloon, 500, 3000);
 	}
 	
@@ -82,9 +83,9 @@ public class CompleteExample {
 			errBalloon.closeBalloon();
 		}
 		BalloonTipStyle style = new MinimalBalloonStyle(new Color(246, 197, 192, 220), 5);
-		errBalloon = new BalloonTip(comp, "<html><font color=\"#6f150d\">" + text + "</font></html>",
+		errBalloon = new BalloonTip(comp, new JLabel("<html><font color=\"#6f150d\">" + text + "</font></html>"),
 				style, BalloonTip.Orientation.LEFT_ABOVE, BalloonTip.AttachLocation.ALIGNED, 15, 10, false);
-		errBalloon.enableClickToHide(true);
+		errBalloon.addDefaultMouseListener(false);
 		TimingUtils.showTimedBalloon(errBalloon, 3000);
 	}
 }

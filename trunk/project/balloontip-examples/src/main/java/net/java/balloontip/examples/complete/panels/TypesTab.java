@@ -121,7 +121,7 @@ public class TypesTab extends JPanel {
 		 */
 
 		// Regular balloon tip
-		new BalloonTip(label, "I'm a BalloonTip!",
+		new BalloonTip(label, new JLabel("I'm a BalloonTip!"),
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
@@ -129,7 +129,7 @@ public class TypesTab extends JPanel {
 				false);
 
 		// Tablecell balloon tip
-		tableBalloon = new TablecellBalloonTip(table, "I'm a TableCellBalloonTip!", 32, 32,
+		tableBalloon = new TablecellBalloonTip(table, new JLabel("I'm a TableCellBalloonTip!"), 32, 32,
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
@@ -147,7 +147,7 @@ public class TypesTab extends JPanel {
 
 		// Custom balloon tip
 		customBalloon = new CustomBalloonTip(customComponent, 
-				"I'm a CustomBalloonTip!",
+				new JLabel("I'm a CustomBalloonTip!"),
 				customOffset,
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 

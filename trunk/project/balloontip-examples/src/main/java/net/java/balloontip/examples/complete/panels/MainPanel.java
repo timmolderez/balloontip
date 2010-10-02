@@ -39,7 +39,7 @@ public class MainPanel extends JPanel {
 		super();
 		setLayout(new GridBagLayout());
 		
-		JTabbedPane tabbedPane = new JTabbedPaneEx();
+		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.setTabPlacement(JTabbedPane.TOP);
 		tabbedPane.addTab("Looks", new LooksTab());
 		tabbedPane.addTab("Behaviour", new BehaviourTab());
