@@ -27,6 +27,7 @@ import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -76,7 +77,9 @@ public class TableExample {
 				table.scrollRectToVisible(table.getCellRect(8, 16, true));
 				
 				// Create the TableCellBalloonTip
-				tableBalloon = new TablecellBalloonTip(table, "A TablecellBalloonTip", 16, 16,
+				tableBalloon = new TablecellBalloonTip(table, 
+						new JLabel("A TablecellBalloonTip"), 
+						16, 16,
 						new MinimalBalloonStyle(new Color(255, 0, 0, 180), 10),
 						BalloonTip.Orientation.LEFT_ABOVE, 
 						BalloonTip.AttachLocation.ALIGNED, 

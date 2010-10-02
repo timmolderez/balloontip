@@ -121,7 +121,7 @@ public class BehaviourTab extends JPanel {
 
 		// Tablecell balloon tip		
 		tableBalloon = new TablecellBalloonTip(table, 
-				"Use the scrollbars to move me around!", 32, 16,
+				new JLabel("Use the scrollbars to move me around!"), 32, 16,
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 

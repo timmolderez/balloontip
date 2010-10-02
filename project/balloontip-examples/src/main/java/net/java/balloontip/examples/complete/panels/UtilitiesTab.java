@@ -97,7 +97,7 @@ public class UtilitiesTab extends JPanel {
 				try {
 					int timeoutVal =  Integer.parseInt(timeout.getText());
 					BalloonTip balloonTip = new BalloonTip(showBalloon, 
-							"I will dissapear in " + timeoutVal/1000 + " seconds.",
+							new JLabel("I will dissapear in " + timeoutVal/1000 + " seconds."),
 							new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 							BalloonTip.Orientation.LEFT_ABOVE, 
 							BalloonTip.AttachLocation.ALIGNED, 
@@ -113,7 +113,7 @@ public class UtilitiesTab extends JPanel {
 		});
 
 		// Balloon tooltip
-		tooltipBalloon = new BalloonTip(tooltipLabel, "I'm a balloon tooltip!",
+		tooltipBalloon = new BalloonTip(tooltipLabel, new JLabel("I'm a balloon tooltip!"),
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 

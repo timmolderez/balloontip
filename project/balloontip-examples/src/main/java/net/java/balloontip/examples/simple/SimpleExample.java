@@ -30,6 +30,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.java.balloontip.BalloonTip;
@@ -70,20 +71,14 @@ public class SimpleExample {
 				// Now construct the balloon tip
 				final BalloonTip balloonTip = new BalloonTip(
 					button,
-					"<html>This <font color=\"#0000ff\">balloon tip</font> is attached to the button.</html>",
+					new JLabel("<html>This <font color=\"#0000ff\">balloon tip</font> is attached to the button.</html>"),
 					style,
 					BalloonTip.Orientation.LEFT_ABOVE,
 					BalloonTip.AttachLocation.ALIGNED,
 					30, 10,
-					true
+					false
 				);
-				
-				// Don't close the balloon when clicking the close-button, you just need to hide it
-				balloonTip.setCloseButtonActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						balloonTip.setVisible(false);
-					}
-				});
+				balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(),false, false);
 				
 				/*** Balloon tip creation - END ***/
 				
