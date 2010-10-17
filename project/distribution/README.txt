@@ -1,4 +1,4 @@
-Balloontip --- Quick readme
+Balloon tip --- Quick readme
 
 
 To start the demo application: Double-click balloontip-examples- ... .jar
