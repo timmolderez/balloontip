@@ -27,9 +27,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -47,6 +49,10 @@ import net.java.balloontip.styles.ModernBalloonStyle;
 import net.java.balloontip.styles.RoundedBalloonStyle;
 import net.java.balloontip.styles.TexturedBalloonStyle;
 
+/**
+ * Looks tab of the demo application; lets you experiment with a balloon tip's looks
+ * @author Tim Molderez
+ */
 public class LooksTab extends JPanel {
 	private final BalloonTip balloonTip;
 	private final JComboBox stylePicker;
@@ -122,10 +128,16 @@ public class LooksTab extends JPanel {
 		padding.setPreferredSize(new Dimension(30,25));
 		add(padding, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
+		
+		// Close button checkbox
+		add(new JLabel("Close button:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
+		final JCheckBox useCloseButton = new JCheckBox("", true);
+		add(useCloseButton, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
+		++gridY;
 
 		// Balloon tip
 		final JButton attachedComponent = new JButton("Show balloon tip");
-		add(attachedComponent, new GridBagConstraints(0,gridY,2,1,1.0,1.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, new Insets(50,0,25,0), 0, 0));
+		add(attachedComponent, new GridBagConstraints(0,gridY,2,1,1.0,1.0, GridBagConstraints.SOUTH, GridBagConstraints.NONE, new Insets(25,0,120,0), 0, 0));
 
 		/*
 		 * Add the GUI's behaviour
@@ -138,6 +150,7 @@ public class LooksTab extends JPanel {
 				BalloonTip.AttachLocation.ALIGNED, 
 				20, 10, 
 				true);
+		balloonTip.setPadding(5);
 
 		// Don't close the balloon when clicking the close-button, you just need to hide it
 		balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(),false, false);
@@ -265,6 +278,17 @@ public class LooksTab extends JPanel {
 				}
 			}
 		});
+		
+		// Close button
+		useCloseButton.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange()==ItemEvent.SELECTED) {
+					balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(), false, false);
+				} else {
+					balloonTip.setCloseButton(null);
+				}
+			}
+		});
 	}
 
 	private void setBalloonTipStyle() {
@@ -286,7 +310,11 @@ public class LooksTab extends JPanel {
 			balloonTip.setStyle(new MinimalBalloonStyle(transparentFill, 8));
 			break;
 		case 4:
-			balloonTip.setStyle(new TexturedBalloonStyle(5, 5, new ImageIcon(CompleteExample.class.getResource("/net/java/balloontip/images/bgpattern.png")).getImage(), borderColor));
+			try {
+				balloonTip.setStyle(new TexturedBalloonStyle(5, 5, CompleteExample.class.getResource("/net/java/balloontip/images/bgPattern.png"), borderColor));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			break;
 		}
 	}

@@ -41,12 +41,16 @@ import net.java.balloontip.BalloonTip;
 import net.java.balloontip.TablecellBalloonTip;
 import net.java.balloontip.examples.complete.CompleteExample;
 import net.java.balloontip.positioners.BasicBalloonTipPositioner;
-import net.java.balloontip.positioners.Left_Above_Positioner;
-import net.java.balloontip.positioners.Left_Below_Positioner;
-import net.java.balloontip.positioners.Right_Above_Positioner;
-import net.java.balloontip.positioners.Right_Below_Positioner;
+import net.java.balloontip.positioners.LeftAbovePositioner;
+import net.java.balloontip.positioners.LeftBelowPositioner;
+import net.java.balloontip.positioners.RightAbovePositioner;
+import net.java.balloontip.positioners.RightBelowPositioner;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 
+/**
+ * Behaviour tab of the demo application; demonstrates different balloon tip positioners
+ * @author Tim Molderez
+ */
 public class BehaviourTab extends JPanel {
 	private final JComboBox alignmentPicker;
 	private final JComboBox attachPicker;
@@ -127,7 +131,6 @@ public class BehaviourTab extends JPanel {
 				BalloonTip.AttachLocation.ALIGNED, 
 				HOFFSET, VOFFSET, 
 				false);
-		tableBalloon.setPadding(10);
 		tableBalloon.setViewport(tableScrollPane.getViewport());
 		table.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
@@ -145,16 +148,16 @@ public class BehaviourTab extends JPanel {
 
 				switch(alignmentPicker.getSelectedIndex()) {
 				case 0:
-					positioner = new Left_Above_Positioner(HOFFSET, VOFFSET);
+					positioner = new LeftAbovePositioner(HOFFSET, VOFFSET);
 					break;
 				case 1:
-					positioner = new Left_Below_Positioner(HOFFSET, VOFFSET);
+					positioner = new LeftBelowPositioner(HOFFSET, VOFFSET);
 					break;
 				case 2:
-					positioner = new Right_Above_Positioner(HOFFSET, VOFFSET);
+					positioner = new RightAbovePositioner(HOFFSET, VOFFSET);
 					break;
 				case 3:
-					positioner = new Right_Below_Positioner(HOFFSET, VOFFSET);
+					positioner = new RightBelowPositioner(HOFFSET, VOFFSET);
 					break;
 				}
 

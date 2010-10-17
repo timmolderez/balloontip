@@ -28,7 +28,7 @@ import javax.swing.Timer;
 import net.java.balloontip.BalloonTip;
 
 /**
- * This class provides timed balloon tips
+ * This class provides balloon tips that can time out
  * @author Tim
  */
 public class TimingUtils {
@@ -39,30 +39,28 @@ public class TimingUtils {
 	private TimingUtils() {}
 
 	/**
-	 * Displays a balloon tip for a certain time.
+	 * Displays a balloon tip for a certain time, then close it.
 	 * @param balloon			the BalloonTip
 	 * @param time				show the balloon for this amount of milliseconds
 	 */
-	// This method was created to have "compiler compliancy" with all versions of java
-	// and with all existing versions of the balloon tip library.
 	public static void showTimedBalloon(final BalloonTip balloon, int time) {
-		showTimedBalloon(balloon, new Integer(time));
-	}
-
-	/**
-	 * Displays a balloon tip for a certain time.
-	 * @param balloon			the BalloonTip
-	 * @param time				show the balloon for this amount of milliseconds
-	 */
-	public static void showTimedBalloon(final BalloonTip balloon, Integer time) {
-		balloon.setVisible(true);
-		Timer timer = new Timer(0, new ActionListener() {
+		showTimedBalloon(balloon, time,new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				balloon.closeBalloon();
 			}
 		});
+	}
+	
+	/**
+	 * Displays a balloon tip for a certain time
+	 * @param balloon			the BalloonTip
+	 * @param time				show the balloon for this amount of milliseconds
+	 * @param onTimeout			this action is taken when time runs out
+	 */
+	public static void showTimedBalloon(final BalloonTip balloon, int time, ActionListener onTimeout) {
+		balloon.setVisible(true);
+		Timer timer = new Timer(time, onTimeout);
 		timer.setRepeats(false);
-		timer.setInitialDelay(time.intValue());
 		timer.start();
 	}
 }

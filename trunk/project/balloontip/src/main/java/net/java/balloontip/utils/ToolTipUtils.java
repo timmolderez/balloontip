@@ -50,7 +50,7 @@ public class ToolTipUtils {
 
 		/**
 		 * Constructor
-		 * @param balloonTip
+		 * @param balloonTip	the balloon tip to turn into a tooltip
 		 * @param initialDelay	in milliseconds, how long should you hover over the attached component before showing the tooltip
 		 * @param showDelay		in milliseconds, how long should the tooltip stay visible
 		 */
@@ -81,6 +81,8 @@ public class ToolTipUtils {
 
 		public void mouseExited(MouseEvent e) {
 			initialTimer.stop();
+			showTimer.stop();
+			balloonTip.setVisible(false);
 		}
 	}
 

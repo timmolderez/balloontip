@@ -61,16 +61,16 @@ public abstract class BalloonTipStyle implements Border {
 	}
 	
 	/**
-	 * Flip around a vertical axis
-	 * @param flipX
+	 * Flip around the vertical axis
+	 * @param flipX		if true, the balloon tip is flipped horizontally
 	 */
 	public void flipX(boolean flipX) {
 		this.flipX = flipX;
 	}
 	
 	/**
-	 * Flip around a horizontal axis
-	 * @param flipY
+	 * Flip around the horizontal axis
+	 * @param flipY		if true, the balloon tip is flipped vertically
 	 */
 	public void flipY(boolean flipY) {
 		this.flipY = flipY;
@@ -78,8 +78,8 @@ public abstract class BalloonTipStyle implements Border {
 	
 	/**
 	 * Which mirror effect should be applied to the balloon tip
-	 * @param flipX
-	 * @param flipY
+	 * @param flipX		if true, the balloon tip is flipped horizontally
+	 * @param flipY		if true, the balloon tip is flipped vertically
 	 */
 	public void flip(boolean flipX, boolean flipY) {
 		this.flipX = flipX;

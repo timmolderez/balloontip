@@ -60,8 +60,7 @@ public class SimpleExample {
 				
 				// Add a button
 				final JButton button = new JButton("Show balloon tip");
-				button.setSelected(true);
-				contentPane.add(button, new GridBagConstraints(0,0,1,1,1,1, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, new Insets(0,0,60,120), 0, 0));
+				contentPane.add(button, new GridBagConstraints(0,0,1,1,1,1, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, new Insets(0,0,60,160), 0, 0));
 				
 				/*** Balloon tip creation - START ***/
 				
@@ -71,14 +70,16 @@ public class SimpleExample {
 				// Now construct the balloon tip
 				final BalloonTip balloonTip = new BalloonTip(
 					button,
-					new JLabel("<html>This <font color=\"#0000ff\">balloon tip</font> is attached to the button.</html>"),
+					new JLabel("<html>The <font color=\"#0000ff\">balloon tip</font> is attached to the button.</html>"),
 					style,
 					BalloonTip.Orientation.LEFT_ABOVE,
 					BalloonTip.AttachLocation.ALIGNED,
 					30, 10,
 					false
 				);
-				balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(),false, false);
+				
+				// Add a close button that hides the balloon tip, rather than permanently close it
+				balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(), false, false);
 				
 				/*** Balloon tip creation - END ***/
 				

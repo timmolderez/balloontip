@@ -21,11 +21,6 @@
 package net.java.balloontip.positioners;
 
 import java.awt.Point;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
-import net.java.balloontip.BalloonTip;
-import net.java.balloontip.styles.BalloonTipStyle;
 
 /**
  * Provides the interface for a basic positioner
@@ -49,8 +44,8 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 
 	protected float attachLocationX = 0.0f;			// A percentage that determines the X-location of the tip on the attached object
 	protected float attachLocationY = 0.0f;			// A percentage that determines the Y-location of the tip on the attached object
-	// For example, if attachLocationX and Y are both 0.5, then the tip is centered on the attached object
-
+													// For example, if attachLocationX and Y are both 0.5, then the tip is centered on the attached object
+	
 	/**
 	 * Constructor
 	 * @param hO	Preferred horizontal offset
@@ -61,24 +56,11 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 		preferredHorizontalOffset = hO;
 		preferredVerticalOffset = vO;
 	}
-
-	public void setBalloonTip(final BalloonTip balloonTip) {
-		// Set up the new balloon tip
-		this.balloonTip = balloonTip;
-
+	
+	public void onStyleChange() {
 		balloonTip.getStyle().setHorizontalOffset(preferredHorizontalOffset);
 		balloonTip.getStyle().setVerticalOffset(preferredVerticalOffset);
 		minimumHorizontalOffset = balloonTip.getStyle().getMinimalHorizontalOffset();
-
-		// Whenever the style changes, make sure to set up the new style properly
-		balloonTip.addPropertyChangeListener("style", new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent evt) {
-				BalloonTipStyle style = ((BalloonTipStyle)evt.getNewValue());
-				style.setHorizontalOffset(preferredHorizontalOffset);
-				style.setVerticalOffset(preferredVerticalOffset);
-				minimumHorizontalOffset = style.getMinimalHorizontalOffset();
-			}
-		});
 	}
 
 	/**

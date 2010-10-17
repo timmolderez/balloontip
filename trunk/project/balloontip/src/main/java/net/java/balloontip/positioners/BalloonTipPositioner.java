@@ -22,6 +22,8 @@ package net.java.balloontip.positioners;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import net.java.balloontip.BalloonTip;
 
@@ -32,31 +34,39 @@ import net.java.balloontip.BalloonTip;
  */
 public abstract class BalloonTipPositioner {
 	protected BalloonTip balloonTip = null;
+	private PropertyChangeListener styleListener = new PropertyChangeListener() {
+		public void propertyChange(PropertyChangeEvent evt) {
+			onStyleChange();
+		}
+	};
 	
 	/**
 	 * Default constructor
 	 */
 	public BalloonTipPositioner() {}
 	
+	
 	/**
 	 * Retrieve the balloon tip that uses this positioner
 	 * @return The balloon tip that uses this positioner
 	 */
-	public BalloonTip getBalloonTip() {
+	public final BalloonTip getBalloonTip() {
 		return balloonTip;
 	}
 	
 	/**
 	 * This method is meant only to be used by BalloonTip!
-	 * A BalloonTip must call this method at the end of its construction (or when it's swapping for a new BalloonTipPositioner)
-	 * @param balloonTip
+	 * A BalloonTip must call this method at the end of its construction (or when it's swapping for a new BalloonTipPositioner).
+	 * @param balloonTip	the balloon tip
 	 */
-	public void setBalloonTip(final BalloonTip balloonTip) {
+	public final void setBalloonTip(final BalloonTip balloonTip) {
 		this.balloonTip = balloonTip;
+		this.balloonTip.addPropertyChangeListener("style", styleListener);
+		onStyleChange();
 	}
 	
 	/**
-	 * Find the current location of the balloon's tip, relative to the top level container
+	 * Find the current location of the balloon's tip, relative to the top-level container
 	 * @return The location of the tip
 	 */
 	 public abstract Point getTipLocation();
@@ -66,4 +76,18 @@ public abstract class BalloonTipPositioner {
 	 * @param attached		the balloon tip is attached to this rectangle
 	 */
 	public abstract void determineAndSetLocation(Rectangle attached);
+	
+	/**
+	 * This method is called whenever the balloon tip's style changes.
+	 * The positioner will ensure the new style is set up properly.
+	 */
+	protected abstract void onStyleChange();
+	
+	protected void finalize() throws Throwable {
+		if (balloonTip!=null) {
+			balloonTip.removePropertyChangeListener("style", styleListener);
+		}
+		super.finalize();
+	}
+	
 }

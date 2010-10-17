@@ -26,8 +26,8 @@ import java.awt.Rectangle;
  * This class positions a balloon tip above the component it's attached to, with the tip on the right
  * @author Tim Molderez
  */
-public class Right_Above_Positioner extends BasicBalloonTipPositioner {
-	public Right_Above_Positioner(int hO, int vO) {
+public class RightAbovePositioner extends BasicBalloonTipPositioner {
+	public RightAbovePositioner(int hO, int vO) {
 		super(hO, vO);
 	}
 

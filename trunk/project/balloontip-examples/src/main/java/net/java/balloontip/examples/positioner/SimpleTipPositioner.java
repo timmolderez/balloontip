@@ -23,7 +23,6 @@ package net.java.balloontip.examples.positioner;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-import net.java.balloontip.BalloonTip;
 import net.java.balloontip.positioners.BalloonTipPositioner;
 
 /**
@@ -33,12 +32,6 @@ import net.java.balloontip.positioners.BalloonTipPositioner;
 public class SimpleTipPositioner extends BalloonTipPositioner {
 	private int x = 0;	// Current position of the balloon tip
 	private int y = 0;
-	
-	public void setBalloonTip(BalloonTip bT) {
-		super.setBalloonTip(bT);
-		bT.getStyle().setHorizontalOffset(20);
-		bT.getStyle().setVerticalOffset(20);
-	}
 
 	public void determineAndSetLocation(Rectangle attached) {
 		x = attached.x;
@@ -50,5 +43,10 @@ public class SimpleTipPositioner extends BalloonTipPositioner {
 
 	public Point getTipLocation() {
 		return new Point(x + 20, y + balloonTip.getPreferredSize().height);
+	}
+
+	protected void onStyleChange() {
+		balloonTip.getStyle().setHorizontalOffset(20);
+		balloonTip.getStyle().setVerticalOffset(20);
 	}
 }

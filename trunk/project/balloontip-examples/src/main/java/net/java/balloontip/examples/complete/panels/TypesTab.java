@@ -43,6 +43,10 @@ import net.java.balloontip.CustomBalloonTip;
 import net.java.balloontip.TablecellBalloonTip;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 
+/**
+ * Types tab of the demo application; demonstrates the different balloon tip types
+ * @author Tim Molderez
+ */
 public class TypesTab extends JPanel {
 	private final TablecellBalloonTip tableBalloon;
 	private final CustomBalloonTip customBalloon;
@@ -125,7 +129,7 @@ public class TypesTab extends JPanel {
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
-				20, 20, 
+				15, 15, 
 				false);
 
 		// Tablecell balloon tip
@@ -133,7 +137,7 @@ public class TypesTab extends JPanel {
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
-				20, 20, 
+				15, 15, 
 				false);
 		tableBalloon.setViewport(tableScrollPane.getViewport());
 		table.addAncestorListener(new AncestorListener() {
@@ -152,7 +156,7 @@ public class TypesTab extends JPanel {
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
-				20, 20, 
+				15, 15, 
 				false);
 		customBalloon.setViewport(customScrollPane.getViewport());
 		customComponent.addAncestorListener(new AncestorListener() {
