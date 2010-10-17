@@ -2,8 +2,7 @@
 <html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /><title>Balloon tip - Manual</title>
 
-<link rel="stylesheet" href="style/style.css" type="text/css" />
-</head>
+<link rel="stylesheet" href="style/style.css" type="text/css" /></head>
 <body>
 <div id="header"> <img src="images/BalloonTip.png" alt="Balloon tip" />
 <div id="title"> Manual <span id="releaseDate">v1.1</span></div>
@@ -83,10 +82,8 @@ tip special releases</a>.)
 </div>
 <div class="subSection">
 <div class="title">1.2.&nbsp;Getting started<a name="gettingstarted"></a></div>
-<p> Thanks for giving&nbsp;Balloon tip a try! This project
-allows you to spice up your Java Swing applications with some mighty
-fine balloon
-tips. </p>
+<p> Thanks for giving&nbsp;Balloon tip a try! You can now spice up your Java Swing applications with the balloon
+tip components provided in this project. </p>
 <p> Before diving in, let's take a quick look at the things that
 are
 included in the .zip-file you've just downloaded: </p>
@@ -314,7 +311,7 @@ displays a timeline; it has a <code>CustomBalloonTip</code>
 attached to it </div>
 <p>Just take a look at this snippet of code, which was used in
 the demo application, just to see how it&nbsp;works:</p>
-<pre><code>// Create a custom JComponent that draws a huge white canvas with a small blue rectangle in it<br />final Rectangle customOffset = new Rectangle(640, 320, 50, 16);<br />final JComponent customComponent = new JComponent() {<br />	protected void paintComponent(Graphics g) {<br />	Rectangle clip = g.getClipBounds();<br />	g.setColor(Color.WHITE);<br />	g.fillRect(clip.x, clip.y, clip.width, clip.height);<br />	g.setColor(Color.BLUE);<br />	g.fillRect(customOffset.x, customOffset.y, customOffset.width, customOffset.height);<br />	}<br />};<br />customComponent.setPreferredSize(new Dimension(1280, 640));<br /><br />// Put the custom JComponent in a scroll pane<br />final JScrollPane customScrollPane = new JScrollPane(customComponent);<br /><br />// Now create the CustomBalloonTip, such that it attaches itself to the blue rectangle<br />customBalloon = new CustomBalloonTip(customComponent, <br />	"I'm a CustomBalloonTip!",<br />	customOffset,<br />	new EdgedBalloonStyle(Color.WHITE, Color.BLUE), <br />	BalloonTip.Orientation.LEFT_ABOVE, <br />	BalloonTip.AttachLocation.ALIGNED, <br />	20, 20, <br />	false);<br />	<br />// Hide the balloon tip when the tip is no longer visible in the scroll pane's viewport<br />customBalloon.setViewport(customScrollPane.getViewport());<br /></code></pre>
+<pre><code>// Create a custom JComponent that draws a huge white canvas with a small blue rectangle in it<br />final Rectangle customOffset = new Rectangle(640, 320, 50, 16);<br />final JComponent customComponent = new JComponent() {<br />	protected void paintComponent(Graphics g) {<br />		Rectangle clip = g.getClipBounds();<br />		g.setColor(Color.WHITE);<br />		g.fillRect(clip.x, clip.y, clip.width, clip.height);<br />		g.setColor(Color.BLUE);<br />		g.fillRect(customOffset.x, customOffset.y, customOffset.width, customOffset.height);<br />	}<br />};<br />customComponent.setPreferredSize(new Dimension(1280, 640));<br /><br />// Put the custom JComponent in a scroll pane<br />final JScrollPane customScrollPane = new JScrollPane(customComponent);<br /><br />// Now create the CustomBalloonTip, such that it attaches itself to the blue rectangle<br />customBalloon = new CustomBalloonTip(customComponent, <br />	"I'm a CustomBalloonTip!",<br />	customOffset,<br />	new EdgedBalloonStyle(Color.WHITE, Color.BLUE), <br />	BalloonTip.Orientation.LEFT_ABOVE, <br />	BalloonTip.AttachLocation.ALIGNED, <br />	20, 20, <br />	false);<br />	<br />// Hide the balloon tip when the tip is no longer visible in the scroll pane's viewport<br />customBalloon.setViewport(customScrollPane.getViewport());<br /></code></pre>
 </div>
 <div class="subSection">
 <div class="title">1.4.2. TablecellBalloonTip<a name="tablecellballoontip"></a></div>
@@ -565,7 +562,7 @@ how to create your own <code>BalloonTipPositioner</code>
 is by looking at an example. The following example demonstrates a very
 simple positioner that will place the balloon tip at a fixed location
 relative to the attached component:</p>
-<pre><code><br />public class SimpleTipPositioner extends BalloonTipPositioner {<br />	int x = 0; // Current X-coordinate of the top-left corner of the bounding box around the balloon tip<br />	int y = 0; // Current Y-coordinate of the top-left corner of the bounding box around the balloon tip<br /><br />	/* The balloon tip will call this method every time it wants to re-draw itself.<br />	* The parameter of this function, attached, is the Rectangle that the balloon tip should attach itself to. */<br />	public void determineAndSetLocation(Rectangle attached) {<br />	/* Calculate the coordinates of the top-left corner of the bounding box around the balloon tip<br />	* This positioner will place the balloon tip above the attached Rectangle. */<br />	x = attached.x;<br />	y = attached.y - balloonTip.getPreferredSize().height;<br /><br />	// Now move the balloon tip to the position we've just calculated<br />	balloonTip.setBounds(x, y, balloonTip.getPreferredSize().width, balloonTip.getPreferredSize().height);<br />	balloonTip.validate();<br />	}<br /><br />	/* This method should return the location of the balloon's tip */<br />	public Point getTipLocation() {<br />	/* You may use the last position calculated in determineAndSetLocation to calculate the tip's location.<br />	* The fields x and y now contain the position of the top-left corner of the bounding box of the balloon tip. */<br />	return new Point(x + 20, y + balloonTip.getPreferredSize().height);<br />	}<br /><br />	/* Whenever a balloon tip's style is changed (This includes setting it for the first time..), this method is called.<br />	*&nbsp;Within this method, the positioner should take care of properly setting up this new style. */<br />	protected void onStyleChange() {<br />	balloonTip.getStyle().setHorizontalOffset(20);<br />	balloonTip.getStyle().setVerticalOffset(20);<br /></code><code>	balloonTip.getStyle().flipX(false);<br />	balloonTip.getStyle().flipY(false);</code><br /><code>	}<br />}</code></pre>
+<pre><code><br />public class SimpleTipPositioner extends BalloonTipPositioner {<br />	int x = 0; // Current X-coordinate of the top-left corner of the bounding box around the balloon tip<br />	int y = 0; // Current Y-coordinate of the top-left corner of the bounding box around the balloon tip<br /><br />	/* The balloon tip will call this method every time it wants to re-draw itself.<br />	 * The parameter of this function, attached, is the Rectangle that the balloon tip should attach itself to. */<br />	public void determineAndSetLocation(Rectangle attached) {<br />		/* Calculate the coordinates of the top-left corner of the bounding box around the balloon tip<br />		 * This positioner will place the balloon tip above the attached Rectangle. */<br />		x = attached.x;<br />		y = attached.y - balloonTip.getPreferredSize().height;<br /><br />		// Now move the balloon tip to the position we've just calculated<br />		balloonTip.setBounds(x, y, balloonTip.getPreferredSize().width, balloonTip.getPreferredSize().height);<br />		balloonTip.validate();<br />	}<br /><br />	/* This method should return the location of the balloon's tip */<br />	public Point getTipLocation() {<br />		/* You may use the last position calculated in determineAndSetLocation to calculate the tip's location.<br />		 * The fields x and y now contain the position of the top-left corner of the bounding box of the balloon tip. */<br />		return new Point(x + 20, y + balloonTip.getPreferredSize().height);<br />	}<br /><br />	/* Whenever a balloon tip's style is changed (This includes setting it for the first time..), this method is called.<br />	*&nbsp;Within this method, the positioner should take care of properly setting up this new style. */<br />	protected void onStyleChange() {<br />		balloonTip.getStyle().setHorizontalOffset(20);<br />		balloonTip.getStyle().setVerticalOffset(20);<br /></code><code>		balloonTip.getStyle().flipX(false);<br />		balloonTip.getStyle().flipY(false);</code><br /><code>	}<br />}</code></pre>
 <p>Using this positioner will produce the following result:</p>
 <div class="image"> <img src="images/CustomPositioner.png" alt="A BalloonTip with a simple custom-made BalloonTipPositioner" /><br />
 A <code>BalloonTip</code> with a simple custom-made <code>BalloonTipPositioner</code>
@@ -576,7 +573,7 @@ various variables that were used:</p>
 <div class="image"> <img src="images/PositionerVariables.png" alt="The variables that were used when calculating the balloon tip's position" /><br />
 The variables that were used when calculating the balloon tip's
 position </div>
-<p>This image may also prove useful, it shows the different
+<p>This image may also prove useful; it shows the different
 settings of the balloon tip's style:</p>
 <div class="image"> <img src="images/Flips.png" alt="Don't forget to set these variables of the balloon tip's style: horizontalOffset, verticalOffset, flipX and flipY" /><br />
 Don't forget to set these variables of the balloon tip's style: <code>horizontalOffset</code>,

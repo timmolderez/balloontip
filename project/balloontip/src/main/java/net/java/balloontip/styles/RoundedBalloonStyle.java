@@ -23,15 +23,15 @@ package net.java.balloontip.styles;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.Point;
-
-import net.java.balloontip.utils.FlipUtils;
+import java.awt.geom.GeneralPath;
 
 
 /**
  * A simple rounded rectangle balloon tip
  * @author Bernhard Pauler
+ * @author Tim Molderez
  */
 public class RoundedBalloonStyle extends BalloonTipStyle {
 
@@ -55,7 +55,7 @@ public class RoundedBalloonStyle extends BalloonTipStyle {
 		this.fillColor = fillColor;
 		this.borderColor = borderColor;
 	}
-
+	
 	public Insets getBorderInsets(Component c) {
 		if (flipY) {
 			return new Insets(verticalOffset+arcHeight, arcWidth, arcHeight, arcWidth);
@@ -63,49 +63,65 @@ public class RoundedBalloonStyle extends BalloonTipStyle {
 		return new Insets(arcHeight, arcWidth, arcHeight+verticalOffset, arcWidth);
 	}
 
+	public boolean isBorderOpaque() {
+		return true;
+	}
+
 	public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-		int rectY = y;
+		Graphics2D g2d = (Graphics2D) g;
+		width-=1;
+		height-=1;
+
+		int yTop;		// Y-coordinate of the top side of the balloon
+		int yBottom;	// Y-coordinate of the bottom side of the balloon
 		if (flipY) {
-			rectY = y + verticalOffset;
-		}
-		g.setColor(fillColor);
-		g.fillRoundRect(x, rectY, width, height-verticalOffset, arcWidth*2, arcHeight*2);
-		g.setColor(borderColor);
-		g.drawRoundRect(x, rectY, width-1, height-verticalOffset-1, arcWidth*2, arcHeight*2);
-
-		int[] triangleX = {x+horizontalOffset, x+horizontalOffset+verticalOffset, x+horizontalOffset};
-		int[] triangleY = {y+height-verticalOffset-1, y+height-verticalOffset-1, y+height-1};
-
-		if (flipY) {
-			int flipAxis = height-1;
-			for (int i = 0; i < triangleX.length; i++) {
-				Point flippedPoint = FlipUtils.flipHorizontally(triangleX[i], triangleY[i], flipAxis);
-				triangleX[i] = flippedPoint.x;
-				triangleY[i] = flippedPoint.y;
-			}
+			yTop = y + verticalOffset;
+			yBottom = y + height;
+		} else {
+			yTop = y;
+			yBottom = y + height - verticalOffset;
 		}
 
-		if (flipX) {
-			int flipAxis = width-1;
-			for (int i = 0; i < triangleX.length; i++) {
-				Point flippedPoint = FlipUtils.flipVertically(triangleX[i], triangleY[i], flipAxis);
-				triangleX[i] = flippedPoint.x;
-				triangleY[i] = flippedPoint.y;
-			}
+		// Draw the outline of the balloon
+		GeneralPath outline = new GeneralPath();
+		outline.moveTo(x + arcWidth, yTop);
+
+		outline.quadTo(x, yTop, x, yTop + arcHeight);
+		outline.lineTo(x, yBottom - arcHeight);
+		outline.quadTo(x, yBottom, x + arcWidth, yBottom);
+
+
+		if (!flipX && !flipY) {
+			outline.lineTo(x + horizontalOffset, yBottom);
+			outline.lineTo(x + horizontalOffset, yBottom + verticalOffset);
+			outline.lineTo(x + horizontalOffset + verticalOffset, yBottom);
+		} else if (flipX && !flipY) {
+			outline.lineTo(x + width - horizontalOffset - verticalOffset, yBottom);
+			outline.lineTo(x + width - horizontalOffset, yBottom + verticalOffset);
+			outline.lineTo(x + width - horizontalOffset, yBottom);
 		}
 
-		g.setColor(fillColor);
-		g.fillPolygon(triangleX, triangleY, 3);
-		g.setColor(borderColor);
-		g.drawLine(triangleX[0], triangleY[0], triangleX[2], triangleY[2]);
-		g.drawLine(triangleX[1], triangleY[1], triangleX[2], triangleY[2]);
+		outline.lineTo(x + width - arcWidth, yBottom);
+		outline.quadTo(x + width, yBottom, x + width, yBottom - arcHeight);
+		outline.lineTo(x + width, yTop + arcHeight);
+		outline.quadTo(x + width, yTop, x + width - arcWidth, yTop);
 
-		// Bug workaround, Java Bug Database ID 6644471
-		g.setColor(fillColor);
-		g.drawLine(triangleX[0], triangleY[0], triangleX[1], triangleY[1]);
-		g.setColor(borderColor);
-		g.drawLine(triangleX[0], triangleY[0], triangleX[0], triangleY[0]);
-		g.drawLine(triangleX[1], triangleY[1], triangleX[1], triangleY[1]);
+		if (!flipX && flipY) {
+			outline.lineTo(x + horizontalOffset + verticalOffset, yTop);
+			outline.lineTo(x + horizontalOffset, yTop - verticalOffset);
+			outline.lineTo(x + horizontalOffset, yTop);	
+		} else if (flipX && flipY) {
+			outline.lineTo(x + width - horizontalOffset, yTop);
+			outline.lineTo(x + width - horizontalOffset, yTop - verticalOffset);
+			outline.lineTo(x + width - horizontalOffset - verticalOffset, yTop);
+		}
+
+		outline.closePath();
+
+		g2d.setPaint(fillColor);
+		g2d.fill(outline);
+		g2d.setPaint(borderColor);
+		g2d.draw(outline);
 	}
 
 	public int getMinimalHorizontalOffset() {

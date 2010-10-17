@@ -27,9 +27,6 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.RowSorterEvent;
-import javax.swing.event.RowSorterEvent.Type;
-import javax.swing.event.RowSorterListener;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.event.TableModelEvent;
@@ -39,7 +36,7 @@ import net.java.balloontip.positioners.BalloonTipPositioner;
 import net.java.balloontip.styles.BalloonTipStyle;
 
 /**
- * Provides the same functionality as a BalloonTip, but can attach itself to a cell in a JTable.
+ * Provides similar functionality as a CustomBalloonTip, but attaches itself to a cell in a JTable.
  * @author Tim Molderez
  */
 public class TablecellBalloonTip extends CustomBalloonTip {
@@ -65,15 +62,6 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 			}
 		}
 	};
-	
-	// If someone messes with the table's sorting order, ...
-	private final RowSorterListener rowSorterListener = new RowSorterListener() {
-		public void sorterChanged(RowSorterEvent e) {
-			if (e.getType()==Type.SORT_ORDER_CHANGED) {
-				closeBalloon();
-			}
-		}
-	};
 
 	// This class is needed when the table hasn't been set up yet during the constructor of this balloon tip
 	private class ConstructorHelper implements AncestorListener {
@@ -89,7 +77,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	}
 
 	/**
-	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, String, BalloonTipStyle, Orientation, AttachLocation, int, int, boolean)
+	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, Orientation, AttachLocation, int, int, boolean)
 	 * @param table		The table to attach the balloon tip to
 	 * @param row		Which row is the balloon tip attached to
 	 * @param column	Which column is the balloon tip attached to
@@ -101,7 +89,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	}
 
 	/**
-	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, String, BalloonTipStyle, BalloonTipPositioner, boolean)
+	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, BalloonTipPositioner, boolean)
 	 * @param table		The table to attach the balloon tip to
 	 * @param row		Which row is the balloon tip attached to
 	 * @param column	Which column is the balloon tip attached to
@@ -114,8 +102,8 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 
 	/**
 	 * Set the table cell the balloon tip should attach to
-	 * @param row
-	 * @param column
+	 * @param row		row of the table cell
+	 * @param column	column of the table cell
 	 */
 	public void setCellPosition(int row, int column) {
 		offset = ((JTable)attachedComponent).getCellRect(row, column, true);
@@ -155,9 +143,6 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 		JTable attachedTable=((JTable)attachedComponent);
 		attachedTable.getColumnModel().addColumnModelListener(columnListener);
 		attachedTable.getModel().addTableModelListener(tableModelListener);
-		if (attachedTable.getRowSorter()!=null) {
-			attachedTable.getRowSorter().addRowSorterListener(rowSorterListener);
-		}
 	}
 	
 	/*
@@ -167,8 +152,5 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 		JTable attachedTable=((JTable)attachedComponent);
 		attachedTable.getColumnModel().removeColumnModelListener(columnListener);
 		attachedTable.getModel().removeTableModelListener(tableModelListener);
-		if (attachedTable.getRowSorter()!=null) {
-			attachedTable.getRowSorter().removeRowSorterListener(rowSorterListener);
-		}
 	}
 }

@@ -23,11 +23,11 @@ package net.java.balloontip.positioners;
 import java.awt.Rectangle;
 
 /**
- * This class positions a balloon tip below the component it's attached to, with the tip on the left
+ * This class positions a balloon tip above the component it's attached to, with the tip on the left
  * @author Tim Molderez
  */
-public class Left_Below_Positioner extends BasicBalloonTipPositioner {
-	public Left_Below_Positioner(int hO, int vO) {
+public class LeftAbovePositioner extends BasicBalloonTipPositioner {
+	public LeftAbovePositioner(int hO, int vO) {
 		super(hO, vO);
 	}
 
@@ -36,26 +36,26 @@ public class Left_Below_Positioner extends BasicBalloonTipPositioner {
 		int balloonWidth = balloonTip.getPreferredSize().width;
 		int balloonHeight = balloonTip.getPreferredSize().height;
 		flipX = false;
-		flipY = true;
+		flipY = false;
 		
 		hOffset = preferredHorizontalOffset;
 		if (fixedAttachLocation) {
 			x = new Float(attached.x + attached.width * attachLocationX).intValue() - hOffset;
-			y = new Float(attached.y + attached.height * attachLocationY).intValue();
+			y = new Float(attached.y + attached.height * attachLocationY).intValue() - balloonHeight;
 		} else {
 			x = attached.x;
-			y = attached.y + attached.height;
+			y = attached.y - balloonHeight;
 		}
 		
 		// Apply orientation correction
 		if (orientationCorrection) {
-			// Check collision with the bottom of the window
-			if (y + balloonHeight > balloonTip.getTopLevelContainer().getHeight()) {
-				flipY = false;
+			// Check collision with the top of the window
+			if (y < 0) {
+				flipY = true;
 				if (fixedAttachLocation) {
-					y -= balloonHeight;
+					y += balloonHeight;
 				} else {
-					y = attached.y - balloonHeight;
+					y = attached.y + attached.height;
 				} 
 			}
 			
@@ -82,8 +82,10 @@ public class Left_Below_Positioner extends BasicBalloonTipPositioner {
 		} else {
 			balloonTip.getStyle().setHorizontalOffset(hOffset);
 		}
+		
 		balloonTip.getStyle().flip(flipX, flipY);
 		balloonTip.setBounds(x, y, balloonTip.getPreferredSize().width, balloonTip.getPreferredSize().height);
+		
 		balloonTip.revalidate(); // Revalidate is needed in case the balloon gets flipped; validate wouldn't do in that case.
 		if (hOffset != preferredHorizontalOffset) {
 			balloonTip.repaint(); // In certain cases, when the horizontal offset changes, it doesn't get redrawn properly without a repaint...

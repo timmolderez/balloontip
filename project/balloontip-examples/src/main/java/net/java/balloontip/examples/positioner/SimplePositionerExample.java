@@ -63,13 +63,12 @@ public class SimplePositionerExample {
 				
 				// Add a button
 				final JButton button = new JButton("A button");
-				button.setSelected(true);
 				contentPane.add(button, new GridBagConstraints(0,0,1,1,1,1, GridBagConstraints.SOUTHEAST, GridBagConstraints.NONE, new Insets(0,0,60,200), 0, 0));
 				
 				// Now construct the balloon tip, with our own positioner
 				final BalloonTip balloonTip = new BalloonTip(
 					button, 
-					new JLabel("A balloon tip with a custom positioner"),
+					new JLabel("A balloon tip with a custom positioner."),
 					new EdgedBalloonStyle(Color.WHITE, Color.BLUE),
 					new SimpleTipPositioner(),
 					null

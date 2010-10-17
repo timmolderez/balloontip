@@ -53,7 +53,7 @@ public class CustomBalloonTip extends BalloonTip {
 	};
 
 	/**
-	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, String, BalloonTipStyle, Orientation, AttachLocation, int, int, boolean)
+	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, Orientation, AttachLocation, int, int, boolean)
 	 * @param attachedComponent	The custom component to attach the balloon tip to
 	 * @param offset			Specifies a rectangle within the attached component; the balloon tip will attach to this rectangle.
 	 * 							Do note that the coordinates should be relative to the attached component's top left corner.
@@ -66,7 +66,7 @@ public class CustomBalloonTip extends BalloonTip {
 	}
 
 	/**
-	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, String, BalloonTipStyle, BalloonTipPositioner, boolean)
+	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, BalloonTipPositioner, boolean)
 	 * @param attachedComponent	The custom component to attach the balloon tip to
 	 * @param offset			Specifies a rectangle within the attached component; the balloon tip will attach to this rectangle.
 	 * 							Do note that the coordinates should be relative to the attached component's top left corner.
@@ -104,7 +104,7 @@ public class CustomBalloonTip extends BalloonTip {
 	 * Sets up the balloon tip such that it will only be shown if the table cell we're attached to is visible within this viewport.
 	 * This is very useful if, for example, the JTable with this balloon tip is inside a JScrollpane.
 	 * (You can also remove the viewport by calling setViewport(null).)
-	 * @param viewport
+	 * @param viewport		the viewport that the attached component is embedded within
 	 */
 	public void setViewport(JViewport viewport) {
 		if (this.viewport != null) {
@@ -119,7 +119,7 @@ public class CustomBalloonTip extends BalloonTip {
 	/**
 	 * Retrieve the viewport that this balloon tip is monitoring, such that the balloon tip will hide itself
 	 * once the balloon's tip is outside of this viewport.
-	 * @return The viewport this balloon tip is located in
+	 * @return		the viewport this balloon tip is located in
 	 */
 	public JViewport getViewport() {
 		return viewport;

@@ -35,7 +35,7 @@ import java.awt.geom.GeneralPath;
 /**
  * A balloon tip with a vertical linear gradient background
  * You can also choose which corners should be rounded corners or just plain corners
- * @author Bernhard Pauler
+ * @author Tim Molderez
  */
 public class ModernBalloonStyle extends BalloonTipStyle {
 
@@ -74,10 +74,10 @@ public class ModernBalloonStyle extends BalloonTipStyle {
 	/**
 	 * Sets the style for each corner.
 	 * If true, this corner will be rounded; if false, it's just a regular corner
-	 * @param topLeft
-	 * @param topRight
-	 * @param bottomLeft
-	 * @param bottomRight
+	 * @param topLeft		if true, the top-left corner is rounded
+	 * @param topRight		if true, the top-right corner is rounded
+	 * @param bottomLeft	if true, the bottom-left corner is rounded
+	 * @param bottomRight	if true, the bottom-right corner is rounded
 	 */
 	public void setCornerStyles(boolean topLeft, boolean topRight, boolean bottomLeft, boolean bottomRight) {
 		this.topLeft = topLeft;
@@ -87,8 +87,8 @@ public class ModernBalloonStyle extends BalloonTipStyle {
 	}
 
 	/**
-	 * Set the thickness of the balloon tip's border, in px
-	 * @param thickness
+	 * Set the thickness of the balloon tip's border
+	 * @param thickness		border thickness in pixels
 	 */
 	public void setBorderThickness(int thickness) {
 		borderThickness = thickness;

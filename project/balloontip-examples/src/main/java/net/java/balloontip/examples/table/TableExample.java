@@ -76,7 +76,7 @@ public class TableExample {
 				contentPane.add(tableScrollPane, new GridBagConstraints(0,0,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));		
 				table.scrollRectToVisible(table.getCellRect(8, 16, true));
 				
-				// Create the TableCellBalloonTip
+				// Create the TablecellBalloonTip
 				tableBalloon = new TablecellBalloonTip(table, 
 						new JLabel("A TablecellBalloonTip"), 
 						16, 16,

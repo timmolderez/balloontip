@@ -23,11 +23,11 @@ package net.java.balloontip.positioners;
 import java.awt.Rectangle;
 
 /**
- * This class positions a balloon tip below the component it's attached to, with the tip on the right
+ * This class positions a balloon tip below the component it's attached to, with the tip on the left
  * @author Tim Molderez
  */
-public class Right_Below_Positioner extends BasicBalloonTipPositioner {
-	public Right_Below_Positioner(int hO, int vO) {
+public class LeftBelowPositioner extends BasicBalloonTipPositioner {
+	public LeftBelowPositioner(int hO, int vO) {
 		super(hO, vO);
 	}
 
@@ -35,17 +35,18 @@ public class Right_Below_Positioner extends BasicBalloonTipPositioner {
 		// First calculate the location, without applying any correction tricks
 		int balloonWidth = balloonTip.getPreferredSize().width;
 		int balloonHeight = balloonTip.getPreferredSize().height;
-		flipX = true;
+		flipX = false;
 		flipY = true;
 		
-		hOffset = balloonWidth - preferredHorizontalOffset;
+		hOffset = preferredHorizontalOffset;
 		if (fixedAttachLocation) {
 			x = new Float(attached.x + attached.width * attachLocationX).intValue() - hOffset;
 			y = new Float(attached.y + attached.height * attachLocationY).intValue();
 		} else {
-			x = attached.x + attached.width - balloonWidth;
+			x = attached.x;
 			y = attached.y + attached.height;
 		}
+		
 		// Apply orientation correction
 		if (orientationCorrection) {
 			// Check collision with the bottom of the window
@@ -58,15 +59,15 @@ public class Right_Below_Positioner extends BasicBalloonTipPositioner {
 				} 
 			}
 			
-			// Check collision with the right side of the window
-			if (x + balloonWidth > balloonTip.getTopLevelContainer().getWidth()) {
-				flipX = false;
-				hOffset = balloonWidth - hOffset;
+			// Check collision with the left side of the window
+			if (x < 0) {
+				flipX = true;
 				if (fixedAttachLocation) {
-					x += (balloonWidth - 2*hOffset);
+					x -= balloonWidth - 2*hOffset;
 				} else {
-					x = attached.x;
+					x = attached.x + attached.width - balloonWidth;
 				}
+				hOffset = balloonWidth - hOffset;
 			}
 		}
 		

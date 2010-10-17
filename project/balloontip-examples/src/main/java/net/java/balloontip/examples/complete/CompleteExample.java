@@ -26,6 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
 
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.panels.MainPanel;
@@ -47,14 +48,20 @@ public class CompleteExample {
 	 * @param args		command-line arguments (unused)
 	 */
 	public static void main(String[] args) {
+		// First try to switch from the "Metal" L&F to the OS default
+		try {
+	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } catch (Exception e) {}
+		
+	    // Now create the GUI
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				JFrame frame = new JFrame("BalloonTip example");
-				frame.setIconImage(new ImageIcon(CompleteExample.class.getResource("/net/java/balloontip/images/frameicon.png")).getImage());
+				frame.setIconImage(new ImageIcon(CompleteExample.class.getResource("/net/java/balloontip/images/frameIcon.png")).getImage());
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frame.setContentPane(new MainPanel());
 				frame.pack();
-				frame.setSize(540, 640);
+				frame.setSize(480, 640);
 				frame.setLocationRelativeTo(null); // Centers the frame on the screen
 				frame.setVisible(true);
 			}

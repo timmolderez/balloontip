@@ -37,9 +37,14 @@ import javax.swing.JTextField;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.CompleteExample;
 import net.java.balloontip.styles.EdgedBalloonStyle;
+import net.java.balloontip.utils.FadingUtils;
 import net.java.balloontip.utils.TimingUtils;
 import net.java.balloontip.utils.ToolTipUtils;
 
+/**
+ * Utilities tab of the demo application; demonstrates the various utility functions of Balloon tip
+ * @author Tim Molderez
+ */
 public class UtilitiesTab extends JPanel {
 	private final BalloonTip tooltipBalloon;
 
@@ -54,7 +59,7 @@ public class UtilitiesTab extends JPanel {
 		/*
 		 * Draw the GUI
 		 */
-
+		
 		// Timed balloon tip
 		JPanel timePanel = new JPanel();
 		timePanel.setLayout(new GridBagLayout());
@@ -64,11 +69,23 @@ public class UtilitiesTab extends JPanel {
 		timeout.setPreferredSize(new Dimension(50,25));
 		timePanel.add(timeout, new GridBagConstraints(1,1,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10,10,10,0), 0, 0));
 		final JButton showBalloon = new JButton("Start timer");
-		timePanel.add(showBalloon, new GridBagConstraints(2,1,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(10,10,10,0), 0, 0));
+		timePanel.add(showBalloon, new GridBagConstraints(0,2,3,1,1.0,0.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(10,10,10,0), 0, 0));
 
 		timePanel.setBorder(BorderFactory.createTitledBorder("Timed balloon tip:"));
 
 		add(timePanel, new GridBagConstraints(0,gridY,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10,10,10,10), 0, 0));
+		++gridY;
+
+		// Fading balloon tip
+		JPanel fadePanel = new JPanel();
+		fadePanel.setLayout(new GridBagLayout());
+		fadePanel.add(new JLabel("Fade effects can be added to balloon tips."), new GridBagConstraints(0,0,3,1,1.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10,10,10,0), 0, 0));
+		final JButton fadeBalloon = new JButton("Fade balloon");
+		fadePanel.add(fadeBalloon, new GridBagConstraints(0,1,3,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(10,10,10,0), 0, 0));
+
+		fadePanel.setBorder(BorderFactory.createTitledBorder("Fading balloon tips:"));
+
+		add(fadePanel, new GridBagConstraints(0,gridY,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10,10,10,10), 0, 0));
 		++gridY;
 
 		// Balloon tooltip
@@ -101,7 +118,7 @@ public class UtilitiesTab extends JPanel {
 							new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 							BalloonTip.Orientation.LEFT_ABOVE, 
 							BalloonTip.AttachLocation.ALIGNED, 
-							20, 20, 
+							15, 15, 
 							false);
 					TimingUtils.showTimedBalloon(balloonTip, timeoutVal);
 				} catch (Exception exc) {
@@ -111,15 +128,44 @@ public class UtilitiesTab extends JPanel {
 				}
 			}
 		});
+		
+		// Fading balloon tip
+		final BalloonTip fadingBalloonTip = new BalloonTip(fadeBalloon, new JLabel("I'm a fading balloon tip!"),
+				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
+				BalloonTip.Orientation.LEFT_ABOVE, 
+				BalloonTip.AttachLocation.ALIGNED, 
+				15, 15, 
+				false);
+		fadingBalloonTip.setOpacity(0.0f);
+		
+		fadeBalloon.addActionListener(new ActionListener() {
+			private boolean isShown = false;
+			private ActionListener onStop = new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					isShown = !isShown;
+					fadeBalloon.setEnabled(true);
+				}
+			};
+
+			public void actionPerformed(ActionEvent e) {
+				fadeBalloon.setEnabled(false);
+				if (isShown) {
+					FadingUtils.fadeOutBalloon(fadingBalloonTip, onStop , 500, 24);
+				} else {
+					FadingUtils.fadeInBalloon(fadingBalloonTip, onStop , 500, 24);
+				}
+			}
+
+		});
 
 		// Balloon tooltip
 		tooltipBalloon = new BalloonTip(tooltipLabel, new JLabel("I'm a balloon tooltip!"),
 				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
-				20, 20, 
+				15, 15, 
 				false);
-		ToolTipUtils.balloonToToolTip(tooltipBalloon, 500, 3000);
+		ToolTipUtils.balloonToToolTip(tooltipBalloon, 200, 3000);
 
 	}
 }

@@ -31,7 +31,7 @@ import java.awt.geom.GeneralPath;
 
 /**
  * A minimal anti-aliased balloon tip style with no border, also supports a transparent fill color
- * @author Bernhard Pauler
+ * @author Tim Molderez
  */
 public class MinimalBalloonStyle extends BalloonTipStyle {
 	private final int arcWidth;
@@ -116,7 +116,6 @@ public class MinimalBalloonStyle extends BalloonTipStyle {
 
 		outline.closePath();
 
-		// Now paint the sucker :)
 		g2d.setPaint(fillColor);
 		g2d.fill(outline);
 	}

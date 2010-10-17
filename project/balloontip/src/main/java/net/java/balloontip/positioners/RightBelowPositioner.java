@@ -23,11 +23,11 @@ package net.java.balloontip.positioners;
 import java.awt.Rectangle;
 
 /**
- * This class positions a balloon tip above the component it's attached to, with the tip on the left
+ * This class positions a balloon tip below the component it's attached to, with the tip on the right
  * @author Tim Molderez
  */
-public class Left_Above_Positioner extends BasicBalloonTipPositioner {
-	public Left_Above_Positioner(int hO, int vO) {
+public class RightBelowPositioner extends BasicBalloonTipPositioner {
+	public RightBelowPositioner(int hO, int vO) {
 		super(hO, vO);
 	}
 
@@ -35,39 +35,38 @@ public class Left_Above_Positioner extends BasicBalloonTipPositioner {
 		// First calculate the location, without applying any correction tricks
 		int balloonWidth = balloonTip.getPreferredSize().width;
 		int balloonHeight = balloonTip.getPreferredSize().height;
-		flipX = false;
-		flipY = false;
+		flipX = true;
+		flipY = true;
 		
-		hOffset = preferredHorizontalOffset;
+		hOffset = balloonWidth - preferredHorizontalOffset;
 		if (fixedAttachLocation) {
 			x = new Float(attached.x + attached.width * attachLocationX).intValue() - hOffset;
-			y = new Float(attached.y + attached.height * attachLocationY).intValue() - balloonHeight;
+			y = new Float(attached.y + attached.height * attachLocationY).intValue();
 		} else {
-			x = attached.x;
-			y = attached.y - balloonHeight;
+			x = attached.x + attached.width - balloonWidth;
+			y = attached.y + attached.height;
 		}
-		
 		// Apply orientation correction
 		if (orientationCorrection) {
-			// Check collision with the top of the window
-			if (y < 0) {
-				flipY = true;
+			// Check collision with the bottom of the window
+			if (y + balloonHeight > balloonTip.getTopLevelContainer().getHeight()) {
+				flipY = false;
 				if (fixedAttachLocation) {
-					y += balloonHeight;
+					y -= balloonHeight;
 				} else {
-					y = attached.y + attached.height;
+					y = attached.y - balloonHeight;
 				} 
 			}
 			
-			// Check collision with the left side of the window
-			if (x < 0) {
-				flipX = true;
-				if (fixedAttachLocation) {
-					x -= balloonWidth - 2*hOffset;
-				} else {
-					x = attached.x + attached.width - balloonWidth;
-				}
+			// Check collision with the right side of the window
+			if (x + balloonWidth > balloonTip.getTopLevelContainer().getWidth()) {
+				flipX = false;
 				hOffset = balloonWidth - hOffset;
+				if (fixedAttachLocation) {
+					x += (balloonWidth - 2*hOffset);
+				} else {
+					x = attached.x;
+				}
 			}
 		}
 		
@@ -82,10 +81,8 @@ public class Left_Above_Positioner extends BasicBalloonTipPositioner {
 		} else {
 			balloonTip.getStyle().setHorizontalOffset(hOffset);
 		}
-		
 		balloonTip.getStyle().flip(flipX, flipY);
 		balloonTip.setBounds(x, y, balloonTip.getPreferredSize().width, balloonTip.getPreferredSize().height);
-		
 		balloonTip.revalidate(); // Revalidate is needed in case the balloon gets flipped; validate wouldn't do in that case.
 		if (hOffset != preferredHorizontalOffset) {
 			balloonTip.repaint(); // In certain cases, when the horizontal offset changes, it doesn't get redrawn properly without a repaint...
