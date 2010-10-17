@@ -4,10 +4,9 @@
 
 <link rel="stylesheet" href="style/style.css" type="text/css" />
 </head>
-
 <body>
 <div id="header"> <img src="images/BalloonTip.png" alt="Balloon tip" />
-<div id="title"> Manual <span id="releaseDate">v1.0</span></div>
+<div id="title"> Manual <span id="releaseDate">v1.1</span></div>
 </div>
 <div class="section">
 <div class="title"> Table of contents</div>
@@ -16,7 +15,22 @@
 <ol>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#gettingstarted">Getting started</a></li>
-<li><a href="#usingballoontip">Using BalloonTip</a></li>
+<li><a href="#usingballoontip">Using BalloonTip</a>
+<ol>
+<li><a href="#simpleconstructor">My first
+balloon tip</a></li>
+<li><a href="#styleconstructor">Balloon
+tips
+with style</a></li>
+<li><a href="#contentsconstructor">Use a
+JComponent as contents</a></li>
+<li><a href="#positionconstructor">Tweaking
+a balloon tip's position</a></li>
+<li><a href="#fullconstructor">Balloon
+tips
+with custom positioners</a></li>
+</ol>
+</li>
 <li><a href="#othertypesofballoontips">Other
 types of balloon tips</a>
 <ol>
@@ -28,6 +42,7 @@ types of balloon tips</a>
 <ol>
 <li><a href="#timedballoontips">Timed
 balloon tips</a></li>
+<li><a href="#fadeeffects">Fade effects</a></li>
 <li><a href="#balloontooltips">Balloon
 tooltips</a></li>
 </ol>
@@ -60,16 +75,20 @@ your own BalloonTipPositioner</a></li>
 <div class="title"> 1.&nbsp;Usage<a name="usage"></a></div>
 <div class="subSection">
 <div class="title">1.1.&nbsp;Requirements<a name="requirements"></a></div>
-The only requirement to make use of&nbsp;Balloon tip is that you'll
-need Java 1.5&nbsp;or higher.<br />(In case you can only work with an
+The only requirement to make use of&nbsp;Balloon tip is that you
+need Java 1.5&nbsp;or higher.<br />
+(In case you can only work with an
 older Java version, you may want to take a look at the <a target="_blank" href="https://balloontip.dev.java.net/servlets/ProjectDocumentList?folderID=11577&amp;expandFolder=11577&amp;folderID=11577">Balloon
 tip special releases</a>.)
 </div>
 <div class="subSection">
 <div class="title">1.2.&nbsp;Getting started<a name="gettingstarted"></a></div>
-<p> Thanks for giving the Balloon tip project a try! This project
-allows you to spice up your Java Swing applications with some balloon tips. </p>
-<p> Before diving in, let's take a quick look at the things that are
+<p> Thanks for giving&nbsp;Balloon tip a try! This project
+allows you to spice up your Java Swing applications with some mighty
+fine balloon
+tips. </p>
+<p> Before diving in, let's take a quick look at the things that
+are
 included in the .zip-file you've just downloaded: </p>
 <ul>
 <li><strong>doc</strong>: Directory with the
@@ -87,36 +106,39 @@ project's source code</li>
 contains just the necessary files, nothing else.</li>
 <li><strong>balloontip-examples- ... .jar</strong>:
 This .jar also contains the project's source files and some example
-applications. This .jar may be more useful if you haven't used the
+applications. This file may be more useful if you haven't used the
 project before.</li>
 </ul>
-<p> Now that you know what's available in this release, let's get
-familiar with the features this project has to offer. The quickest way
+<p> Now that you know what is available in this release, let's
+get
+familiar with the features Balloon tip has to offer. The quickest way
 to do this is to try out the demo application. Simply double-click the
 balloontip_with_examples_ ... .jar-file to open the application. </p>
-<p> If that doesn't work, you'll have to open up a
+<p> If this doesn't work, you'll have to open up a
 console/command-line window and navigate into the Balloon
 tip-directory. <br />
-Just enter this command to start the demo application: <code>java
+Just enter the following command to start the demo application: <code>java
 -jar balloontip-examples ... .jar</code><br />
-(Don't forget to replace the "..." with the right version number.) </p>
-<div class="image"> <img src="images/Application.png" alt="The balloon tip example application" /><br />
+(Replace the "..." with the right version number.) </p>
+<div class="image"> <img style="width: 547px; height: 725px;" src="images/DemoApplication.PNG" alt="The balloon tip example application" /><br />
 The demo application </div>
 <p> Once the application has started, you can start exploring
-many of the project's features.<br />
-Just toy around with all possible settings and see what happens. This
+many of Balloon tip's features.<br />
+Just toy around with all possible settings and see what happens; this
 probably is the easiest way to learn the terminology that is used by
 the Balloon tip API. </p>
-<p> When you're done playing, you may proceed to the next
+<p> Once you're done playing, you may proceed to the next
 section, which will teach you the basics in creating your own
 balloon tips. </p>
 </div>
 <div class="subSection">
 <div class="title">1.3. Using BalloonTip<a name="usingballoontip"></a></div>
+<div class="subSection">
+<div class="title">1.3.1. My first balloon tip<a name="simpleconstructor"></a></div>
 <p> The <code>BalloonTip</code> class forms the base
 class for all other types of balloon tips. A <code>BalloonTip</code>
-can attach itself to about any visual component: <code>JButtons</code>,
-<code>JLabels</code>, <code>JTextFields</code>,
+instance can attach itself to about any visual component: a <code>JButton</code>,
+<code>JLabel</code>, <code>JTextField</code>,
 ... In order to create and show a <code>BalloonTip</code>
 instance, all you need to do is construct one. Like most components in
 Swing, the <code>BalloonTip</code> class comes with
@@ -125,19 +147,23 @@ several constructors.</p>
 <p> <code>BalloonTip(JComponent attachedComponent, String
 text)</code></p>
 <p> The first parameter, <code>attachedComponent</code>,
-is the JComponent you want to attach your balloon tip to. The second
+is the <code>JComponent</code> you want to attach your
+balloon tip to. The second
 parameter, <code>text</code>, simply is the text you want
 to show inside the balloon tip. <br />
 For example, if the attached component were a <code>JButton</code>
 called <code>myButton</code> and you want the balloon to
-say "Hello world!", you'd get something like this:</p>
+say "Hello world!", you should write:</p>
 <p><code>BalloonTip myBalloonTip = new BalloonTip(myButton,
 "Hello world!");</code></p>
-<p>And the balloon tip would then look like this:</p>
-<div class="image"> <img src="images/Example.png" alt="A BalloonTip attached to a JButton" /><br />
+<p>The newly created balloon tip would then look like this:</p>
+<div class="image"> <img style="width: 143px; height: 99px;" src="images/SimpleExample.PNG" alt="A BalloonTip attached to a JButton" /><br />
 A <code>BalloonTip</code> attached to a <code>JButton</code>
 </div>
-<p> If you want to have control over the balloon tip's looks, you
+</div>
+<div class="subSection">
+<div class="title">1.3.2. Balloon tips with style<a name="styleconstructor"></a></div>
+<p>If you want to have control over the balloon tip's looks, you
 can try this constructor:</p>
 <p> <code>BalloonTip(JComponent attachedComponent, String
 text, BalloonTipStyle style, boolean useCloseButton)</code></p>
@@ -147,21 +173,52 @@ The <code>style</code> parameter is more interesting; a <code>BalloonTipStyle</c
 defines the balloon tip's looks. Several different styles can be found
 in the package <code>net.java.balloontip.styles</code>. As
 an example, I'll make a <code>BalloonTip</code> with the
-simplest style, the <code>EdgedBalloonStyle</code>, which
-will give the balloon tip sharp corners:</p>
+simplest style, the <code>EdgedBalloonStyle</code>,
+which&nbsp;gives the balloon tip&nbsp;sharp corners:</p>
 <p> <code>BalloonTipStyle edgedLook = new
 EdgedBalloonStyle(Color.WHITE, Color.BLUE);<br />
 BalloonTip myBalloonTip = new BalloonTip(myButton, "Hello world!",
 edgedLook, true);</code></p>
 <p> Now we'll get something looking like this:</p>
 <div class="image"> <img src="images/Edged.png" alt="A BalloonTip with an EdgedBalloonStyle" /><br />
-A <code>BalloonTip</code> with an EdgedBalloonStyle, which
+A <code>BalloonTip</code> with an <code>EdgedBalloonStyle</code>,
+which
 gives the balloon its sharp corners, a white background color and a
 blue border </div>
+</div>
+<div class="subSection">
+<div class="title">1.3.3. Use a JComponent
+as&nbsp;contents<a name="contentsconstructor"></a></div>
+<p>Balloon tips can also contain other components beside just
+text. In fact, just about any <code>JComponent</code>
+can serve as the contents of a balloon tip.<br />
+The following constructor allows you to add a <code>JComponent</code>
+as the contents of a balloon tip:</p>
+<p><code>BalloonTip(JComponent attachedComponent,
+JComponent contents, BalloonTipStyle style, boolean useCloseButton)</code></p>
+<p>For example, you could set a balloon tip's contents to a
+<code>JTable</code>:</p>
+<p><code>BalloonTipStyle edgedLook = new
+EdgedBalloonStyle(Color.WHITE, Color.BLUE);<br />
+BalloonTip myBalloonTip = new BalloonTip(myButton, new JTable(3,2),
+edgedLook, true);</code></p>
+<p>This creates the following result:</p>
+<div class="image"> <img style="width: 166px; height: 114px;" src="images/TableExample.PNG" alt="A BalloonTip with an EdgedBalloonStyle" /><br />
+A <code>BalloonTip</code> with a <code>JTable&nbsp;</code>as
+its contents </div>
+<span style="font-style: italic;">Tip</span>: If you
+use components such as a <code>JPanel</code> or <code>JTabbedPane</code>,
+you can build entire interactive user interfaces inside a balloon tip.
+(Why yes, you can even attach balloon tips to the components inside a
+balloon tip!)
+</div>
+<div class="subSection">
+<div class="title">1.3.4. Tweaking a balloon tip's position<a name="positionconstructor"></a></div>
 <p>If you also need control over the balloon tip's position, you
 can use the following constructor:</p>
-<p><code>BalloonTip(JComponent attachedComponent, String
-text, BalloonTipStyle style, Orientation orientation, AttachLocation
+<p><code>BalloonTip(JComponent attachedComponent,
+JComponent contents, BalloonTipStyle style, Orientation orientation,
+AttachLocation
 attachLocation, int horizontalOffset, int verticalOffset, boolean
 useCloseButton)</code></p>
 <p>This constructor has four new parameters:</p>
@@ -172,7 +229,7 @@ balloon, and whether the balloon itself should be above or below the
 attached component</li>
 <li><code>attachLocation</code>: Should the balloon
 tip align itself with the attached component? Or should it put the
-balloon's tip on a fixed location? (for example: Fix the balloon's tip
+balloon's tip on a fixed location? (e.g. fix the balloon's tip
 in the center of the attached component)</li>
 <li><code>horizontalOffset</code>: The amount of
 space (in pixels) between the balloon's left (or right) side and the
@@ -191,29 +248,39 @@ The horizontal and vertical offset of a <code>BalloonTip</code>
 constructor:</p>
 <p> <code>BalloonTipStyle edgedLook = new
 EdgedBalloonStyle(Color.WHITE, Color.BLUE);<br />
-BalloonTip myBalloonTip = new BalloonTip(myButton, "Hello world!",
+BalloonTip myBalloonTip = new BalloonTip(myButton, new JLabel("Hello
+world!"),
 edgedLook, Orientation.RIGHT_BELOW, AttachLocation.ALIGNED, 40, 20,
 false);</code></p>
 <p>This snippet will produce the following picture:</p>
 <div class="image"> <img src="images/RightBelowPositioner.png" alt="A BalloonTip with Orientation.RIGHT_BELOW and AttachLocation.ALIGNED" /><br />
 A <code>BalloonTip</code> with <code>Orientation.RIGHT_BELOW</code>
 and <code>AttachLocation.ALIGNED</code> </div>
-<p>And finally, if you want full control over your balloon tip,
+</div>
+<div class="subSection">
+<div class="title">1.3.5. Balloon tips with custom
+positioners<a name="fullconstructor"></a></div>
+<p>Finally, if you want full control over your balloon tip,
 use this constructor:</p>
-<p> <code>BalloonTip(JComponent attachedComponent, String
-text, BalloonTipStyle style, BalloonTipPositioner positioner, boolean
+<p> <code>BalloonTip(JComponent attachedComponent,
+JComponent contents, BalloonTipStyle style, BalloonTipPositioner
+positioner, boolean
 useCloseButton)</code></p>
 <p>Even though this constructor has fewer parameters than the
-previous one, it is more powerful. This is because of the <code>positioner</code>
+previous one from section <a href="#positionconstructor">1.3.4</a>,
+it is more powerful. This is because of the <code>positioner</code>
 parameter. A <code>BalloonTipPositioner</code> defines the
-way a balloon tip should behave. In other words: it says where a
+way a balloon tip should behave. More specifically: it determines where
+a
 balloon tip should position itself, whether the balloon tip should
 flip, what happens when the balloon tip collides with something, ...<br />
-What the previous constructor actually did was simply instantiating the
+What the previous constructors actually did was simply instantiating
+the
 appropriate <code>BalloonTipPositioner</code> for you.
-However, this constructor will allow you to supply any instance of <code>BalloonTipPositioner</code>.
-Here's another example snippet of code that produces exactly the same
-result as the example of the previous constructor:</p>
+However, this constructor will allow you to supply your own instance of
+<code>BalloonTipPositioner</code>.
+Here's another example snippet that produces exactly the same
+result as the example in the previous section:</p>
 <p> <code>BalloonTipStyle edgedLook = new
 EdgedBalloonStyle(Color.WHITE, Color.BLUE);<br />
 BalloonTipPositioner rightBelowPositioner = new
@@ -222,9 +289,11 @@ BalloonTip myBalloonTip = new BalloonTip(myButton, "Hello world!",
 edgedLook, rightBelowPositioner, false);</code></p>
 <p> This concludes the basic usage of <code>BalloonTip</code>.
 The other methods <code>BalloonTip</code> has to offer
-should now be quite straightforward to use. You can always refer to the
-project's Javadoc if you need more information though.<br />
-The next sections will introduce other types of balloon tips.</p>
+should now be quite straightforward to use. If you require more
+information, you can always refer to the
+project's Javadoc.<br />
+</p>
+</div>
 </div>
 <div class="subSection">
 <div class="title">1.4. Other types of balloon tips<a name="othertypesofballoontips"></a></div>
@@ -244,16 +313,18 @@ An application with a custom <code>JComponent</code> that
 displays a timeline; it has a <code>CustomBalloonTip</code>
 attached to it </div>
 <p>Just take a look at this snippet of code, which was used in
-this project's demo application, just to see how it all works:</p>
-<pre><code>// Create a custom JComponent that draws a huge white canvas with a small blue rectangle in it<br />final Rectangle customOffset = new Rectangle(640, 320, 50, 16);<br />final JComponent customComponent = new JComponent() {<br />	protected void paintComponent(Graphics g) {<br />	Rectangle clip = g.getClipBounds();<br />	g.setColor(Color.WHITE);<br />	g.fillRect(clip.x, clip.y, clip.width, clip.height);<br />	g.setColor(Color.BLUE);<br />	g.fillRect(customOffset.x, customOffset.y, customOffset.width, customOffset.height);<br />	}<br />};<br />customComponent.setPreferredSize(new Dimension(1280, 640));<br /><br />// Put the custom JComponent in a scroll pane<br />final JScrollPane customScrollPane = new JScrollPane(customComponent);<br /><br />// Now create the CustomBalloonTip, such that it attaches itself to the blue rectangle<br />customBalloon = new CustomBalloonTip(customComponent, <br />	"I'm a CustomBalloonTip!",<br />	customOffset,<br />	new EdgedBalloonStyle(Color.WHITE, Color.BLUE), <br />	BalloonTip.Orientation.LEFT_ABOVE, <br />	BalloonTip.AttachLocation.ALIGNED, <br />	20, 20, <br />	false);<br />	<br />// Hide the balloon tip when the tip is no longer visible in the scroll pane's viewport<br />customBalloon.setViewport(customScrollPane.getViewport());</code></pre>
+the demo application, just to see how it&nbsp;works:</p>
+<pre><code>// Create a custom JComponent that draws a huge white canvas with a small blue rectangle in it<br />final Rectangle customOffset = new Rectangle(640, 320, 50, 16);<br />final JComponent customComponent = new JComponent() {<br />	protected void paintComponent(Graphics g) {<br />	Rectangle clip = g.getClipBounds();<br />	g.setColor(Color.WHITE);<br />	g.fillRect(clip.x, clip.y, clip.width, clip.height);<br />	g.setColor(Color.BLUE);<br />	g.fillRect(customOffset.x, customOffset.y, customOffset.width, customOffset.height);<br />	}<br />};<br />customComponent.setPreferredSize(new Dimension(1280, 640));<br /><br />// Put the custom JComponent in a scroll pane<br />final JScrollPane customScrollPane = new JScrollPane(customComponent);<br /><br />// Now create the CustomBalloonTip, such that it attaches itself to the blue rectangle<br />customBalloon = new CustomBalloonTip(customComponent, <br />	"I'm a CustomBalloonTip!",<br />	customOffset,<br />	new EdgedBalloonStyle(Color.WHITE, Color.BLUE), <br />	BalloonTip.Orientation.LEFT_ABOVE, <br />	BalloonTip.AttachLocation.ALIGNED, <br />	20, 20, <br />	false);<br />	<br />// Hide the balloon tip when the tip is no longer visible in the scroll pane's viewport<br />customBalloon.setViewport(customScrollPane.getViewport());<br /></code></pre>
 </div>
 <div class="subSection">
 <div class="title">1.4.2. TablecellBalloonTip<a name="tablecellballoontip"></a></div>
 <p>A <code>TablecellBalloonTip</code> is a balloon
 tip that attaches itself to a <code>JTable</code> cell.
-The <code>TablecellBalloonTip</code> is very similar to a <code>CustomBalloonTip</code>.
-Instead of specifying a rectangular offset, you simply specify a row
-and a column. The row and column will determine which table cell the
+The <code>TablecellBalloonTip</code> is very similar to a <code>CustomBalloonTip</code>:
+Instead of specifying a rectangular offset, you&nbsp;specify a cell
+row
+and&nbsp;column. The row and column will determine which table cell
+the
 balloon tip should attach itself to. Just like <code>CustomBalloonTip</code>,
 if the table is embedded in a scroll pane, you can make the balloon tip
 hide itself whenever the tip becomes invisible.</p>
@@ -266,19 +337,33 @@ hide itself whenever the tip becomes invisible.</p>
 <p>Any balloon tip can be automatically closed after a certain
 period of time using the <code>TimingUtils</code> class.
 Here's an example:</p>
-<pre><code>BalloonTip balloonTip = new BalloonTip(someComponent, "I will dissapear in 3 seconds.");<br />// Now make the balloon tip disappear in 3000 milliseconds/3 seconds.<br />TimingUtils.showTimedBalloon(balloonTip, 3000);</code></pre>
+<pre><code>BalloonTip balloonTip = new BalloonTip(someComponent, "I will dissapear in 3 seconds.");<br />// Now make the balloon tip disappear in 3000 milliseconds<br />TimingUtils.showTimedBalloon(balloonTip, 3000);</code></pre>
 </div>
 <div class="subSection">
-<div class="title">1.5.2. Balloon tooltips<a name="balloontooltips"></a></div>
-<p>You can turn any balloon tip into a tooltip with the <code>ToolTipUtils</code>
-class. If you hover over the attached component, the balloon tip will
-show up after a specified amount of time and will then stay visible for
-another specified amount of time, just like any other tooltip. A quick
+<div class="title">1.5.2. Fade effects<a name="fadeeffects"></a></div>
+<p>The <code>FadingUtils</code> class allows you to
+add a simple linear fade-in or fade-out effect to balloon tips. An
+example:</p>
+<pre><code>BalloonTip balloonTip = new BalloonTip(someComponent, "I will fade in over 300 ms.");<br />// Perform a fade-in effect lasting 300 ms, at 24 frames per second and trigger finishedAction once the effect has finished<br />FadingUtils.fadeInBalloon(balloonTip, finishedAction, 300, 24);</code></pre>
+<span style="font-style: italic;">Tip</span>: If you
+desire something more complex than a linear function, you could
+quite easily&nbsp;implement your own fade effects&nbsp;using
+the <code>setOpacity</code> method of <code>BalloonTip</code>
+in combination with, for example, <a href="https://timingframework.dev.java.net/" target="_blank">timingframework</a>.
+</div>
+<div class="subSection">
+<div class="title">1.5.3. Balloon tooltips<a name="balloontooltips"></a></div>
+<p>You can turn any balloon tip into a tooltip with the <code>ToolTipUtils</code>class.
+If you hover over the attached component, the balloon tip will
+show up after an initial delay&nbsp;and&nbsp;then stay visible
+until
+the mouse no longer hovers over the component or a timeout occurs, just
+like a regular tooltip. A quick
 example:</p>
 <p><code>tooltipBalloon = new BalloonTip(someComponent,
 "I'm a balloon tooltip!");<br />
 // Now convert this balloon tip to a tooltip, such that the tooltip
-shows up after 500 milliseconds and stays visible for 3000 milliseconds
+shows up after 500 milliseconds and stays visible for 3000 milliseconds<br />
 ToolTipUtils.balloonToToolTip(tooltipBalloon, 500, 3000);</code></p>
 </div>
 </div>
@@ -290,14 +375,14 @@ ToolTipUtils.balloonToToolTip(tooltipBalloon, 500, 3000);</code></p>
 <div class="subSection">
 <div class="title">2.1.1. Eclipse, with Maven support
 <a name="eclipsewithmavensupport"></a></div>
-<p>Because Balloon tip is suited for use with Maven, it's best to
+<p>Because Balloon tip is suited for use with Maven, it's quite
+easy to
 import
 it as a Maven project into Eclipse. This&nbsp;can be done as
 follows:</p>
-<ul>
+<ol>
 <li>In order to import Maven projects into Eclipse, you'll need
-the <a href="http://m2eclipse.sonatype.org/" target="_blank">m2eclipse</a>
-plugin; install it first.</li>
+a plugin such as&nbsp;<a href="http://m2eclipse.sonatype.org/" target="_blank">m2eclipse</a>; install this first.</li>
 <li>If you haven't already done so, download and unzip the
 latest Balloon tip release from <a target="_blank" href="https://balloontip.dev.java.net/">
 https://balloontip.dev.java.net/</a>.</li>
@@ -311,9 +396,10 @@ import Balloon tip as 3 different projects: balloontip,
 balloontip-examples and balloontip-parent:
 <ul>
 <li><span style="font-weight: bold;">balloontip</span>:
-This is the most important project, as it contains all functionality.</li>
+This is the most important project, as it contains all functionality of
+Balloon tip.</li>
 <li><span style="font-weight: bold;">balloontip-examples</span>:
-This project contains several examples that
+This project contains a few examples that
 demonstrate&nbsp;Balloon tip's functionality.</li>
 <li><span style="font-weight: bold;">balloontip-parent</span>:
 This parent project just groups balloontip and balloontip-examples. All
@@ -322,30 +408,33 @@ both balloontip and balloontip-examples.</li>
 </ul>
 </li>
 <li>All done! If all went well, you should be able to run
-net.java.balloontip.examples.complete.CompleteExample or any of the
+<code>net.java.balloontip.examples.complete.CompleteExample</code>
+or any of the
 other supplied examples in the balloontip-examples project.</li>
-</ul>
+</ol>
 <p>It doesn't matter much if you're not familiar with Maven; you
 can use
 the balloontip and balloontip-examples projects just like they were
 regular Java projects. The only difference with regular projects is
 that Maven projects have the added bonus of Maven's functionality,
 which
-is now at your disposal if you'd like to make use of it.</p>
+is now at your disposal.</p>
 </div>
 <div class="subSection">
 <div class="title">2.1.2. Eclipse, regular Java project
 <a name="eclipseregularjavaproject"></a></div>
-<p>You can import Balloon tip as a regular Java project by following these steps:</p>
-<ul>
+<p>You can import Balloon tip as a regular Java project by
+following these steps:</p>
+<ol>
 <li>If you haven't already done so, download and unzip the
 latest Balloon tip release from <a target="_blank" href="https://balloontip.dev.java.net/">
 https://balloontip.dev.java.net/</a>.</li>
-<li>In Eclipse, create a new empty Java project:<ul>
+<li>In Eclipse, create a new empty Java project:
+<ul>
 <li>Go to "File" &gt; "New" &gt; "Java Project".</li>
 <li>Type a project name and click "Finish".</li>
-</ul></li>
-
+</ul>
+</li>
 <li>Now go to "File" &gt; "Import".</li>
 <li>Select "General" &gt; "Archive File" and click "Next".</li>
 <li>Click "Browse" and choose the balloontip-examples- ... .jar
@@ -354,35 +443,51 @@ file.</li>
 <li>In the Package Explorer, expand your new project and drag
 the "net" folder into the "src" folder.</li>
 <li>All done! If all went well, you should be able to run
-net.java.balloontip.examples.complete.CompleteExample or any of the
+<code>net.java.balloontip.examples.complete.CompleteExample</code>
+or any of the
 other supplied examples.</li>
-</ul>
+</ol>
 </div>
 <div class="subSection">
 <div class="title">2.1.3. Maven
 <a name="maven"></a></div>
-<p>Balloon tip comes with its set of Maven POM files; you can use them as follows:</p>
-<ul>
+<p>Balloon tip comes with its set of Maven POM files; you can use
+them as follows:</p>
+<ol>
 <li>If you haven't already done so, download and unzip the
 latest Balloon tip release from <a target="_blank" href="https://balloontip.dev.java.net/">
-https://balloontip.dev.java.net/</a>.</li><li>Using your command-line-interface, navigate to the "src" folder.</li><li>You're
+https://balloontip.dev.java.net/</a>.</li>
+<li>Using your command-line-interface, navigate to the "src"
+folder.</li>
+<li>You're
 now located inside the balloontip-parent module; it contains two
 submodules: balloontip and balloontip-examples. To produce a .jar file
-for each module, run the command "mvn package".</li><li>If all went
+for each module, run the command&nbsp;<code>mvn package</code>.</li>
+<li>If all went
 well, you should now be able to run the example application by
 executing src/balloontip-examples/target/balloontip-examples- ... .jar</li>
-</ul>
+</ol>
 </div>
 <div class="subSection">
 <div class="title">2.1.4. Ant
 <a name="ant"></a></div>
-<p>While Balloon tip doesn't come with any Ant build files, it's quite
-easy to automatically generate them if you have Maven installed:</p><ul><li>If you haven't already done so, download and unzip the
+<p>While Balloon tip doesn't come with any Ant build files, it's
+quite
+easy to automatically generate them if you have Maven installed:</p>
+<ol>
+<li>If you haven't already done so, download and unzip the
 latest Balloon tip release from <a target="_blank" href="https://balloontip.dev.java.net/">
-https://balloontip.dev.java.net/</a>.</li><li>Using your command-line-interface, navigate to the "src" folder.</li><li>Run the command "mvn ant:ant" to generate Ant build files for Balloon tip. (You'll need <a href="http://maven.apache.org/download.html" target="_blank">Maven</a> to be able to execute this command.)</li><li>After
+https://balloontip.dev.java.net/</a>.</li>
+<li>Using your command-line-interface, navigate to the "src"
+folder.</li>
+<li>Run the command&nbsp;<code>mvn ant:ant</code>
+to generate Ant build files
+for Balloon tip. (You'll need <a href="http://maven.apache.org/download.html" target="_blank">Maven</a>
+to be able to execute this command.)</li>
+<li>After
 Maven has successfully generated Ant build files, you'll be able to run
-the usual set of Ant tasks: compile, jar, javadoc, clean, ...</li></ul>
-
+the usual set of Ant tasks: compile, jar, javadoc, clean, ...</li>
+</ol>
 </div>
 </div>
 <div class="subSection">
@@ -398,9 +503,9 @@ g, int x, int y, int width, int height)</code></li>
 </ul>
 <p><code>getBorderInsets</code> is a method that
 determines where the actual contents of the balloon tip (the text, the
-close button, ...) should go. If you're familiar with Cascading Style
+close button, ...) should go. (If you're familiar with Cascading Style
 Sheets (CSS), you should think of <code>getBorderInsets</code>
-as a method that returns the padding of your balloon tip. Anyhow, what
+as a method that returns the padding of your balloon tip.) What
 you should do is return an <code>Insets</code> object,
 which holds four integers. To determine these four, take a look at this
 picture:</p>
@@ -409,7 +514,8 @@ These four values are needed by <code>getBorderInsets</code>
 </div>
 <p>Suppose the green rectangle in the above picture represents
 where the contents of the balloon tip should come. The implementation
-of <code>getBorderInsets</code> would then look like this:</p>
+of <code>getBorderInsets</code>&nbsp;then looks like
+this:</p>
 <p><code>return new Insets(top, left, bottom, right);</code></p>
 <p>The second method you should implement, <code>paintBorder</code>,
 draws the balloon tip on a <code>Graphics</code> instance.
@@ -428,7 +534,7 @@ become clear when looking at this image:</p>
 A <code>BalloonTipStyle</code> should respect the current
 values of <code>horizontalOffset</code>, <code>verticalOffset</code>,
 <code>flipX</code> and <code>flipY</code> </div>
-<p>Also keep in mind that you should take into account <code>flipX</code>
+<p>Keep in mind that you must take into account <code>flipX</code>
 and <code>flipY</code> when implementing <code>getBorderInsets</code>,
 as they have their effect on border insets!</p>
 <p>Apart from <code>getBorderInsets</code> and <code>paintBorder</code>,
@@ -436,35 +542,36 @@ you may also want to override the methods <code>getMinimalHorizontalOffset</code
 and <code>isBorderOpaque</code>. Override <code>getMinimalHorizontalOffset</code>
 to define the minimum value of the horizontal offset. You may want to
 do this if your balloon tip starts to look funny if you go below (or
-above) a certain horizontal offset. Balloon tip positioners should then
+above) a certain horizontal offset. Balloon tip positioners will then
 respect the minimum horizontal offset you've defined. Secondly, you
 should override <code>isBorderOpaque</code> if you wish to
 use transparency effects. If so, simply make the method return false
 and you're allowed to use transparent colors.</p>
-<p>Apart from all the above, there really is nothing else to know
+<p>Apart from all of the above, there really is nothing else to
+know
 about balloon tip styles. However, I did assume you are familiar with
 the Java <code>Graphics</code> API. If you're not, I
 recommend you to take a couple of tutorials (such as <a href="http://java.sun.com/docs/books/tutorial/2d/index.html" target="_blank">http://java.sun.com/docs/books/tutorial/2d/index.html</a>),
-or take a look at the code of the styles that were supplied with this
-release.</p>
+or take a look at the code of the existing styles in Balloon tip.</p>
 </div>
 <div class="subSection">
 <div class="title"> 2.3. Creating your own
 BalloonTipPositioner<a name="creatingyourownballoontippositioner"></a></div>
 <p>The task of a balloon tip positioner is to define the
-behaviour of a balloon tip. Basically, it controls the position of the
+behaviour of a balloon tip. This means it controls the position of the
 balloon tip, the horizontal and vertical offset of the balloon tip and
 whether the balloon tip should be flipped or not. The best way to learn
 how to create your own <code>BalloonTipPositioner</code>
 is by looking at an example. The following example demonstrates a very
 simple positioner that will place the balloon tip at a fixed location
 relative to the attached component:</p>
-<pre><code><br />public class SimpleTipPositioner extends BalloonTipPositioner {<br />int x = 0; // Current X-coordinate of the top-left point of the bounding box around the balloon tip<br />int y = 0; // Current Y-coordinate of the top-left point of the bounding box around the balloon tip<br />/* A balloon tip will first call this method and pass his this-pointer, such that this positioner * can access the balloon tip's information and set its location. */<br />public void setBalloonTip(BalloonTip bT) {<br />this.balloonTip = bT; // Set the horizontal and vertical offset of the balloon tip's style<br />balloonTip.getStyle().setHorizontalOffset(20); balloonTip.getStyle().setVerticalOffset(20); // The balloon tip's style should not flip/mirror itself<br />balloonTip.getStyle().flipX(false);<br />balloonTip.getStyle().flipY(false);<br />}<br />/* The balloon tip will call this method every time it wants to re-draw itself.<br />* The parameter of this function, attached, is the Rectangle that the balloon tip should attach itself to. */ public void determineAndSetLocation(Rectangle attached) {<br />/* Calculate the coordinates of the top-left corner of the bounding box around the balloon tip<br />* This positioner will place the balloon tip above the attached Rectangle. */<br />x = attached.x;<br />y = attached.y - balloonTip.getPreferredSize().height;<br />// Now move the balloon tip to the position we've just calculated<br />balloonTip.setBounds(x, y, balloonTip.getPreferredSize().width, balloonTip.getPreferredSize().height);<br />balloonTip.validate();<br />}<br />// This method should return the location of the balloon's tip<br />public Point getTipLocation() {<br />/* You may use the last position calculated in determineAndSetLocation to calculate the tip's location.<br />* The fields x and y now contain the position of the top-left corner of the bounding box of the balloon tip. */ return new Point(x + 20, y + balloonTip.getPreferredSize().height);<br />}<br />}</code></pre>
+<pre><code><br />public class SimpleTipPositioner extends BalloonTipPositioner {<br />	int x = 0; // Current X-coordinate of the top-left corner of the bounding box around the balloon tip<br />	int y = 0; // Current Y-coordinate of the top-left corner of the bounding box around the balloon tip<br /><br />	/* The balloon tip will call this method every time it wants to re-draw itself.<br />	* The parameter of this function, attached, is the Rectangle that the balloon tip should attach itself to. */<br />	public void determineAndSetLocation(Rectangle attached) {<br />	/* Calculate the coordinates of the top-left corner of the bounding box around the balloon tip<br />	* This positioner will place the balloon tip above the attached Rectangle. */<br />	x = attached.x;<br />	y = attached.y - balloonTip.getPreferredSize().height;<br /><br />	// Now move the balloon tip to the position we've just calculated<br />	balloonTip.setBounds(x, y, balloonTip.getPreferredSize().width, balloonTip.getPreferredSize().height);<br />	balloonTip.validate();<br />	}<br /><br />	/* This method should return the location of the balloon's tip */<br />	public Point getTipLocation() {<br />	/* You may use the last position calculated in determineAndSetLocation to calculate the tip's location.<br />	* The fields x and y now contain the position of the top-left corner of the bounding box of the balloon tip. */<br />	return new Point(x + 20, y + balloonTip.getPreferredSize().height);<br />	}<br /><br />	/* Whenever a balloon tip's style is changed (This includes setting it for the first time..), this method is called.<br />	*&nbsp;Within this method, the positioner should take care of properly setting up this new style. */<br />	protected void onStyleChange() {<br />	balloonTip.getStyle().setHorizontalOffset(20);<br />	balloonTip.getStyle().setVerticalOffset(20);<br /></code><code>	balloonTip.getStyle().flipX(false);<br />	balloonTip.getStyle().flipY(false);</code><br /><code>	}<br />}</code></pre>
 <p>Using this positioner will produce the following result:</p>
 <div class="image"> <img src="images/CustomPositioner.png" alt="A BalloonTip with a simple custom-made BalloonTipPositioner" /><br />
 A <code>BalloonTip</code> with a simple custom-made <code>BalloonTipPositioner</code>
 </div>
-<p>Here's the picture once more, but this time it also shows the
+<p>Here's the same picture once more, but this time it also shows
+the
 various variables that were used:</p>
 <div class="image"> <img src="images/PositionerVariables.png" alt="The variables that were used when calculating the balloon tip's position" /><br />
 The variables that were used when calculating the balloon tip's
@@ -475,7 +582,7 @@ settings of the balloon tip's style:</p>
 Don't forget to set these variables of the balloon tip's style: <code>horizontalOffset</code>,
 <code>verticalOffset</code>, <code>flipX</code>
 and <code>flipY</code> </div>
-<p>After examining this example, you can now conclude that:</p>
+<p>After examining this example, you can&nbsp;conclude that:</p>
 <ul>
 <li> The positioner has the responsibility to set the balloon
 tip's location.</li>
@@ -490,17 +597,17 @@ positioner's constructor.</li>
 of the positioner, or you won't be able to calculate the tip location
 in <code>getTipLocation</code>.</li>
 </ul>
-<p>In conclusion, a couple of pointers you may find useful:</p>
+<p>Lastly, a couple of pointers that you may find useful:</p>
 <ul>
 <li>Whether you're flipping the balloon tip's style or not, the
 bounding box around the balloon tip won't ever flip, so you'll always
 need to calculate its top-left corner! (By the way, if you're unsure
 about the meaning of a bounding box: It's the smallest rectangle that
-contains the entire balloon tip.)</li>
+contains the entire balloon tip..)</li>
 <li>If a balloon tip is flipped over a vertical axis, the
-horizontal offset has flipped as well!</li>
+horizontal offset has flipped sides as well!</li>
 <li>You may want to draw the balloon tip's behaviour with a
-couple of doodles if things gets a little complex.</li>
+couple of doodles if things get a little complex.</li>
 </ul>
 <p>While this particular example did not produce anything
 spectacular, you can do some neat things with your own balloon tip
@@ -513,8 +620,42 @@ outside a certain area, or ...</p>
 <div class="section">
 <div class="title"> 3. Release notes<a name="releasenotes"></a></div>
 <ul>
-<li style="font-weight: bold;">1.0
-<ul style="font-weight: normal;">
+<li><strong>1.1</strong>
+<ul>
+<li>New feature: The contents of a BalloonTip can now be
+just about any type of JComponent. (You can even add balloon tips to
+components within balloon tips..)</li>
+<li>New feature: New positioner that ensures a balloon tip
+is always centered relative to its attached component.</li>
+<li>New feature: You can now set a balloon tip's opacity.
+There also are utility functions to add fading effects to your balloon
+tips.</li>
+<li>New feature: More getters and setters. Every aspect of
+a balloon tip can now be adjusted, including the attached component and
+the top-level container.</li>
+<li>Improvement: The logic that determines a balloon tip's
+visibility has become much simpler. You can now safely call
+setVisible(false) to hide a balloon tip.</li>
+<li>Improvement: Creating your own BalloonTipPositioner has
+been more simplified.</li>
+<li>Improvement: The drawing code for some balloon tip
+styles is slightly improved.</li>
+<li>Change: We switched the LGPL v3 license back to LGPL
+v2.1 (or higher, at your option), such that even more projects can make
+use of Balloon tip.</li>
+<li>Change: Rather than letting you tweak a few aspects of
+a balloon tip's close button, you now simply have direct access to the
+button.</li>
+<li>Change: The enableClickToHide() and
+enabledClickToClose() are replaced by addDefaultMouseListener().</li>
+<li>Bug fix: Some listeners were not removed when closing a
+BalloonTip.</li>
+<li>Bug fix: A balloon tooltip now properly hides itself
+when the mouse leaves the attached component.</li>
+</ul>
+</li>
+<li><strong>1.0</strong>
+<ul>
 <li>Switched from Ant to Maven.</li>
 <li>Switched to the regular x.x version numbering scheme,
 instead of using the release date to identify a version</li>
