@@ -17,6 +17,53 @@
 
 <table bgcolor="#FFFDE5" width="100%" border="0">
 <tr><td>
+<b>2010-10-18, Back in action:</b>
+</td></tr>
+<tr><td>
+<p>
+At long last, a new release has arrived! Balloon tip's latest version has some exciting new features in store for you; just check out this change log:
+</p>
+<ul>
+<li>New feature: The contents of a BalloonTip can now be
+just about any type of JComponent. (You can even add balloon tips to
+components within balloon tips..)</li>
+<li>New feature: New positioner that ensures a balloon tip
+is always centered relative to its attached component.</li>
+<li>New feature: You can now set a balloon tip's opacity.
+There also are utility functions to add fading effects to your balloon
+tips.</li>
+<li>New feature: More getters and setters. Every aspect of
+a balloon tip can now be adjusted, including the attached component and
+the top-level container.</li>
+<li>Improvement: The logic that determines a balloon tip's
+visibility has become much simpler. You can now safely call
+setVisible(false) to hide a balloon tip.</li>
+<li>Improvement: Creating your own BalloonTipPositioner has
+been more simplified.</li>
+<li>Improvement: The drawing code for some balloon tip
+styles is slightly improved.</li>
+<li>Change: We switched the LGPL v3 license back to LGPL
+v2.1 (or higher, at your option), such that even more projects can make
+use of Balloon tip.</li>
+<li>Change: Rather than letting you tweak a few aspects of
+a balloon tip's close button, you now simply have direct access to the
+button.</li>
+<li>Change: The enableClickToHide() and
+enabledClickToClose() are replaced by addDefaultMouseListener().</li>
+<li>Bug fix: Some listeners were not removed when closing a
+BalloonTip.</li>
+<li>Bug fix: A balloon tooltip now properly hides itself
+when the mouse leaves the attached component.</li>
+</ul>
+<p>Thanks to Thierry Blind for helping out with this release!</p>
+</td></tr>
+</table>
+
+<br />
+
+
+<table bgcolor="#ECECEC" width="100%" border="0">
+<tr><td>
 <b>2009-08-28, Balloon tip has switched to Maven, plus a brand-new special release:</b>
 </td></tr>
 <tr><td>
