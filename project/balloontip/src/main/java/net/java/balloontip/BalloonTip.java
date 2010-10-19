@@ -22,7 +22,6 @@ package net.java.balloontip;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -98,8 +97,7 @@ public class BalloonTip extends JPanel {
 			refreshLocation();
 		}
 		public void componentResized(ComponentEvent e) {
-			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",
-					isComponentReallyShowing(e.getComponent()));
+			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",isAttachedComponentShowing());
 		}
 		public void componentShown(ComponentEvent e) {visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",true);}
 		public void componentHidden(ComponentEvent e) {visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",false);}
@@ -128,6 +126,7 @@ public class BalloonTip extends JPanel {
 		 * @param value			value of the criterium
 		 */
 		public void setCriteriumAndUpdate(String criterium, Boolean value) {
+			System.out.println(criterium + " ### " + value);
 			criteria.put(criterium, value);
 			update();
 		}
@@ -606,18 +605,15 @@ public class BalloonTip extends JPanel {
 		super.setVisible(visible);
 	}
 
-	/**
-	 * Gets a boolean indicating whether or not a component is
-	 * showing on screen AND its area is greater than zero.
-	 * @param c Component to check
-	 * @return <code>true</code> if the <code>component</code> is
-	 *         showing on screen and if its area is greater than zero. Otherwise
-	 *         <code>false</code>
+	/*
+	 * Helper method that checks whether the attached component is visible or not
+	 * (i.e. its area is greater than 0 and it really is visible..)
+	 * @return 		true if the component is showing; false otherwise
 	 */
-	protected boolean isComponentReallyShowing(Component c) {
-		return c.isShowing()
-		&& c.getWidth() > 0
-		&& c.getHeight() > 0 /* To be seen, the area of the attached component must be > 0 */;
+	private boolean isAttachedComponentShowing() {
+		return attachedComponent.isShowing()
+		&& attachedComponent.getWidth() > 0
+		&& attachedComponent.getHeight() > 0; // The area of the attached component must be > 0 in order to be visible..
 	}
 
 	/*
@@ -676,14 +672,21 @@ public class BalloonTip extends JPanel {
 		// If the attached component is moved/hidden/shown, the balloon tip should act accordingly
 		attachedComponent.addComponentListener(componentListener);
 		// Update balloon tip's visibility
-		forceSetVisible(this.isVisible()
-				&& isComponentReallyShowing(attachedComponent));
+		forceSetVisible(this.isVisible() && isAttachedComponentShowing());
 
 		// Prepare these variables, in case this balloon tip is embedded in a tab
 		boolean embeddedInTab = false;
 		tabbedPaneListener = new ComponentAdapter() {
-			public void componentShown(ComponentEvent e) {visibilityControl.setCriteriumAndUpdate("tabShowing",true);}
-			public void componentHidden(ComponentEvent e) {visibilityControl.setCriteriumAndUpdate("tabShowing",false);}
+			public void componentShown(ComponentEvent e) {
+				visibilityControl.setCriteriumAndUpdate("tabShowing",true);
+				/* We must also recheck whether the attached component is visible! 
+				 * While this tab *was* invisible, the component might've been resized, hidden, shown, ... ,
+				 * but no events were fired because the tab was hidden! */
+				visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",isAttachedComponentShowing());
+			}
+			public void componentHidden(ComponentEvent e) {
+				visibilityControl.setCriteriumAndUpdate("tabShowing",false);
+			}
 		};
 
 		/* Follow the path of parents of the attached component to find any JTabbedPanes (or even other BalloonTips)
