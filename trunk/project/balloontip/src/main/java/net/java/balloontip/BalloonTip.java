@@ -22,6 +22,7 @@ package net.java.balloontip;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -98,9 +99,7 @@ public class BalloonTip extends JPanel {
 		}
 		public void componentResized(ComponentEvent e) {
 			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",
-					e.getComponent().isShowing()
-					&& e.getComponent().getWidth() > 0
-					&& e.getComponent().getHeight() > 0);
+					isComponentReallyShowing(e.getComponent()));
 		}
 		public void componentShown(ComponentEvent e) {visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",true);}
 		public void componentHidden(ComponentEvent e) {visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",false);}
@@ -367,7 +366,7 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * If you want to permanently close the balloon, you can use this method.
-	 * (It will be called automatically once Java's garbage collector can clean up this balloon tip..)
+	 * (It will be called automatically once Java's garbage collector can clean up this balloon tip...)
 	 * Please note, you shouldn't use this instance anymore after calling this method!
 	 * (If you just want to hide the balloon tip, simply use setVisible(false);)
 	 */
@@ -492,7 +491,7 @@ public class BalloonTip extends JPanel {
 	/**
 	 * Change the component this balloon tip is attached to
 	 * (The top-level container will be re-determined during this process;
-	 * if you set it manually, you'll have to set it again..)
+	 * if you set it manually, you'll have to set it again...)
 	 * (Calling this method will fire an "attachedComponent" property change event.)
 	 * @param newComponent		the new component to attach to (may not be null)
 	 */
@@ -607,6 +606,20 @@ public class BalloonTip extends JPanel {
 		super.setVisible(visible);
 	}
 
+	/**
+	 * Gets a boolean indicating whether or not a component is
+	 * showing on screen AND its area is greater than zero.
+	 * @param c Component to check
+	 * @return <code>true</code> if the <code>component</code> is
+	 *         showing on screen and if its area is greater than zero. Otherwise
+	 *         <code>false</code>
+	 */
+	protected boolean isComponentReallyShowing(Component c) {
+		return c.isShowing()
+		&& c.getWidth() > 0
+		&& c.getHeight() > 0 /* To be seen, the area of the attached component must be > 0 */;
+	}
+
 	/*
 	 * Helper method for constructing a BalloonTip
 	 */
@@ -662,6 +675,9 @@ public class BalloonTip extends JPanel {
 
 		// If the attached component is moved/hidden/shown, the balloon tip should act accordingly
 		attachedComponent.addComponentListener(componentListener);
+		// Update balloon tip's visibility
+		forceSetVisible(this.isVisible()
+				&& isComponentReallyShowing(attachedComponent));
 
 		// Prepare these variables, in case this balloon tip is embedded in a tab
 		boolean embeddedInTab = false;
@@ -671,7 +687,7 @@ public class BalloonTip extends JPanel {
 		};
 
 		/* Follow the path of parents of the attached component to find any JTabbedPanes (or even other BalloonTips)
-		 * in which the component may be contained.. */
+		 * in which the component may be contained... */
 		Container current = attachedComponent.getParent();
 		Container previous = attachedComponent;
 		while (current!=null) {
@@ -705,7 +721,7 @@ public class BalloonTip extends JPanel {
 
 	/*
 	 * Helper method for closeBalloon() and changeAttachedComponent()
-	 * Removes a number of listeners attached to the baloon tip.
+	 * Removes a number of listeners attached to the balloon tip.
 	 */
 	private void tearDownHelper() {
 		attachedComponent.removeComponentListener(componentListener);
@@ -735,5 +751,8 @@ public class BalloonTip extends JPanel {
 			topLevelContainer.removeComponentListener(topLevelContainerListener);
 			topLevelContainer = null;
 		}
+
+		// Clean up our criterias
+		visibilityControl.criteria.clear();
 	}
 }
