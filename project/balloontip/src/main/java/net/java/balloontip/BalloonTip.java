@@ -126,7 +126,6 @@ public class BalloonTip extends JPanel {
 		 * @param value			value of the criterium
 		 */
 		public void setCriteriumAndUpdate(String criterium, Boolean value) {
-			System.out.println(criterium + " ### " + value);
 			criteria.put(criterium, value);
 			update();
 		}
@@ -679,7 +678,7 @@ public class BalloonTip extends JPanel {
 		tabbedPaneListener = new ComponentAdapter() {
 			public void componentShown(ComponentEvent e) {
 				visibilityControl.setCriteriumAndUpdate("tabShowing",true);
-				/* We must also recheck whether the attached component is visible! 
+				/* We must also recheck whether the attached component is visible!
 				 * While this tab *was* invisible, the component might've been resized, hidden, shown, ... ,
 				 * but no events were fired because the tab was hidden! */
 				visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",isAttachedComponentShowing());
