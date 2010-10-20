@@ -703,9 +703,8 @@ public class BalloonTip extends JPanel {
 				/* In the rare case where this balloon tip is attached to a component within another balloon tip... */
 				// Monitor the parent balloon tip's movements and visibility
 				current.addComponentListener(componentListener);
-				// Draw this balloon tip on top of the parent balloon tip
-				int position = topLevelContainer.getPosition(this);
-				topLevelContainer.setLayer(this, JLayeredPane.getLayer(this), position > 0 ? position - 1 : 0);
+				// Draw this balloon tip one layer higher; otherwise it would be overlapping the parent balloon tip
+				topLevelContainer.setLayer(this, JLayeredPane.getLayer(this) + 1);
 				// Continue this loop from the parent balloon tip's attachedComponent
 				previous=((BalloonTip)current).getAttachedComponent();
 				current=previous.getParent();
