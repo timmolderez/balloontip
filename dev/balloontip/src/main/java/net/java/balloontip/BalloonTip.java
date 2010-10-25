@@ -88,10 +88,10 @@ public class BalloonTip extends JPanel {
 	public static final class Orientation extends ValueContainer {
 		private Orientation(int value) {this.value = value;}
 
-		private static final int INT_LEFT_ABOVE		= 1;
-		private static final int INT_RIGHT_ABOVE	= 2;
-		private static final int INT_LEFT_BELOW		= 3;
-		private static final int INT_RIGHT_BELOW	= 4;
+		protected static final int INT_LEFT_ABOVE	= 1;
+		protected static final int INT_RIGHT_ABOVE	= 2;
+		protected static final int INT_LEFT_BELOW	= 3;
+		protected static final int INT_RIGHT_BELOW	= 4;
 
 		public static final Orientation LEFT_ABOVE	= new Orientation(INT_LEFT_ABOVE);
 		public static final Orientation RIGHT_ABOVE	= new Orientation(INT_RIGHT_ABOVE);
@@ -104,16 +104,16 @@ public class BalloonTip extends JPanel {
 	public static final class AttachLocation extends ValueContainer {
 		private AttachLocation(int value) {this.value = value;}
 
-		private static final int INT_ALIGNED	= 1;
-		private static final int INT_CENTER		= 2;
-		private static final int INT_NORTH		= 3;
-		private static final int INT_NORTHEAST	= 4;
-		private static final int INT_EAST		= 5;
-		private static final int INT_SOUTHEAST	= 6;
-		private static final int INT_SOUTH		= 7;
-		private static final int INT_SOUTHWEST	= 8;
-		private static final int INT_WEST		= 9;
-		private static final int INT_NORTHWEST	= 10;
+		protected static final int INT_ALIGNED		= 1;
+		protected static final int INT_CENTER		= 2;
+		protected static final int INT_NORTH		= 3;
+		protected static final int INT_NORTHEAST	= 4;
+		protected static final int INT_EAST			= 5;
+		protected static final int INT_SOUTHEAST	= 6;
+		protected static final int INT_SOUTH		= 7;
+		protected static final int INT_SOUTHWEST	= 8;
+		protected static final int INT_WEST			= 9;
+		protected static final int INT_NORTHWEST	= 10;
 
 		public static final AttachLocation ALIGNED		= new AttachLocation(INT_ALIGNED);
 		public static final AttachLocation CENTER		= new AttachLocation(INT_CENTER);
