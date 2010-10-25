@@ -71,6 +71,7 @@ import net.java.balloontip.styles.RoundedBalloonStyle;
  * @author Thierry Blind
  */
 public class BalloonTip extends JPanel {
+	/** Used to store a value. Avoids usage of enumerations. */
 	private static class ValueContainer {
 		protected int value;
 		public boolean equals(Object obj) {
