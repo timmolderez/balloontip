@@ -135,7 +135,10 @@ public class BalloonTip extends JPanel {
 			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",Boolean.valueOf(isAttachedComponentShowing()));
 			refreshLocation();
 		}
-		public void componentHidden(ComponentEvent e) {visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",Boolean.FALSE);}
+		public void componentHidden(ComponentEvent e) {
+			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",Boolean.FALSE);
+			refreshLocation();
+		}
 	};
 
 	// Adjust the balloon tip when the top-level container is resized
@@ -619,7 +622,6 @@ public class BalloonTip extends JPanel {
 	 */
 	public void setVisible(boolean visible) {
 		visibilityControl.setCriteriumAndUpdate("manual", Boolean.valueOf(visible));
-		refreshLocation();
 	}
 
 	protected void finalize() throws Throwable {
