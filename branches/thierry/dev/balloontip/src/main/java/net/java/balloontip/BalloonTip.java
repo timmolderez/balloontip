@@ -129,8 +129,12 @@ public class BalloonTip extends JPanel {
 		}
 		public void componentResized(ComponentEvent e) {
 			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",Boolean.valueOf(isAttachedComponentShowing()));
+			refreshLocation();
 		}
-		public void componentShown(ComponentEvent e) {visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",Boolean.TRUE);}
+		public void componentShown(ComponentEvent e) {
+			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",Boolean.valueOf(isAttachedComponentShowing()));
+			refreshLocation();
+		}
 		public void componentHidden(ComponentEvent e) {visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",Boolean.FALSE);}
 	};
 
@@ -615,6 +619,7 @@ public class BalloonTip extends JPanel {
 	 */
 	public void setVisible(boolean visible) {
 		visibilityControl.setCriteriumAndUpdate("manual", Boolean.valueOf(visible));
+		refreshLocation();
 	}
 
 	protected void finalize() throws Throwable {
@@ -635,7 +640,7 @@ public class BalloonTip extends JPanel {
 	 * (i.e. its area is greater than 0 and it really is visible..)
 	 * @return 		true if the component is showing; false otherwise
 	 */
-	private boolean isAttachedComponentShowing() {
+	protected boolean isAttachedComponentShowing() {
 		return attachedComponent.isShowing()
 		&& attachedComponent.getWidth() > 0
 		&& attachedComponent.getHeight() > 0; // The area of the attached component must be > 0 in order to be visible..
@@ -708,6 +713,7 @@ public class BalloonTip extends JPanel {
 				 * While this tab *was* invisible, the component might've been resized, hidden, shown, ... ,
 				 * but no events were fired because the tab was hidden! */
 				visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",Boolean.valueOf(isAttachedComponentShowing()));
+				refreshLocation();
 			}
 			public void componentHidden(ComponentEvent e) {
 				visibilityControl.setCriteriumAndUpdate("tabShowing",Boolean.FALSE);
