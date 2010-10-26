@@ -1,9 +1,9 @@
 /**
  * Balloontip - Balloon tips for Java Swing applications
  * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
- * 
+ *
  * This file is part of Balloontip.
- * 
+ *
  * Balloontip is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -58,7 +58,7 @@ public class CustomBalloonTip extends BalloonTip {
 	 * @param offset			Specifies a rectangle within the attached component; the balloon tip will attach to this rectangle.
 	 * 							Do note that the coordinates should be relative to the attached component's top left corner.
 	 * 							If offset is null, the balloon tip will attach to the whole component.
-	 * @exception NullPointerException if at least one parameter (except for parameters text and style) is <code>null</code>
+	 * @exception NullPointerException if at least one parameter (except for parameters offset and style) is <code>null</code>
 	 */
 	public CustomBalloonTip(JComponent attachedComponent, JComponent component, Rectangle offset, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
 		super(attachedComponent, component, style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
@@ -71,7 +71,7 @@ public class CustomBalloonTip extends BalloonTip {
 	 * @param offset			Specifies a rectangle within the attached component; the balloon tip will attach to this rectangle.
 	 * 							Do note that the coordinates should be relative to the attached component's top left corner.
 	 * 							If offset is null, the balloon tip will attach to the whole component.
-	 * @exception NullPointerException if attachedComponent or positioner are <code>null</code>
+	 * @exception NullPointerException if at least one parameter (except for parameters offset and style) is <code>null</code>
 	 */
 	public CustomBalloonTip(JComponent attachedComponent, JComponent component, Rectangle offset, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
 		super(attachedComponent, component, style, positioner, closeButton);

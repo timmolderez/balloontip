@@ -1,9 +1,9 @@
 /**
  * Balloontip - Balloon tips for Java Swing applications
  * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
- * 
+ *
  * This file is part of Balloontip.
- * 
+ *
  * Balloontip is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -53,7 +53,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 		public void columnRemoved(TableColumnModelEvent e) {closeBalloon();}
 		public void columnSelectionChanged(ListSelectionEvent e) {}
 	};
-	
+
 	// If someone adds/removes rows, ...
 	private final TableModelListener tableModelListener = new TableModelListener() {
 		public void tableChanged(TableModelEvent e) {
@@ -81,7 +81,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 * @param table		The table to attach the balloon tip to
 	 * @param row		Which row is the balloon tip attached to
 	 * @param column	Which column is the balloon tip attached to
-	 * @exception NullPointerException if at least one parameter (except for parameters text and style) is <code>null</code>
+	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public TablecellBalloonTip(JTable table, JComponent component, int row, int column, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
 		super(table, component, table.getCellRect(row, column, true), style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
@@ -93,7 +93,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	 * @param table		The table to attach the balloon tip to
 	 * @param row		Which row is the balloon tip attached to
 	 * @param column	Which column is the balloon tip attached to
-	 * @exception NullPointerException if at least one parameter (except for parameters text and style) is <code>null</code>
+	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public TablecellBalloonTip(JTable table, JComponent component, int row, int column, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
 		super(table, component, table.getCellRect(row, column, true), style, positioner, closeButton);
@@ -115,7 +115,7 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 		removeListeners();
 		super.closeBalloon();
 	}
-	
+
 	/*
 	 * A helper method needed when constructing a TablecellBalloonTip instance
 	 * @param table		The table to which this balloon tip attaches itself to
@@ -134,17 +134,17 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 			table.addAncestorListener(attachedComponentParentListener);
 		}
 	}
-	
+
 	/*
 	 * Adds the necessary listeners to the attached JTable, such that
-	 * this balloon tip will adjust itself to changes in the JTable 
+	 * this balloon tip will adjust itself to changes in the JTable
 	 */
 	private void addListeners() {
 		JTable attachedTable=((JTable)attachedComponent);
 		attachedTable.getColumnModel().addColumnModelListener(columnListener);
 		attachedTable.getModel().addTableModelListener(tableModelListener);
 	}
-	
+
 	/*
 	 * Removes all listeners from the attached JTable
 	 */
