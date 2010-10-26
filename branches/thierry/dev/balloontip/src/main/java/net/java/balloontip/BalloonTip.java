@@ -73,59 +73,40 @@ import net.java.balloontip.styles.RoundedBalloonStyle;
 public class BalloonTip extends JPanel {
 	/** Used to store a value. Avoids usage of enumerations. */
 	private static class ValueContainer {
+		protected int classId;
 		protected int value;
 		public boolean equals(Object obj) {
 			if (obj instanceof ValueContainer) {
-				return this.value == ((ValueContainer) obj).value;
+				ValueContainer v = (ValueContainer) obj;
+				return this.classId == v.classId && this.value == v.value;
 			}
 			return false;
-		}
-		public int hashCode() {
-			return value;
 		}
 	}
 
 	/** Should the balloon be placed above, below, right or left of the attached component? */
 	public static final class Orientation extends ValueContainer {
-		private Orientation(int value) {this.value = value;}
-
-		protected static final int INT_LEFT_ABOVE	= 1;
-		protected static final int INT_RIGHT_ABOVE	= 2;
-		protected static final int INT_LEFT_BELOW	= 3;
-		protected static final int INT_RIGHT_BELOW	= 4;
-
-		public static final Orientation LEFT_ABOVE	= new Orientation(INT_LEFT_ABOVE);
-		public static final Orientation RIGHT_ABOVE	= new Orientation(INT_RIGHT_ABOVE);
-		public static final Orientation LEFT_BELOW	= new Orientation(INT_LEFT_BELOW);
-		public static final Orientation RIGHT_BELOW	= new Orientation(INT_RIGHT_BELOW);
+		private Orientation(int value) {this.classId = 1; this.value = value;}
+		public static final Orientation LEFT_ABOVE	= new Orientation(1);
+		public static final Orientation RIGHT_ABOVE	= new Orientation(2);
+		public static final Orientation LEFT_BELOW	= new Orientation(3);
+		public static final Orientation RIGHT_BELOW	= new Orientation(4);
 	}
 
 	/** Where should the balloon's tip be located, relative to the attached component
 	 * ALIGNED makes sure the balloon's edge is aligned with the attached component */
 	public static final class AttachLocation extends ValueContainer {
-		private AttachLocation(int value) {this.value = value;}
-
-		protected static final int INT_ALIGNED		= 1;
-		protected static final int INT_CENTER		= 2;
-		protected static final int INT_NORTH		= 3;
-		protected static final int INT_NORTHEAST	= 4;
-		protected static final int INT_EAST			= 5;
-		protected static final int INT_SOUTHEAST	= 6;
-		protected static final int INT_SOUTH		= 7;
-		protected static final int INT_SOUTHWEST	= 8;
-		protected static final int INT_WEST			= 9;
-		protected static final int INT_NORTHWEST	= 10;
-
-		public static final AttachLocation ALIGNED		= new AttachLocation(INT_ALIGNED);
-		public static final AttachLocation CENTER		= new AttachLocation(INT_CENTER);
-		public static final AttachLocation NORTH		= new AttachLocation(INT_NORTH);
-		public static final AttachLocation NORTHEAST	= new AttachLocation(INT_NORTHEAST);
-		public static final AttachLocation EAST			= new AttachLocation(INT_EAST);
-		public static final AttachLocation SOUTHEAST	= new AttachLocation(INT_SOUTHEAST);
-		public static final AttachLocation SOUTH		= new AttachLocation(INT_SOUTH);
-		public static final AttachLocation SOUTHWEST	= new AttachLocation(INT_SOUTHWEST);
-		public static final AttachLocation WEST			= new AttachLocation(INT_WEST);
-		public static final AttachLocation NORTHWEST	= new AttachLocation(INT_NORTHWEST);
+		private AttachLocation(int value) {this.classId = 2; this.value = value;}
+		public static final AttachLocation ALIGNED		= new AttachLocation(1);
+		public static final AttachLocation CENTER		= new AttachLocation(2);
+		public static final AttachLocation NORTH		= new AttachLocation(3);
+		public static final AttachLocation NORTHEAST	= new AttachLocation(4);
+		public static final AttachLocation EAST			= new AttachLocation(5);
+		public static final AttachLocation SOUTHEAST	= new AttachLocation(6);
+		public static final AttachLocation SOUTH		= new AttachLocation(7);
+		public static final AttachLocation SOUTHWEST	= new AttachLocation(8);
+		public static final AttachLocation WEST			= new AttachLocation(9);
+		public static final AttachLocation NORTHWEST	= new AttachLocation(10);
 	}
 
 	protected JComponent contents = null;
@@ -202,6 +183,7 @@ public class BalloonTip extends JPanel {
 	 * The simplest constructor, a balloon tip with some text and a default look
 	 * @param attachedComponent		attach the balloon tip to this component
 	 * @param text					the contents of the balloon tip (may contain HTML)
+	 * @exception NullPointerException if parameter attachedComponent is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, String text) {
 		this(attachedComponent, text, new RoundedBalloonStyle(5,5,Color.WHITE, Color.BLACK), true);
@@ -214,6 +196,7 @@ public class BalloonTip extends JPanel {
 	 * @param text					the contents of the balloon tip (may contain HTML)
 	 * @param style					the balloon tip's looks
 	 * @param useCloseButton		if true, the balloon tip gets a default close button
+	 * @exception NullPointerException if parameter attachedComponent is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, String text, BalloonTipStyle style, boolean useCloseButton) {
 		this(attachedComponent, new JLabel(text), style, useCloseButton);
@@ -225,6 +208,7 @@ public class BalloonTip extends JPanel {
 	 * @param contents				the balloon tip's contents
 	 * @param style					the balloon tip's looks
 	 * @param useCloseButton		if true, the balloon tip gets a close button
+	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, JComponent contents, BalloonTipStyle style, boolean useCloseButton) {
 		this(attachedComponent, contents, style, Orientation.LEFT_ABOVE, AttachLocation.ALIGNED, 15, 15, useCloseButton);
@@ -240,6 +224,7 @@ public class BalloonTip extends JPanel {
 	 * @param horizontalOffset		horizontal offset for the balloon's tip
 	 * @param verticalOffset		vertical offset for the balloon's tip
 	 * @param useCloseButton		if true, the balloon tip gets a close button
+	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public BalloonTip(final JComponent attachedComponent, final JComponent contents, final BalloonTipStyle style, Orientation orientation, AttachLocation attachLocation,
 			int horizontalOffset, int verticalOffset, final boolean useCloseButton) {
@@ -250,55 +235,39 @@ public class BalloonTip extends JPanel {
 		float attachY = 0.0f;
 		boolean fixedAttachLocation = true;
 
-		switch (attachLocation.value) {
-		case AttachLocation.INT_ALIGNED:
+		if (attachLocation.equals(AttachLocation.ALIGNED)) {
 			fixedAttachLocation = false;
-			break;
-		case AttachLocation.INT_CENTER:
+		} else if (attachLocation.equals(AttachLocation.CENTER)) {
 			attachX = 0.5f;
 			attachY = 0.5f;
-			break;
-		case AttachLocation.INT_NORTH:
+		} else if (attachLocation.equals(AttachLocation.NORTH)) {
 			attachX = 0.5f;
-			break;
-		case AttachLocation.INT_NORTHEAST:
+		} else if (attachLocation.equals(AttachLocation.NORTHEAST)) {
 			attachX = 1.0f;
-			break;
-		case AttachLocation.INT_EAST:
+		} else if (attachLocation.equals(AttachLocation.EAST)) {
 			attachX = 1.0f;
 			attachY = 0.5f;
-			break;
-		case AttachLocation.INT_SOUTHEAST:
+		} else if (attachLocation.equals(AttachLocation.SOUTHEAST)) {
 			attachX = 1.0f;
 			attachY = 1.0f;
-			break;
-		case AttachLocation.INT_SOUTH:
+		} else if (attachLocation.equals(AttachLocation.SOUTH)) {
 			attachX = 0.5f;
 			attachY = 1.0f;
-			break;
-		case AttachLocation.INT_SOUTHWEST:
+		} else if (attachLocation.equals(AttachLocation.SOUTHWEST)) {
 			attachY = 1.0f;
-			break;
-		case AttachLocation.INT_WEST:
+		} else if (attachLocation.equals(AttachLocation.WEST)) {
 			attachY = 0.5f;
-			break;
-		case AttachLocation.INT_NORTHWEST:
-			break;
+		} else if (attachLocation.equals(AttachLocation.NORTHWEST)) {
 		}
 
-		switch (orientation.value) {
-		case Orientation.INT_LEFT_ABOVE:
+		if (orientation.equals(Orientation.LEFT_ABOVE)) {
 			positioner = new LeftAbovePositioner(horizontalOffset, verticalOffset);
-			break;
-		case Orientation.INT_LEFT_BELOW:
+		} else if (orientation.equals(Orientation.LEFT_BELOW)) {
 			positioner = new LeftBelowPositioner(horizontalOffset, verticalOffset);
-			break;
-		case Orientation.INT_RIGHT_ABOVE:
+		} else if (orientation.equals(Orientation.RIGHT_ABOVE)) {
 			positioner = new RightAbovePositioner(horizontalOffset, verticalOffset);
-			break;
-		case Orientation.INT_RIGHT_BELOW:
+		} else if (orientation.equals(Orientation.RIGHT_BELOW)) {
 			positioner = new RightBelowPositioner(horizontalOffset, verticalOffset);
-			break;
 		}
 
 		positioner.enableFixedAttachLocation(fixedAttachLocation);
@@ -316,6 +285,7 @@ public class BalloonTip extends JPanel {
 	 * @param style					the balloon tip's looks
 	 * @param positioner			determines the way the balloon tip is positioned
 	 * @param useCloseButton		if true, the balloon tip gets a close button
+	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, JComponent contents, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
 		super();
@@ -326,6 +296,7 @@ public class BalloonTip extends JPanel {
 	 * Sets the contents of this balloon tip
 	 * (Calling this method will fire a "contents" property change event.)
 	 * @param contents		a JComponent that represents the balloon tip's contents
+	 * @exception NullPointerException if parameter contents is <code>null</code>
 	 */
 	public void setContents(JComponent contents) {
 		JComponent oldContents = this.contents;
@@ -393,6 +364,7 @@ public class BalloonTip extends JPanel {
 	 * Set a new BalloonTipPositioner, repsonsible for the balloon tip's positioning
 	 * (Calling this method will fire a "positioner" property change event.)
 	 * @param positioner	a BalloonTipPositioner
+	 * @exception NullPointerException if parameter positioner is <code>null</code>
 	 */
 	public void setPositioner(BalloonTipPositioner positioner) {
 		BalloonTipPositioner oldPositioner = this.positioner;
@@ -544,6 +516,7 @@ public class BalloonTip extends JPanel {
 	 * if you set it manually, you'll have to set it again...)
 	 * (Calling this method will fire an "attachedComponent" property change event.)
 	 * @param newComponent		the new component to attach to (may not be null)
+	 * @exception NullPointerException if parameter newComponent is <code>null</code>
 	 */
 	public void setAttachedComponent(JComponent newComponent) {
 		JComponent oldComponent = this.attachedComponent;
@@ -569,6 +542,7 @@ public class BalloonTip extends JPanel {
 	/**
 	 * Set the container on which this balloon tip should be drawn
 	 * @param tlc			the top-level container: may not be null; must be valid (isValid() must return true)
+	 * @exception NullPointerException if parameter tlc is <code>null</code>
 	 */
 	public void setTopLevelContainer(JLayeredPane tlc) {
 		if (topLevelContainer != null) {
