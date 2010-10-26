@@ -152,6 +152,7 @@ public class BalloonTip extends JPanel {
 	 * The simplest constructor, a balloon tip with some text and a default look
 	 * @param attachedComponent		attach the balloon tip to this component
 	 * @param text					the contents of the balloon tip (may contain HTML)
+	 * @exception NullPointerException if parameter attachedComponent is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, String text) {
 		this(attachedComponent, text, new RoundedBalloonStyle(5,5,Color.WHITE, Color.BLACK), true);
@@ -164,6 +165,7 @@ public class BalloonTip extends JPanel {
 	 * @param text					the contents of the balloon tip (may contain HTML)
 	 * @param style					the balloon tip's looks
 	 * @param useCloseButton		if true, the balloon tip gets a default close button
+	 * @exception NullPointerException if parameter attachedComponent is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, String text, BalloonTipStyle style, boolean useCloseButton) {
 		this(attachedComponent, new JLabel(text), style, useCloseButton);
@@ -175,6 +177,7 @@ public class BalloonTip extends JPanel {
 	 * @param contents				the balloon tip's contents
 	 * @param style					the balloon tip's looks
 	 * @param useCloseButton		if true, the balloon tip gets a close button
+	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, JComponent contents, BalloonTipStyle style, boolean useCloseButton) {
 		this(attachedComponent, contents, style, Orientation.LEFT_ABOVE, AttachLocation.ALIGNED, 15, 15, useCloseButton);
@@ -190,6 +193,7 @@ public class BalloonTip extends JPanel {
 	 * @param horizontalOffset		horizontal offset for the balloon's tip
 	 * @param verticalOffset		vertical offset for the balloon's tip
 	 * @param useCloseButton		if true, the balloon tip gets a close button
+	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public BalloonTip(final JComponent attachedComponent, final JComponent contents, final BalloonTipStyle style, Orientation orientation, AttachLocation attachLocation,
 			int horizontalOffset, int verticalOffset, final boolean useCloseButton) {
@@ -266,6 +270,7 @@ public class BalloonTip extends JPanel {
 	 * @param style					the balloon tip's looks
 	 * @param positioner			determines the way the balloon tip is positioned
 	 * @param useCloseButton		if true, the balloon tip gets a close button
+	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, JComponent contents, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
 		super();
@@ -276,6 +281,7 @@ public class BalloonTip extends JPanel {
 	 * Sets the contents of this balloon tip
 	 * (Calling this method will fire a "contents" property change event.)
 	 * @param contents		a JComponent that represents the balloon tip's contents
+	 * @exception NullPointerException if parameter contents is <code>null</code>
 	 */
 	public void setContents(JComponent contents) {
 		JComponent oldContents = this.contents;
@@ -343,6 +349,7 @@ public class BalloonTip extends JPanel {
 	 * Set a new BalloonTipPositioner, repsonsible for the balloon tip's positioning
 	 * (Calling this method will fire a "positioner" property change event.)
 	 * @param positioner	a BalloonTipPositioner
+	 * @exception NullPointerException if parameter positioner is <code>null</code>
 	 */
 	public void setPositioner(BalloonTipPositioner positioner) {
 		BalloonTipPositioner oldPositioner = this.positioner;
@@ -492,6 +499,7 @@ public class BalloonTip extends JPanel {
 	 * if you set it manually, you'll have to set it again...)
 	 * (Calling this method will fire an "attachedComponent" property change event.)
 	 * @param newComponent		the new component to attach to (may not be null)
+	 * @exception NullPointerException if parameter newComponent is <code>null</code>
 	 */
 	public void setAttachedComponent(JComponent newComponent) {
 		JComponent oldComponent = this.attachedComponent;
@@ -517,6 +525,7 @@ public class BalloonTip extends JPanel {
 	/**
 	 * Set the container on which this balloon tip should be drawn
 	 * @param tlc			the top-level container: may not be null; must be valid (isValid() must return true)
+	 * @exception NullPointerException if parameter tlc is <code>null</code>
 	 */
 	public void setTopLevelContainer(JLayeredPane tlc) {
 		if (topLevelContainer != null) {
