@@ -534,7 +534,6 @@ public class BalloonTip extends JPanel {
 
 		// Notify property listeners that the style has changed
 		firePropertyChange("attachedComponent", oldComponent, attachedComponent);
-
 		refreshLocation();
 	}
 
