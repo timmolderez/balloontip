@@ -297,10 +297,10 @@ public class BalloonTip extends JPanel {
 		this.contents=contents;
 		setPadding(padding);
 		add(this.contents, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		refreshLocation();
 
 		// Notify property listeners that the style has changed
 		firePropertyChange("contents", oldContents, this.contents);
+		refreshLocation();
 	}
 
 	/**
