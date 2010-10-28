@@ -1,9 +1,9 @@
 /**
  * Balloontip - Balloon tips for Java Swing applications
  * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
- * 
+ *
  * This file is part of Balloontip.
- * 
+ *
  * Balloontip is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -31,13 +31,13 @@ import net.java.balloontip.BalloonTip;
  * A utility class for adding simple linear fade-in/out effects to balloon tips
  * @author Tim Molderez
  */
-public class FadingUtils {
-	
+public final class FadingUtils {
+
 	/*
 	 * Disallow instantiating this class
 	 */
 	private FadingUtils() {}
-	
+
 	/**
 	 * Execute a fade-in effect on a balloon tip
 	 * @param balloon		the balloon tip
@@ -48,14 +48,14 @@ public class FadingUtils {
 	public static void fadeInBalloon(final BalloonTip balloon, final ActionListener onStop, final int time, final int refreshRate) {
 		balloon.setOpacity(0.0f);
 		balloon.setVisible(true);
-		
+
 		final int timeDelta = 1000/refreshRate;
 		// Trigger this timer at the desired refresh rate and stop it once full opacity is reached.
 		final Timer timer = new Timer(timeDelta, new ActionListener () {
 			int curTime=0;
 			public void actionPerformed(ActionEvent e) {
 				curTime += timeDelta;
-				float newOpacity = ((float)curTime)/time; // f(time)=curTime/time 
+				float newOpacity = ((float)curTime)/time; // f(time)=curTime/time
 				if (newOpacity >= 0.9999999f || Float.isNaN(newOpacity)) {
 					((Timer)e.getSource()).stop();
 					/* Because of some weird bug, possibly in AlphaComposite, the balloon tip is shifted 1px when the opacity is 1.0f
@@ -70,7 +70,7 @@ public class FadingUtils {
 		timer.setRepeats(true);
 		timer.start();
 	}
-	
+
 	/**
 	 * Execute a fade-in effect on a balloon tip
 	 * @param balloon		the balloon tip
@@ -81,7 +81,7 @@ public class FadingUtils {
 	public static void fadeOutBalloon(final BalloonTip balloon, final ActionListener onStop, final int time, final int refreshRate) {
 		balloon.setOpacity(0.9999999f);
 		balloon.setVisible(true);
-		
+
 		final int timeDelta = 1000/refreshRate;
 		final Timer timer = new Timer(timeDelta, new ActionListener () {
 			int curTime=0;
