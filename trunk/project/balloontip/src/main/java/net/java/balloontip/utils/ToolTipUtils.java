@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.Timer;
 
@@ -80,14 +81,23 @@ public final class ToolTipUtils {
 		}
 
 		public void mouseExited(MouseEvent e) {
+			stopTimers();
+			balloonTip.setVisible(false);
+		}
+		
+		/*
+		 * Stops all timers related to this tool tip
+		 */
+		private void stopTimers() {
 			initialTimer.stop();
 			showTimer.stop();
-			balloonTip.setVisible(false);
 		}
 	}
 
 	/**
 	 * Turns a balloon tip into a tooltip
+	 * This is done by adding a mouse listener to the attached component.
+	 * (Call toolTipToBalloon() if you wish to remove this listener.)
 	 * @param bT			the balloon tip
 	 * @param initialDelay	in milliseconds, how long should you hover over the attached component before showing the tooltip
 	 * @param showDelay		in milliseconds, how long should the tooltip stay visible
@@ -96,5 +106,23 @@ public final class ToolTipUtils {
 		bT.setVisible(false);
 		// Add tooltip behaviour
 		bT.getAttachedComponent().addMouseListener(new ToolTipController(bT, initialDelay, showDelay));
+	}
+	
+	/**
+	 * Turns a balloon tooltip back into a regular balloon tip
+	 * @param bT			the balloon tip
+	 * @param initialDelay	in milliseconds, how long should you hover over the attached component before showing the tooltip
+	 * @param showDelay		in milliseconds, how long should the tooltip stay visible
+	 */
+	public static void toolTipToBalloon(final BalloonTip bT) {
+		// Remove tooltip behaviour
+		for (MouseListener m: bT.getAttachedComponent().getMouseListeners()) {
+			if (m instanceof ToolTipController) {
+				bT.getAttachedComponent().removeMouseListener(m);
+				((ToolTipController) m).stopTimers();
+				bT.setVisible(true);
+				return;
+			}
+		}
 	}
 }
