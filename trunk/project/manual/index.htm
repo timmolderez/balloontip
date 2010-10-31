@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="style/style.css" type="text/css" /></head>
 <body>
 <div id="header"> <img src="images/BalloonTip.png" alt="Balloon tip" />
-<div id="title"> Manual <span id="releaseDate">v1.1</span></div>
+<div id="title"> Manual <span id="releaseDate">v1.1.1</span></div>
 </div>
 <div class="section">
 <div class="title"> Table of contents</div>
@@ -82,7 +82,8 @@ tip special releases</a>.)
 </div>
 <div class="subSection">
 <div class="title">1.2.&nbsp;Getting started<a name="gettingstarted"></a></div>
-<p> Thanks for giving&nbsp;Balloon tip a try! You can now spice up your Java Swing applications with the balloon
+<p> Thanks for giving&nbsp;Balloon tip a try! You can now
+spice up your Java Swing applications with the balloon
 tip components provided in this project. </p>
 <p> Before diving in, let's take a quick look at the things that
 are
@@ -562,7 +563,7 @@ how to create your own <code>BalloonTipPositioner</code>
 is by looking at an example. The following example demonstrates a very
 simple positioner that will place the balloon tip at a fixed location
 relative to the attached component:</p>
-<pre><code><br />public class SimpleTipPositioner extends BalloonTipPositioner {<br />	int x = 0; // Current X-coordinate of the top-left corner of the bounding box around the balloon tip<br />	int y = 0; // Current Y-coordinate of the top-left corner of the bounding box around the balloon tip<br /><br />	/* The balloon tip will call this method every time it wants to re-draw itself.<br />	 * The parameter of this function, attached, is the Rectangle that the balloon tip should attach itself to. */<br />	public void determineAndSetLocation(Rectangle attached) {<br />		/* Calculate the coordinates of the top-left corner of the bounding box around the balloon tip<br />		 * This positioner will place the balloon tip above the attached Rectangle. */<br />		x = attached.x;<br />		y = attached.y - balloonTip.getPreferredSize().height;<br /><br />		// Now move the balloon tip to the position we've just calculated<br />		balloonTip.setBounds(x, y, balloonTip.getPreferredSize().width, balloonTip.getPreferredSize().height);<br />		balloonTip.validate();<br />	}<br /><br />	/* This method should return the location of the balloon's tip */<br />	public Point getTipLocation() {<br />		/* You may use the last position calculated in determineAndSetLocation to calculate the tip's location.<br />		 * The fields x and y now contain the position of the top-left corner of the bounding box of the balloon tip. */<br />		return new Point(x + 20, y + balloonTip.getPreferredSize().height);<br />	}<br /><br />	/* Whenever a balloon tip's style is changed (This includes setting it for the first time..), this method is called.<br />	*&nbsp;Within this method, the positioner should take care of properly setting up this new style. */<br />	protected void onStyleChange() {<br />		balloonTip.getStyle().setHorizontalOffset(20);<br />		balloonTip.getStyle().setVerticalOffset(20);<br /></code><code>		balloonTip.getStyle().flipX(false);<br />		balloonTip.getStyle().flipY(false);</code><br /><code>	}<br />}</code></pre>
+<pre><code><br />public class SimpleTipPositioner extends BalloonTipPositioner {<br />	int x = 0; // Current X-coordinate of the top-left corner of the bounding box around the balloon tip<br />	int y = 0; // Current Y-coordinate of the top-left corner of the bounding box around the balloon tip<br /><br />	/* The balloon tip will call this method every time it wants to re-draw itself.<br />	* The parameter of this function, attached, is the Rectangle that the balloon tip should attach itself to. */<br />	public void determineAndSetLocation(Rectangle attached) {<br />		/* Calculate the coordinates of the top-left corner of the bounding box around the balloon tip<br />		* This positioner will place the balloon tip above the attached Rectangle. */<br />		x = attached.x;<br />		y = attached.y - balloonTip.getPreferredSize().height;<br /><br />		// Now move the balloon tip to the position we've just calculated<br />		balloonTip.setBounds(x, y, balloonTip.getPreferredSize().width, balloonTip.getPreferredSize().height);<br />		balloonTip.validate();<br />	}<br /><br />	/* This method should return the location of the balloon's tip */<br />	public Point getTipLocation() {<br />		/* You may use the last position calculated in determineAndSetLocation to calculate the tip's location.<br />		* The fields x and y now contain the position of the top-left corner of the bounding box of the balloon tip. */<br />		return new Point(x + 20, y + balloonTip.getPreferredSize().height);<br />	}<br /><br />	/* Whenever a balloon tip's style is changed (This includes setting it for the first time..), this method is called.<br />	*&nbsp;Within this method, the positioner should take care of properly setting up this new style. */<br />	protected void onStyleChange() {<br />		balloonTip.getStyle().setHorizontalOffset(20);<br />		balloonTip.getStyle().setVerticalOffset(20);<br /></code><code>		balloonTip.getStyle().flipX(false);<br />		balloonTip.getStyle().flipY(false);</code><br /><code>	}<br />}</code></pre>
 <p>Using this positioner will produce the following result:</p>
 <div class="image"> <img src="images/CustomPositioner.png" alt="A BalloonTip with a simple custom-made BalloonTipPositioner" /><br />
 A <code>BalloonTip</code> with a simple custom-made <code>BalloonTipPositioner</code>
@@ -617,6 +618,16 @@ outside a certain area, or ...</p>
 <div class="section">
 <div class="title"> 3. Release notes<a name="releasenotes"></a></div>
 <ul>
+<li><strong>1.1.1</strong>
+<ul>
+<li>Bug fix: Fixed rare issue where balloon tips dissappear
+if you resize the window, go to another tab, then go back.</li>
+<li>Bug fix: Fixed issue where a balloon tip is visible at
+instantiation when it shouldn't be.</li>
+<li>Improvement: Added ToolTipUtils.toolTipToBalloon() to
+turn balloon tooltips back to normal.</li>
+</ul>
+</li>
 <li><strong>1.1</strong>
 <ul>
 <li>New feature: The contents of a BalloonTip can now be
