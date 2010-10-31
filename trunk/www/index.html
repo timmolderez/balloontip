@@ -10,12 +10,34 @@
 <p><a href="https://balloontip.dev.java.net/servlets/ProjectDocumentList"><strong>Download</strong> the latest release</a>.</p>
 <p><a href="https://balloontip.dev.java.net/source/browse/*checkout*/balloontip/trunk/project/manual/index.htm"><strong>View</strong> the project's manual</a>. (also included with each release)</p>
 <p>If you find this project useful and/or have any suggestions, please drop <a href="mailto:nferno@dev.java.net">Tim</a> or <a href="mailto:bernhard_pauler@dev.java.net">Bernhard</a> an email!</p>
-<p><img src="images/screenshot.jpg"></p>
+<p><img src="images/screenshot.jpg" alt="Balloon tip screenshot"></p>
 
 <h2>Announcements</h2>
 
 
 <table bgcolor="#FFFDE5" width="100%" border="0">
+<tr><td>
+<b>2010-10-31 (v1.1.1), Squashing bugs:</b>
+</td></tr>
+<tr><td>
+<p>
+Just a quick update containing a few bug fixes:
+</p>
+<ul>
+<li>Bug fix: Fixed rare issue where balloon tips dissappear
+if you resize the window, go to another tab, then go back.</li>
+<li>Bug fix: Fixed issue where a balloon tip is visible at
+instantiation when it shouldn't be.</li>
+<li>Improvement: Added ToolTipUtils.toolTipToBalloon() to
+turn balloon tooltips back to normal.</li>
+</ul>
+</td></tr>
+</table>
+
+<br />
+
+
+<table bgcolor="#ECECEC" width="100%" border="0">
 <tr><td>
 <b>2010-10-18 (v1.1), Back in action:</b>
 </td></tr>
@@ -189,17 +211,17 @@ It's been quite a while since we've released an update. To make up for that, we'
 </td></tr>
 <tr><td>
 <p>
-The new version includes the following main features (besides some bug fixes):
+The new version includes the following main features (besides some bug fixes):</p>
 <ul>
 <li>The balloon tip can now be displayed above or below on either side of the attached component</li>
 <li>The location of the triangle tip can be set manually to the center and all "corners" of the attached component (useful for icons)</li>
 <li>The border width of the close button can be set</li>
 </ul>
-</p>
+
 <p>The API has changed a little bit - sorry for that. For explanation look <a href="#explanation">here</a> ("How to use BalloonTip").</p>
 <p>A bigger change is the move to Java 5. It has been out now for a while, so I don't think it will be a big problem. If you are locked down to an older version, you can still make it work for you by replacing the enumerations in the source code with constants.</p>
 <p>Also noteworthy: The release package now contains an executable JAR. Double-click on the JAR to launch the example application:</p>
-<p><img src="screenshots/balloontip-screenshot_2007-12-30_1346.png"></p>
+<p><img src="screenshots/balloontip-screenshot_2007-12-30_1346.png" alt="Balloon tip screenshot" /></p>
 <p><b>And as always - please drop me a line, if this project has been useful to you!</b></p>
 </td></tr>
 </table>
@@ -213,13 +235,13 @@ The new version includes the following main features (besides some bug fixes):
 <tr><td>
 <p>
 It's about time that the project receives an update - and here it is. This new version includes the following features:
+</p>
 <ul>
 <li>One new flavor: Rounded balloon tips</li>
 <li>Close buttons</li>
 <li>Revised example application</li>
 <li>Some other but minor improvements like expanded customizability</li>
 </ul>
-</p>
 <p>The API has been changed rather drastically, look <a href="#explanation">here</a> for explanation ("How to use BalloonTip").</p>
 <p>I would like to thank Mina R. Waheeb who wrote me an email with her modification for rounded balloon tips. I used it as a foundation for my implementation. Thanks, Mina!</p>
 </td></tr>
