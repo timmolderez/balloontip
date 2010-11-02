@@ -610,10 +610,6 @@ public class BalloonTip extends JPanel {
 		super.paintComponent(g);
 	}
 
-	public boolean isOpaque() {
-		return false;
-	}
-
 	/**
 	 * Set this balloon tip's visibility
 	 * @param visible		visible if true (and if the listeners associated with this balloon tip have no reason to hide the balloon tip!
