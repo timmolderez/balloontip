@@ -11,7 +11,7 @@
 	
 	<!-- Project info -->
 	<name>Balloon tip project</name>
-	<version>1.2</version>
+	<version>1.3-SNAPSHOT</version>
 	<description>Provides balloon tips for use in Java Swing applications.</description>
 	<url>https://balloontip.dev.java.net/</url>
 	<licenses>
@@ -40,9 +40,9 @@
 		<url>https://balloontip.dev.java.net/servlets/ProjectIssues</url>
 	</issueManagement>
 	<scm>
-		<connection>scm:svn:https://svn.java.net/svn/balloontip~svn/tags/balloontip-parent-1.2</connection>
-		<developerConnection>scm:svn:https://svn.java.net/svn/balloontip~svn/tags/balloontip-parent-1.2</developerConnection>
-		<url>http://java.net/projects/balloontip/sources/svn/show/tags/balloontip-parent-1.2</url>
+		<connection>scm:svn:https://svn.java.net/svn/balloontip~svn/trunk</connection>
+		<developerConnection>scm:svn:https://svn.java.net/svn/balloontip~svn/trunk</developerConnection>
+		<url>http://java.net/projects/balloontip/sources/svn/show</url>
 	</scm>
 	<repositories>
 		<repository>
