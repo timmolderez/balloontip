@@ -16,8 +16,8 @@
 	<url>https://balloontip.dev.java.net/</url>
 	<licenses>
 		<license>
-			<name>GNU Lesser General Public License v3</name>
-			<url>COPYING.LESSER.txt</url>
+			<name>3-Clause BSD License</name>
+			<url>LICENSE.txt</url>
 		</license>
 	</licenses>
 	<inceptionYear>2007</inceptionYear>
@@ -40,9 +40,9 @@
 		<url>https://balloontip.dev.java.net/servlets/ProjectIssues</url>
 	</issueManagement>
 	<scm>
-		<connection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/tags/balloontip-parent-1.1</connection>
-		<developerConnection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/tags/balloontip-parent-1.1</developerConnection>
-		<url>https://balloontip.dev.java.net/source/browse/balloontip/tags/balloontip-parent-1.1</url>
+		<connection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/tags/balloontip-parent-1.2</connection>
+		<developerConnection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/tags/balloontip-parent-1.2</developerConnection>
+		<url>https://balloontip.dev.java.net/source/browse/balloontip/tags/balloontip-parent-1.2</url>
 	</scm>
 	<repositories>
 		<repository>
