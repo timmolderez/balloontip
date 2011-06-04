@@ -1,21 +1,10 @@
 /**
- * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
- *
- * This file is part of Balloontip.
- *
- * Balloontip is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * Balloontip is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Balloontip. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
  */
 
 package net.java.balloontip;
@@ -36,7 +25,7 @@ import net.java.balloontip.positioners.BalloonTipPositioner;
 import net.java.balloontip.styles.BalloonTipStyle;
 
 /**
- * Provides similar functionality as a CustomBalloonTip, but attaches itself to a cell in a JTable.
+ * Provides similar functionality as a CustomBalloonTip, but attaches itself to a cell in a JTable
  * @author Tim Molderez
  */
 public class TablecellBalloonTip extends CustomBalloonTip {
@@ -78,10 +67,9 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 
 	/**
 	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, Orientation, AttachLocation, int, int, boolean)
-	 * @param table		The table to attach the balloon tip to
+	 * @param table		The table to attach the balloon tip to (may not be null)
 	 * @param row		Which row is the balloon tip attached to
 	 * @param column	Which column is the balloon tip attached to
-	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public TablecellBalloonTip(JTable table, JComponent component, int row, int column, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
 		super(table, component, table.getCellRect(row, column, true), style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
@@ -89,11 +77,10 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 	}
 
 	/**
-	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, BalloonTipPositioner, boolean)
-	 * @param table		The table to attach the balloon tip to
+	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, BalloonTipPositioner, JButton)
+	 * @param table		The table to attach the balloon tip to (may not be null)
 	 * @param row		Which row is the balloon tip attached to
 	 * @param column	Which column is the balloon tip attached to
-	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public TablecellBalloonTip(JTable table, JComponent component, int row, int column, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
 		super(table, component, table.getCellRect(row, column, true), style, positioner, closeButton);

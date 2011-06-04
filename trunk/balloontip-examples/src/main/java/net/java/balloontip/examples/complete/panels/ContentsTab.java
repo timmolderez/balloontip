@@ -1,21 +1,10 @@
 /**
- * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
  * 
- * This file is part of Balloontip.
- * 
- * Balloontip is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * Balloontip is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Balloontip. If not, see <http://www.gnu.org/licenses/>.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
  */
 
 package net.java.balloontip.examples.complete.panels;
@@ -37,7 +26,6 @@ import javax.swing.JTable;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.TablecellBalloonTip;
 import net.java.balloontip.examples.complete.CompleteExample;
-import net.java.balloontip.styles.EdgedBalloonStyle;
 
 /**
  * Contents tab of the demo application; demonstrates that a balloon tip can contain all sorts of components
@@ -68,11 +56,9 @@ public class ContentsTab extends JPanel {
 		contents1.setIcon(new ImageIcon(CompleteExample.class.getResource("/net/java/balloontip/images/frameIcon.png")));
 		contents1.setIconTextGap(10);
 		new BalloonTip(label1, contents1,
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				15, 15, 
-				false);
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 		
 		// Balloon tip 2
 		JLabel label2 = new JLabel("A balloon tip with tabs");
@@ -88,11 +74,9 @@ public class ContentsTab extends JPanel {
 		contents2.addTab("FirstTab", tab1);
 		contents2.addTab("SecondTab", tab2);
 		new BalloonTip(label2, contents2,
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				15, 15, 
-				false);
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 
 		// Balloon tip 3
 		JLabel label3 = new JLabel("A balloon tip a table");
@@ -108,11 +92,9 @@ public class ContentsTab extends JPanel {
 		tableScrollPane.setPreferredSize(new Dimension(150,100));
 		tableScrollPane.setBackground(Color.WHITE);
 		new BalloonTip(label3, tableScrollPane,
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				15, 15, 
-				false);
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 		
 		// Balloon tip 4
 		JLabel label4 = new JLabel("Nesting balloon tips");
@@ -127,11 +109,9 @@ public class ContentsTab extends JPanel {
 		panel1.setPreferredSize(new Dimension(100, 75));
 		panel1.setBackground(Color.WHITE);
 		new BalloonTip(label4, panel1,
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				15, 15, 
-				false);
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 		
 		JPanel panel2 = new JPanel();
 		panel2.setBackground(Color.WHITE);
@@ -139,13 +119,10 @@ public class ContentsTab extends JPanel {
 		comp2.setIcon(new ImageIcon(CompleteExample.class.getResource("/net/java/balloontip/images/frameIcon.png")));
 		panel2.add(comp2);
 		final TablecellBalloonTip tableBt = new TablecellBalloonTip(comp1, panel2, 1,1,
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				15, 15, 
-				false);
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 		tableBt.setPadding(0);
-		tableBt.setViewport(panel1.getViewport());
 		
 		JTabbedPane panel3 = new JTabbedPane();
 		JPanel panel3Tab1 = new JPanel();
@@ -155,10 +132,8 @@ public class ContentsTab extends JPanel {
 		panel3.addTab("A", panel3Tab1);
 		panel3.addTab("B", panel3Tab2);
 		new BalloonTip(comp2, panel3,
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				15, 15, 
-				false);
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 	}
 }

@@ -1,21 +1,10 @@
 /**
- * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
  * 
- * This file is part of Balloontip.
- * 
- * Balloontip is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * Balloontip is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Balloontip. If not, see <http://www.gnu.org/licenses/>.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
  */
 
 package net.java.balloontip.examples.table;
@@ -42,7 +31,6 @@ import net.java.balloontip.styles.MinimalBalloonStyle;
  * @author Tim Molderez
  */
 public class TableExample {
-	private static TablecellBalloonTip tableBalloon = null;
 	
 	/**
 	 * Main method
@@ -77,7 +65,7 @@ public class TableExample {
 				table.scrollRectToVisible(table.getCellRect(8, 16, true));
 				
 				// Create the TablecellBalloonTip
-				tableBalloon = new TablecellBalloonTip(table, 
+				new TablecellBalloonTip(table, 
 						new JLabel("A TablecellBalloonTip"), 
 						16, 16,
 						new MinimalBalloonStyle(new Color(255, 0, 0, 180), 10),
@@ -85,8 +73,6 @@ public class TableExample {
 						BalloonTip.AttachLocation.ALIGNED, 
 						40, 20, 
 						false);
-				tableBalloon.setViewport(tableScrollPane.getViewport());
-				
 				frame.pack();
 				frame.setSize(640, 260);
 				frame.setLocationRelativeTo(null);

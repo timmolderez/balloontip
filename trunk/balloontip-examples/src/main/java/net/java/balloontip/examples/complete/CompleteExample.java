@@ -1,21 +1,10 @@
 /**
- * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
  * 
- * This file is part of Balloontip.
- * 
- * Balloontip is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * Balloontip is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Balloontip. If not, see <http://www.gnu.org/licenses/>.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
  */
 
 package net.java.balloontip.examples.complete;
@@ -30,7 +19,10 @@ import javax.swing.UIManager;
 
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.panels.MainPanel;
+import net.java.balloontip.positioners.BalloonTipPositioner;
+import net.java.balloontip.positioners.LeftAbovePositioner;
 import net.java.balloontip.styles.BalloonTipStyle;
+import net.java.balloontip.styles.EdgedBalloonStyle;
 import net.java.balloontip.styles.MinimalBalloonStyle;
 import net.java.balloontip.utils.TimingUtils;
 import net.java.balloontip.utils.ToolTipUtils;
@@ -94,5 +86,21 @@ public class CompleteExample {
 				style, BalloonTip.Orientation.LEFT_ABOVE, BalloonTip.AttachLocation.ALIGNED, 15, 10, false);
 		errBalloon.addDefaultMouseListener(false);
 		TimingUtils.showTimedBalloon(errBalloon, 3000);
+	}
+	
+	/**
+	 * Retrieve an instance of the balloon tip style to be used throughout the application
+	 * @return	the balloon tip style
+	 */
+	public static BalloonTipStyle createBalloonTipStyle() {
+		return new EdgedBalloonStyle(new Color(255,253,245), new Color(64,64,64));
+	}
+	
+	/**
+	 * Retrieve an instance of the balloon tip positioner to be used throughout the application
+	 * @return	the balloon tip positioner
+	 */
+	public static BalloonTipPositioner createBalloonTipPositioner() {
+		return new LeftAbovePositioner(15, 10);
 	}
 }

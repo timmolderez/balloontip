@@ -1,21 +1,10 @@
 /**
- * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
  * 
- * This file is part of Balloontip.
- * 
- * Balloontip is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * Balloontip is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Balloontip. If not, see <http://www.gnu.org/licenses/>.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
  */
 
 package net.java.balloontip.examples.complete.panels;
@@ -41,16 +30,13 @@ import javax.swing.table.TableColumn;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.CustomBalloonTip;
 import net.java.balloontip.TablecellBalloonTip;
-import net.java.balloontip.styles.EdgedBalloonStyle;
+import net.java.balloontip.examples.complete.CompleteExample;
 
 /**
  * Types tab of the demo application; demonstrates the different balloon tip types
  * @author Tim Molderez
  */
 public class TypesTab extends JPanel {
-	private final TablecellBalloonTip tableBalloon;
-	private final CustomBalloonTip customBalloon;
-
 	/**
 	 * Default constructor
 	 */
@@ -126,20 +112,15 @@ public class TypesTab extends JPanel {
 
 		// Regular balloon tip
 		new BalloonTip(label, new JLabel("I'm a BalloonTip!"),
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				15, 15, 
-				false);
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 
 		// Tablecell balloon tip
-		tableBalloon = new TablecellBalloonTip(table, new JLabel("I'm a TableCellBalloonTip!"), 32, 32,
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				15, 15, 
-				false);
-		tableBalloon.setViewport(tableScrollPane.getViewport());
+		new TablecellBalloonTip(table, new JLabel("I'm a TableCellBalloonTip!"), 32, 32,
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 		table.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				table.scrollRectToVisible(table.getCellRect(33, 38, true));
@@ -150,15 +131,12 @@ public class TypesTab extends JPanel {
 		});
 
 		// Custom balloon tip
-		customBalloon = new CustomBalloonTip(customComponent, 
+		new CustomBalloonTip(customComponent, 
 				new JLabel("I'm a CustomBalloonTip!"),
 				customOffset,
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				15, 15, 
-				false);
-		customBalloon.setViewport(customScrollPane.getViewport());
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 		customComponent.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				customComponent.scrollRectToVisible(new Rectangle(876,340,10,10));
