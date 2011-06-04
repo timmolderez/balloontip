@@ -40,9 +40,9 @@
 		<url>https://balloontip.dev.java.net/servlets/ProjectIssues</url>
 	</issueManagement>
 	<scm>
-		<connection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/tags/balloontip-parent-1.2</connection>
-		<developerConnection>scm:svn:https://balloontip.dev.java.net/svn/balloontip/tags/balloontip-parent-1.2</developerConnection>
-		<url>https://balloontip.dev.java.net/source/browse/balloontip/tags/balloontip-parent-1.2</url>
+		<connection>scm:svn:https://svn.java.net/svn/balloontip~svn/tags/balloontip-parent-1.2</connection>
+		<developerConnection>scm:svn:https://svn.java.net/svn/balloontip~svn/tags/balloontip-parent-1.2</developerConnection>
+		<url>http://java.net/projects/balloontip/sources/svn/show/tags/balloontip-parent-1.2</url>
 	</scm>
 	<repositories>
 		<repository>
