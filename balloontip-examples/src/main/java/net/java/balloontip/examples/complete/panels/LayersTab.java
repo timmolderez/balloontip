@@ -1,3 +1,12 @@
+/**
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
+ */
+
 /*
  * Copyright (c) 1995 - 2008 Sun Microsystems, Inc.  All rights reserved.
  *
@@ -51,7 +60,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import net.java.balloontip.BalloonTip;
-import net.java.balloontip.styles.EdgedBalloonStyle;
+import net.java.balloontip.examples.complete.CompleteExample;
 
 /**
  * Class taken and adapted from the Sun tutorial "How to Use Layered Panes".
@@ -116,11 +125,9 @@ public class LayersTab extends JPanel {
 
 		layeredPane.add(dukeLabel, new Integer(2), 0);
 		balloonTip = new BalloonTip(dukeLabel, new JLabel("Ready for action!"),
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE),
-				BalloonTip.Orientation.LEFT_ABOVE,
-				BalloonTip.AttachLocation.ALIGNED,
-				15, 15,
-				false);
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 		balloonTip.setTopLevelContainer(layeredPane);
 		balloonTip.setPadding(4);
 		layeredPane.setLayer(balloonTip, 2, 0);

@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="style/style.css" type="text/css" /></head>
 <body>
 <div id="header"> <img src="images/BalloonTip.png" alt="Balloon tip" />
-<div id="title"> Manual <span id="releaseDate">v1.1.1</span></div>
+<div id="title"> Manual <span id="releaseDate">v1.2</span></div>
 </div>
 <div class="section">
 <div class="title"> Table of contents</div>
@@ -75,10 +75,7 @@ your own BalloonTipPositioner</a></li>
 <div class="subSection">
 <div class="title">1.1.&nbsp;Requirements<a name="requirements"></a></div>
 The only requirement to make use of&nbsp;Balloon tip is that you
-need Java 1.5&nbsp;or higher.<br />
-(In case you can only work with an
-older Java version, you may want to take a look at the <a target="_blank" href="https://balloontip.dev.java.net/servlets/ProjectDocumentList?folderID=11577&amp;expandFolder=11577&amp;folderID=11577">Balloon
-tip special releases</a>.)
+need Java 1.5&nbsp;or higher.
 </div>
 <div class="subSection">
 <div class="title">1.2.&nbsp;Getting started<a name="gettingstarted"></a></div>
@@ -111,12 +108,11 @@ project before.</li>
 get
 familiar with the features Balloon tip has to offer. The quickest way
 to do this is to try out the demo application. Simply double-click the
-balloontip_with_examples_ ... .jar-file to open the application. </p>
+balloontip_with_examples_ ... .jar-file to open the demo application. </p>
 <p> If this doesn't work, you'll have to open up a
 console/command-line window and navigate into the Balloon
-tip-directory. <br />
-Just enter the following command to start the demo application: <code>java
--jar balloontip-examples ... .jar</code><br />
+tip-directory.<br />Just enter the following command to start the demo application:
+<code>java -jar balloontip-examples ... .jar</code><br />
 (Replace the "..." with the right version number.) </p>
 <div class="image"> <img style="width: 547px; height: 725px;" src="images/DemoApplication.PNG" alt="The balloon tip example application" /><br />
 The demo application </div>
@@ -133,8 +129,7 @@ balloon tips. </p>
 <div class="title">1.3. Using BalloonTip<a name="usingballoontip"></a></div>
 <div class="subSection">
 <div class="title">1.3.1. My first balloon tip<a name="simpleconstructor"></a></div>
-<p> The <code>BalloonTip</code> class forms the base
-class for all other types of balloon tips. A <code>BalloonTip</code>
+<p> The <code>BalloonTip</code> class implements the basic type of balloon tip that you will use in most cases. A <code>BalloonTip</code>
 instance can attach itself to about any visual component: a <code>JButton</code>,
 <code>JLabel</code>, <code>JTextField</code>,
 ... In order to create and show a <code>BalloonTip</code>
@@ -302,17 +297,14 @@ regular <code>BalloonTip</code>, but you can attach it to
 a rectangular shape within a component, instead of attaching it to the
 entire component. </p>
 <p>This can be very useful in case you're creating your own <code>JComponent</code>,
-such as a timeline or a calendar. Also, if the component is embedded in
-a <code>JScrollPane</code>, you can set up the balloon tip
-such that it will hide itself as soon as the balloon's tip becomes
-invisible.</p>
+such as a timeline or a calendar.</p>
 <div class="image"> <img src="images/CustomBalloonTip.png" alt="An application with a custom JComponent that displays a timeline; it has a CustomBalloonTip attached to it" /><br />
 An application with a custom <code>JComponent</code> that
 displays a timeline; it has a <code>CustomBalloonTip</code>
 attached to it </div>
 <p>Just take a look at this snippet of code, which was used in
 the demo application, just to see how it&nbsp;works:</p>
-<pre><code>// Create a custom JComponent that draws a huge white canvas with a small blue rectangle in it<br />final Rectangle customOffset = new Rectangle(640, 320, 50, 16);<br />final JComponent customComponent = new JComponent() {<br />	protected void paintComponent(Graphics g) {<br />		Rectangle clip = g.getClipBounds();<br />		g.setColor(Color.WHITE);<br />		g.fillRect(clip.x, clip.y, clip.width, clip.height);<br />		g.setColor(Color.BLUE);<br />		g.fillRect(customOffset.x, customOffset.y, customOffset.width, customOffset.height);<br />	}<br />};<br />customComponent.setPreferredSize(new Dimension(1280, 640));<br /><br />// Put the custom JComponent in a scroll pane<br />final JScrollPane customScrollPane = new JScrollPane(customComponent);<br /><br />// Now create the CustomBalloonTip, such that it attaches itself to the blue rectangle<br />customBalloon = new CustomBalloonTip(customComponent, <br />	"I'm a CustomBalloonTip!",<br />	customOffset,<br />	new EdgedBalloonStyle(Color.WHITE, Color.BLUE), <br />	BalloonTip.Orientation.LEFT_ABOVE, <br />	BalloonTip.AttachLocation.ALIGNED, <br />	20, 20, <br />	false);<br />	<br />// Hide the balloon tip when the tip is no longer visible in the scroll pane's viewport<br />customBalloon.setViewport(customScrollPane.getViewport());<br /></code></pre>
+<pre><code>// Create a custom JComponent that draws a huge white canvas with a small blue rectangle in it<br />final Rectangle customOffset = new Rectangle(640, 320, 50, 16);<br />final JComponent customComponent = new JComponent() {<br />	protected void paintComponent(Graphics g) {<br />		Rectangle clip = g.getClipBounds();<br />		g.setColor(Color.WHITE);<br />		g.fillRect(clip.x, clip.y, clip.width, clip.height);<br />		g.setColor(Color.BLUE);<br />		g.fillRect(customOffset.x, customOffset.y, customOffset.width, customOffset.height);<br />	}<br />};<br />customComponent.setPreferredSize(new Dimension(1280, 640));<br /><br />// Now create the CustomBalloonTip, such that it attaches itself to the blue rectangle<br />customBalloon = new CustomBalloonTip(customComponent, <br />	"I'm a CustomBalloonTip!",<br />	customOffset,<br />	new EdgedBalloonStyle(Color.WHITE, Color.BLUE), <br />	BalloonTip.Orientation.LEFT_ABOVE, <br />	BalloonTip.AttachLocation.ALIGNED, <br />	20, 20, <br />	false);<br /></code></pre>
 </div>
 <div class="subSection">
 <div class="title">1.4.2. TablecellBalloonTip<a name="tablecellballoontip"></a></div>
@@ -323,9 +315,7 @@ Instead of specifying a rectangular offset, you&nbsp;specify a cell
 row
 and&nbsp;column. The row and column will determine which table cell
 the
-balloon tip should attach itself to. Just like <code>CustomBalloonTip</code>,
-if the table is embedded in a scroll pane, you can make the balloon tip
-hide itself whenever the tip becomes invisible.</p>
+balloon tip should attach itself to.</p>
 </div>
 </div>
 <div class="subSection">
@@ -347,7 +337,7 @@ example:</p>
 desire something more complex than a linear function, you could
 quite easily&nbsp;implement your own fade effects&nbsp;using
 the <code>setOpacity</code> method of <code>BalloonTip</code>
-in combination with, for example, <a href="https://timingframework.dev.java.net/" target="_blank">timingframework</a>.
+in combination with, for example, <a href="http://java.net/projects/timingframework" target="_blank">timingframework</a>.
 </div>
 <div class="subSection">
 <div class="title">1.5.3. Balloon tooltips<a name="balloontooltips"></a></div>
@@ -382,8 +372,8 @@ follows:</p>
 <li>In order to import Maven projects into Eclipse, you'll need
 a plugin such as&nbsp;<a href="http://m2eclipse.sonatype.org/" target="_blank">m2eclipse</a>; install this first.</li>
 <li>If you haven't already done so, download and unzip the
-latest Balloon tip release from <a target="_blank" href="https://balloontip.dev.java.net/">
-https://balloontip.dev.java.net/</a>.</li>
+latest Balloon tip release from <a target="_blank" href="https://balloontip.dev.java.net">
+https://balloontip.dev.java.net</a>.</li>
 <li>In Eclipse, go to "File" &gt; "Import".</li>
 <li>Select "Maven" &gt; "Existing Maven Projects".</li>
 <li>Click "Next".</li>
@@ -617,7 +607,17 @@ outside a certain area, or ...</p>
 </div>
 <div class="section">
 <div class="title"> 3. Release notes<a name="releasenotes"></a></div>
+
 <ul>
+<li><strong>1.2</strong>
+<ul>
+	<li>Change: Balloon tip's license was changed from LGPL v2.1 (or higher) to the 3-Clause BSD License.</li>
+	<li>New feature: Any type of balloon tip can now be embedded in (multiple nested) scroll panes. These scroll panes are detected automatically as well.<br />(As a consequence, the CustomBalloonTip.setViewport() method is no longer needed and is removed.)</li>
+	<li>New feature: Two new balloon tip styles are added: IsometricBalloonTipStyle and ToolTipBalloonTipStyle.</li>
+	<li>Bug fix: Fixed rare issue where a balloon tip can be positioned incorrectly initially.</li>
+	<li>Bug fix: When using a balloon tip as a tooltip, the balloon tip is now hidden when the attached component is clicked.</li>
+</ul>
+</li>
 <li><strong>1.1.1</strong>
 <ul>
 <li>Bug fix: Fixed rare issue where balloon tips dissappear

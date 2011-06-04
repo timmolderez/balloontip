@@ -1,21 +1,10 @@
 /**
- * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
  * 
- * This file is part of Balloontip.
- * 
- * Balloontip is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * Balloontip is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Balloontip. If not, see <http://www.gnu.org/licenses/>.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
  */
 
 package net.java.balloontip.examples.complete.panels;
@@ -44,10 +33,12 @@ import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.CompleteExample;
 import net.java.balloontip.positioners.BasicBalloonTipPositioner;
 import net.java.balloontip.styles.EdgedBalloonStyle;
+import net.java.balloontip.styles.IsometricBalloonStyle;
 import net.java.balloontip.styles.MinimalBalloonStyle;
 import net.java.balloontip.styles.ModernBalloonStyle;
 import net.java.balloontip.styles.RoundedBalloonStyle;
 import net.java.balloontip.styles.TexturedBalloonStyle;
+import net.java.balloontip.styles.ToolTipBalloonStyle;
 
 /**
  * Looks tab of the demo application; lets you experiment with a balloon tip's looks
@@ -87,7 +78,7 @@ public class LooksTab extends JPanel {
 
 		// Styles combobox
 		add(new JLabel("Style:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
-		String[] stylesOptions = {"Edged", "Rounded", "Modern", "Minimal", "Textured"};
+		String[] stylesOptions = {"Edged", "Isometric", "Minimal", "Modern", "Rounded", "Textured", "Tooltip"};
 		stylePicker = new JComboBox(stylesOptions);
 		add(stylePicker, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
@@ -145,7 +136,7 @@ public class LooksTab extends JPanel {
 
 		// Create the balloon tip
 		balloonTip = new BalloonTip(attachedComponent, new JLabel(contents.getText()),
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
+				new EdgedBalloonStyle(fillColor, borderColor), 
 				BalloonTip.Orientation.LEFT_ABOVE, 
 				BalloonTip.AttachLocation.ALIGNED, 
 				20, 10, 
@@ -221,7 +212,6 @@ public class LooksTab extends JPanel {
 			private void setHorizontalOffset() {
 				try {
 					((BasicBalloonTipPositioner)balloonTip.getPositioner()).setPreferredHorizontalOffset(Integer.parseInt(hOffset.getText()));
-					balloonTip.revalidate();
 					balloonTip.refreshLocation();
 				} catch (Exception e) {
 					if (!hOffset.getText().equals("")) {
@@ -246,7 +236,6 @@ public class LooksTab extends JPanel {
 			private void setVerticalOffset() {
 				try {
 					((BasicBalloonTipPositioner)balloonTip.getPositioner()).setPreferredVerticalOffset(Integer.parseInt(vOffset.getText()));
-					balloonTip.revalidate();
 					balloonTip.refreshLocation();
 				} catch (Exception e) {
 					if (!vOffset.getText().equals("")) {
@@ -297,24 +286,30 @@ public class LooksTab extends JPanel {
 			balloonTip.setStyle(new EdgedBalloonStyle(fillColor, borderColor));
 			break;
 		case 1:
-			balloonTip.setStyle(new RoundedBalloonStyle(5, 5, fillColor, borderColor));
+			balloonTip.setStyle(new IsometricBalloonStyle(fillColor, borderColor, 5));
 			break;
 		case 2:
+			Color transparentFill = new Color(fillColor.getRed(), fillColor.getGreen(), fillColor.getBlue(), 180);
+			balloonTip.setStyle(new MinimalBalloonStyle(transparentFill, 8));
+			break;
+		case 3:
 			ModernBalloonStyle style = new ModernBalloonStyle(10, 10, fillColor, new Color(230,230,230), borderColor);
 			style.setBorderThickness(3);
 			style.enableAntiAliasing(true);
 			balloonTip.setStyle(style);
 			break;
-		case 3:
-			Color transparentFill = new Color(fillColor.getRed(), fillColor.getGreen(), fillColor.getBlue(), 180);
-			balloonTip.setStyle(new MinimalBalloonStyle(transparentFill, 8));
-			break;
 		case 4:
+			balloonTip.setStyle(new RoundedBalloonStyle(5, 5, fillColor, borderColor));
+			break;
+		case 5:
 			try {
 				balloonTip.setStyle(new TexturedBalloonStyle(5, 5, CompleteExample.class.getResource("/net/java/balloontip/images/bgPattern.png"), borderColor));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			break;
+		case 6:
+			balloonTip.setStyle(new ToolTipBalloonStyle(fillColor, borderColor));
 			break;
 		}
 	}

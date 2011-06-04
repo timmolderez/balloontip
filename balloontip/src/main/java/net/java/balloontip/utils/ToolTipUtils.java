@@ -1,21 +1,10 @@
 /**
- * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
- *
- * This file is part of Balloontip.
- *
- * Balloontip is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * Balloontip is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Balloontip. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
  */
 
 package net.java.balloontip.utils;
@@ -32,6 +21,7 @@ import net.java.balloontip.BalloonTip;
 
 /**
  * This class allows you to use a balloon tip as a tooltip
+ * That is, the balloon tip will only show up for a certain amount of time while you hover over the attached component.
  * @author Tim Molderez
  */
 public final class ToolTipUtils {
@@ -85,6 +75,11 @@ public final class ToolTipUtils {
 			balloonTip.setVisible(false);
 		}
 		
+		public void mousePressed(MouseEvent e) {
+			stopTimers();
+			balloonTip.setVisible(false);
+		}
+		
 		/*
 		 * Stops all timers related to this tool tip
 		 */
@@ -111,8 +106,6 @@ public final class ToolTipUtils {
 	/**
 	 * Turns a balloon tooltip back into a regular balloon tip
 	 * @param bT			the balloon tip
-	 * @param initialDelay	in milliseconds, how long should you hover over the attached component before showing the tooltip
-	 * @param showDelay		in milliseconds, how long should the tooltip stay visible
 	 */
 	public static void toolTipToBalloon(final BalloonTip bT) {
 		// Remove tooltip behaviour

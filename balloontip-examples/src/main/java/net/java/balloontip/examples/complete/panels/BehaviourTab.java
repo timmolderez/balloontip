@@ -1,26 +1,14 @@
 /**
- * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
  * 
- * This file is part of Balloontip.
- * 
- * Balloontip is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * Balloontip is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Balloontip. If not, see <http://www.gnu.org/licenses/>.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
  */
 
 package net.java.balloontip.examples.complete.panels;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -37,7 +25,6 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.table.TableColumn;
 
-import net.java.balloontip.BalloonTip;
 import net.java.balloontip.TablecellBalloonTip;
 import net.java.balloontip.examples.complete.CompleteExample;
 import net.java.balloontip.positioners.BasicBalloonTipPositioner;
@@ -45,7 +32,6 @@ import net.java.balloontip.positioners.LeftAbovePositioner;
 import net.java.balloontip.positioners.LeftBelowPositioner;
 import net.java.balloontip.positioners.RightAbovePositioner;
 import net.java.balloontip.positioners.RightBelowPositioner;
-import net.java.balloontip.styles.EdgedBalloonStyle;
 
 /**
  * Behaviour tab of the demo application; demonstrates different balloon tip positioners
@@ -59,7 +45,7 @@ public class BehaviourTab extends JPanel {
 	private final TablecellBalloonTip tableBalloon;
 
 	private final static int HOFFSET = 40;
-	private final static int VOFFSET = 15;
+	private final static int VOFFSET = 20;
 
 	public BehaviourTab() {
 		super();
@@ -126,12 +112,9 @@ public class BehaviourTab extends JPanel {
 		// Tablecell balloon tip		
 		tableBalloon = new TablecellBalloonTip(table, 
 				new JLabel("Use the scrollbars to move me around!"), 32, 16,
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				HOFFSET, VOFFSET, 
-				false);
-		tableBalloon.setViewport(tableScrollPane.getViewport());
+				CompleteExample.createBalloonTipStyle(), 
+				new LeftAbovePositioner(HOFFSET, VOFFSET),
+				null);
 		table.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				table.scrollRectToVisible(table.getCellRect(38, 18, true));

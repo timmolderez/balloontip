@@ -1,21 +1,10 @@
 /**
- * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
- *
- * This file is part of Balloontip.
- *
- * Balloontip is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * Balloontip is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Balloontip. If not, see <http://www.gnu.org/licenses/>.
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
  */
 
 package net.java.balloontip;
@@ -40,6 +29,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -50,10 +40,13 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import net.java.balloontip.positioners.BalloonTipPositioner;
 import net.java.balloontip.positioners.BasicBalloonTipPositioner;
@@ -65,7 +58,7 @@ import net.java.balloontip.styles.BalloonTipStyle;
 import net.java.balloontip.styles.RoundedBalloonStyle;
 
 /**
- * A balloon tip Swing component that can be attached a JComponent and also has a JComponent as contents
+ * A balloon tip Swing component that is attached to a JComponent and uses another JComponent as contents
  * @author Bernhard Pauler
  * @author Tim Molderez
  * @author Thierry Blind
@@ -75,7 +68,7 @@ public class BalloonTip extends JPanel {
 	public enum Orientation {LEFT_ABOVE, RIGHT_ABOVE, LEFT_BELOW, RIGHT_BELOW}
 
 	/** Where should the balloon's tip be located, relative to the attached component
-	 * ALIGNED makes sure the balloon's edge is aligned with the attached component */
+	 * ; ALIGNED makes sure the balloon's edge is aligned with the attached component */
 	public enum AttachLocation {ALIGNED, CENTER, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST}
 
 	protected JComponent contents = null;
@@ -106,7 +99,6 @@ public class BalloonTip extends JPanel {
 		}
 		public void componentHidden(ComponentEvent e) {
 			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",false);
-			refreshLocation();
 		}
 	};
 
@@ -119,47 +111,18 @@ public class BalloonTip extends JPanel {
 
 	// Adjust the balloon tip's visibility when switching tabs
 	private ComponentAdapter tabbedPaneListener = null;
+	
+	// Hide the balloon tip when its tip is outside a viewport
+	private NestedViewportListener viewportListener = null;
 
 	// Behaviour when the balloon tip is clicked
 	private MouseAdapter clickListener = null;
 
-	// Manages and controls when a balloon tip should be shown or hidden
-	protected class VisibilityControl {
-		private HashMap<String, Boolean> criteria = new HashMap<String, Boolean>(); // A list of criteria determining a balloon tip's visibility
-
-		/**
-		 * Sets the value of a particular visibility criterium and checks whether the balloon tip should still be visible or not
-		 * @param criterium		the visibility criterium
-		 * @param value			value of the criterium
-		 */
-		public void setCriteriumAndUpdate(String criterium, Boolean value) {
-			criteria.put(criterium, value);
-			update();
-		}
-
-		/**
-		 * Makes sure the balloon tip's visibility is updated by checking all visibility criteria
-		 * If any of the visibility criteria is false, the balloon tip should be invisible.
-		 * Only if all criteria are true, the balloon tip can be visible.
-		 */
-		public void update() {
-			Iterator<Boolean> i = criteria.values().iterator();
-			while (i.hasNext()) {
-				if (!i.next()) {
-					forceSetVisible(false);
-					return;
-				}
-			}
-			forceSetVisible(true);
-		}
-	}
-
 	/**
 	 * Constructor
 	 * The simplest constructor, a balloon tip with some text and a default look
-	 * @param attachedComponent		attach the balloon tip to this component
+	 * @param attachedComponent		attach the balloon tip to this component (may not be null)
 	 * @param text					the contents of the balloon tip (may contain HTML)
-	 * @exception NullPointerException if parameter attachedComponent is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, String text) {
 		this(attachedComponent, text, new RoundedBalloonStyle(5,5,Color.WHITE, Color.BLACK), true);
@@ -167,12 +130,11 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Constructor
-	 * A simple constructor for a balloon tip containing text and optionally a close button
-	 * @param attachedComponent		attach the balloon tip to this component
+	 * A simple constructor for a balloon tip containing text, a custom look and optionally a close button
+	 * @param attachedComponent		attach the balloon tip to this component (may not be null)
 	 * @param text					the contents of the balloon tip (may contain HTML)
-	 * @param style					the balloon tip's looks
+	 * @param style					the balloon tip's looks (may not be null)
 	 * @param useCloseButton		if true, the balloon tip gets a default close button
-	 * @exception NullPointerException if parameter attachedComponent is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, String text, BalloonTipStyle style, boolean useCloseButton) {
 		this(attachedComponent, new JLabel(text), style, useCloseButton);
@@ -180,11 +142,10 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Constructor
-	 * @param attachedComponent		attach the balloon tip to this component
-	 * @param contents				the balloon tip's contents
-	 * @param style					the balloon tip's looks
+	 * @param attachedComponent		attach the balloon tip to this component (may not be null)
+	 * @param contents				the balloon tip's contents (may be null)
+	 * @param style					the balloon tip's looks (may not be null)
 	 * @param useCloseButton		if true, the balloon tip gets a close button
-	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public BalloonTip(JComponent attachedComponent, JComponent contents, BalloonTipStyle style, boolean useCloseButton) {
 		this(attachedComponent, contents, style, Orientation.LEFT_ABOVE, AttachLocation.ALIGNED, 15, 15, useCloseButton);
@@ -192,15 +153,14 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Constructor
-	 * @param attachedComponent		attach the balloon tip to this component
-	 * @param contents				the balloon tip's contents
-	 * @param style					the balloon tip's looks
+	 * @param attachedComponent		attach the balloon tip to this component (may not be null)
+	 * @param contents				the balloon tip's contents (may be null)
+	 * @param style					the balloon tip's looks (may not be null)
 	 * @param orientation			orientation of the balloon tip
 	 * @param attachLocation		location of the balloon's tip  within the attached component
 	 * @param horizontalOffset		horizontal offset for the balloon's tip
 	 * @param verticalOffset		vertical offset for the balloon's tip
 	 * @param useCloseButton		if true, the balloon tip gets a close button
-	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
 	 */
 	public BalloonTip(final JComponent attachedComponent, final JComponent contents, final BalloonTipStyle style, Orientation orientation, AttachLocation attachLocation,
 			int horizontalOffset, int verticalOffset, final boolean useCloseButton) {
@@ -261,7 +221,7 @@ public class BalloonTip extends JPanel {
 			positioner = new RightBelowPositioner(horizontalOffset, verticalOffset);
 			break;
 		}
-
+		
 		positioner.enableFixedAttachLocation(fixedAttachLocation);
 		positioner.setAttachLocation(attachX, attachY);
 
@@ -270,14 +230,12 @@ public class BalloonTip extends JPanel {
 	}
 
 	/**
-	 * Constructor
-	 * The most customizable balloon tip constructor
-	 * @param attachedComponent		attach the balloon tip to this component
-	 * @param contents				the contents of the balloon tip
-	 * @param style					the balloon tip's looks
-	 * @param positioner			determines the way the balloon tip is positioned
-	 * @param useCloseButton		if true, the balloon tip gets a close button
-	 * @exception NullPointerException if at least one parameter (except for parameter style) is <code>null</code>
+	 * Constructor - the most customizable balloon tip constructor
+	 * @param attachedComponent		attach the balloon tip to this component (may not be null)
+	 * @param contents				the contents of the balloon tip (may be null)
+	 * @param style					the balloon tip's looks (may not be null)
+	 * @param positioner			determines the way the balloon tip is positioned (may not be null)
+	 * @param closeButton			the close button to be used for the balloon tip (may be null)
 	 */
 	public BalloonTip(JComponent attachedComponent, JComponent contents, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
 		super();
@@ -288,15 +246,21 @@ public class BalloonTip extends JPanel {
 	 * Sets the contents of this balloon tip
 	 * (Calling this method will fire a "contents" property change event.)
 	 * @param contents		a JComponent that represents the balloon tip's contents
-	 * @exception NullPointerException if parameter contents is <code>null</code>
+	 * 						If the contents is null, the balloon tip will not be shown
 	 */
 	public void setContents(JComponent contents) {
 		JComponent oldContents = this.contents;
 		int padding=getPadding();
 		remove(this.contents);
 		this.contents=contents;
-		setPadding(padding);
-		add(this.contents, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+		
+		if (contents!=null) {
+			setPadding(padding);
+			add(this.contents, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
+			visibilityControl.setCriteriumAndUpdate("hasContents", true);
+		} else {
+			visibilityControl.setCriteriumAndUpdate("hasContents", false);
+		}
 
 		// Notify property listeners that the style has changed
 		firePropertyChange("contents", oldContents, this.contents);
@@ -305,7 +269,7 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Retrieve this balloon tip's contents
-	 * @return				the JComponent representing the contents of this balloon tip
+	 * @return				the JComponent representing the contents of this balloon tip (can be null)
 	 */
 	public JComponent getContents() {
 		return this.contents;
@@ -332,7 +296,7 @@ public class BalloonTip extends JPanel {
 	/**
 	 * Set the balloon tip's style
 	 * (Calling this method will fire a "style" property change event.)
-	 * @param style			a BalloonTipStyle
+	 * @param style			a BalloonTipStyle (may not be null)
 	 */
 	public void setStyle(BalloonTipStyle style) {
 		BalloonTipStyle oldStyle = this.style;
@@ -355,8 +319,7 @@ public class BalloonTip extends JPanel {
 	/**
 	 * Set a new BalloonTipPositioner, repsonsible for the balloon tip's positioning
 	 * (Calling this method will fire a "positioner" property change event.)
-	 * @param positioner	a BalloonTipPositioner
-	 * @exception NullPointerException if parameter positioner is <code>null</code>
+	 * @param positioner	a BalloonTipPositioner (may not be null)
 	 */
 	public void setPositioner(BalloonTipPositioner positioner) {
 		BalloonTipPositioner oldPositioner = this.positioner;
@@ -506,7 +469,7 @@ public class BalloonTip extends JPanel {
 	 * if you set it manually, you'll have to set it again...)
 	 * (Calling this method will fire an "attachedComponent" property change event.)
 	 * @param newComponent		the new component to attach to (may not be null)
-	 * @exception NullPointerException if parameter newComponent is <code>null</code>
+	 * @exception NullPointerException if parameter newComponent is null
 	 */
 	public void setAttachedComponent(JComponent newComponent) {
 		JComponent oldComponent = this.attachedComponent;
@@ -522,7 +485,7 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Retrieve the component this balloon tip is attached to
-	 * @return The attached component
+	 * @return	The attached component
 	 */
 	public JComponent getAttachedComponent() {
 		return attachedComponent;
@@ -531,7 +494,7 @@ public class BalloonTip extends JPanel {
 	/**
 	 * Set the container on which this balloon tip should be drawn
 	 * @param tlc			the top-level container: may not be null; must be valid (isValid() must return true)
-	 * @exception NullPointerException if parameter tlc is <code>null</code>
+	 * @exception NullPointerException if parameter tlc is null
 	 */
 	public void setTopLevelContainer(JLayeredPane tlc) {
 		if (topLevelContainer != null) {
@@ -550,22 +513,29 @@ public class BalloonTip extends JPanel {
 	/**
 	 * Retrieve the container this balloon tip is drawn on
 	 * If the balloon tip hasn't determined this container yet, null is returned
-	 * @return The balloon tip's top level container
+	 * @return	The balloon tip's top level container
 	 */
 	public JLayeredPane getTopLevelContainer() {
 		return topLevelContainer;
 	}
+	
+	/**
+	 * Retrieves the rectangle to which this balloon tip is attached
+	 * @return	the rectangle to which this balloon tip is attached, in the coordinate system of the balloon tip	
+	 */
+	public Rectangle getAttachedRectangle() {
+		Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
+		return new Rectangle(location.x, location.y, attachedComponent.getWidth(), attachedComponent.getHeight());
+	}
 
 	/**
-	 * Redetermines and sets the balloon tip's location.
-	 * (Is able to update balloon tip's location
-	 * even if the balloon tip is not shown.)
+	 * Refreshes the balloon tip's location
+	 * (Is able to update balloon tip's location even if the balloon tip is not shown.)
 	 */
 	public void refreshLocation() {
-		try {
-			Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
-			positioner.determineAndSetLocation(new Rectangle(location.x, location.y, attachedComponent.getWidth(), attachedComponent.getHeight()));
-		} catch (NullPointerException exc) {}
+		if (topLevelContainer!=null) {
+			positioner.determineAndSetLocation(getAttachedRectangle());
+		}
 	}
 
 	/**
@@ -580,7 +550,7 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Get the opacity of this balloon tip
-	 * @param opacity	the opacity, where 0.0f is completely invisible and 1.0f is opaque
+	 * @return			the opacity, where 0.0f is completely invisible and 1.0f is opaque
 	 */
 	public float getOpacity() {
 		return this.opacity;
@@ -609,6 +579,7 @@ public class BalloonTip extends JPanel {
 
 	/*
 	 * Sets the balloon tip's visibility by calling super.setVisible()
+	 * (This bypasses the balloon tip's visibility control.)
 	 * @param visible	true if the balloon tip should be visible
 	 */
 	protected void forceSetVisible(boolean visible) {
@@ -684,51 +655,35 @@ public class BalloonTip extends JPanel {
 		// Update balloon tip's visibility
 		forceSetVisible(this.isVisible() && isAttachedComponentShowing());
 
-		// Prepare these variables, in case this balloon tip is embedded in a tab
-		boolean embeddedInTab = false;
-		tabbedPaneListener = new ComponentAdapter() {
-			public void componentShown(ComponentEvent e) {
-				visibilityControl.setCriteriumAndUpdate("tabShowing",true);
-				/* We must also recheck whether the attached component is visible!
-				 * While this tab *was* invisible, the component might've been resized, hidden, shown, ... ,
-				 * but no events were fired because the tab was hidden! */
-				visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",isAttachedComponentShowing());
-				refreshLocation();
-			}
-			public void componentHidden(ComponentEvent e) {
-				visibilityControl.setCriteriumAndUpdate("tabShowing",false);
-			}
-		};
-
-		/* Follow the path of parents of the attached component to find any JTabbedPanes (or even other BalloonTips)
-		 * in which the component may be contained... */
+		// Follow the path of parent components to see if there are any we should listen to
 		Container current = attachedComponent.getParent();
 		Container previous = attachedComponent;
 		while (current!=null) {
 			if (current instanceof JTabbedPane) {
-				embeddedInTab = true;
 				/* Switching tabs only tells the JPanel representing the contents of each tab whether it went invisible or not.
 				 * It doesn't propagate such events to each and every component within each tab.
 				 * Because of this, we'll have to add a listener to the JPanel of this tab. If it goes invisible, so should the balloon tip. */
+				if (tabbedPaneListener == null) {
+					tabbedPaneListener = getTabbedPaneListener();
+				}
 				previous.addComponentListener(tabbedPaneListener);
+			} else if (current instanceof JViewport) {
+				if (viewportListener == null) {
+					viewportListener = new NestedViewportListener();
+				}
+				viewportListener.viewports.add((JViewport) current);
+				((JViewport) current).addChangeListener(viewportListener);
 			} else if (current instanceof BalloonTip) {
 				/* In the rare case where this balloon tip is attached to a component within another balloon tip... */
 				// Monitor the parent balloon tip's movements and visibility
 				current.addComponentListener(componentListener);
 				// Draw this balloon tip one layer higher; otherwise it would be overlapping the parent balloon tip
 				topLevelContainer.setLayer(this, JLayeredPane.getLayer(this) + 1);
-				// Continue this loop from the parent balloon tip's attachedComponent
-				previous=((BalloonTip)current).getAttachedComponent();
-				current=previous.getParent();
-				continue;
+				// Quit the loop here; any other parent components that should be listened to are meant for the parent balloon tip
+				break;
 			}
 			previous = current;
 			current = current.getParent();
-		}
-
-		// Ditch the tabbedPaneListener instance if you're not going to use it
-		if (!embeddedInTab) {
-			tabbedPaneListener = null;
 		}
 	}
 
@@ -738,20 +693,19 @@ public class BalloonTip extends JPanel {
 	 */
 	private void tearDownHelper() {
 		attachedComponent.removeComponentListener(componentListener);
-
-		// Remove tabbedPaneListener(s), if any
-		if (tabbedPaneListener!=null) {
+		
+		// Remove any listeners that were attached to parent components
+		if (tabbedPaneListener!=null || viewportListener!=null) {
 			Container current = attachedComponent.getParent();
 			Container previous = attachedComponent;
 			while (current!=null) {
 				if (current instanceof JTabbedPane) {
 					previous.removeComponentListener(tabbedPaneListener);
+				} else if (current instanceof JViewport) {
+					((JViewport) current).removeChangeListener(viewportListener);
 				} else if (current instanceof BalloonTip) {
 					current.removeComponentListener(componentListener);
-					// Continue this loop from the parent balloon tip's attachedComponent
-					previous=((BalloonTip)current).getAttachedComponent();
-					current=previous.getParent();
-					continue;
+					break;
 				}
 				previous = current;
 				current = current.getParent();
@@ -764,8 +718,92 @@ public class BalloonTip extends JPanel {
 			topLevelContainer.removeComponentListener(topLevelContainerListener);
 			topLevelContainer = null;
 		}
+		
+		if (viewportListener!=null) {
+			viewportListener.viewports.clear();
+			viewportListener = null;
+		}
 
 		// Clean up our criterias
 		visibilityControl.criteria.clear();
+	}
+	
+	/*
+	 * Creates a Component Listener that will adjust this balloon tip's visibility when switching tabs
+	 * @return		the tabbed pane listener
+	 */
+	private ComponentAdapter getTabbedPaneListener() {
+			return new ComponentAdapter() {
+				public void componentShown(ComponentEvent e) {
+					visibilityControl.setCriteriumAndUpdate("tabShowing",true);
+					/* We must also recheck whether the attached component is visible!
+					 * While this tab *was* invisible, the component might've been resized, hidden, shown, ... ,
+					 * but no events were fired because the tab was hidden! */
+					visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",isAttachedComponentShowing());
+					refreshLocation();
+				}
+				public void componentHidden(ComponentEvent e) {
+					visibilityControl.setCriteriumAndUpdate("tabShowing",false);
+				}
+			};
+	}
+	
+	/*
+	 * If a balloon tip is nested in one or more viewports, this listener ensures
+	 * the balloon tip is hidden if it is no longer visible within the viewports' boundaries
+	 */
+	private class NestedViewportListener implements ChangeListener {
+		private Vector<JViewport> viewports = new Vector<JViewport>();
+
+		public void stateChanged(ChangeEvent e) {
+			refreshLocation();
+			Point tipLocation = positioner.getTipLocation();
+
+			for (JViewport viewport:viewports) {
+				Rectangle view = new Rectangle(SwingUtilities.convertPoint(viewport, viewport.getLocation(), getTopLevelContainer()), viewport.getSize());
+				if (tipLocation.y >= view.y-1 // -1 because we still want to allow balloons that are attached to the very top...
+						&& tipLocation.y <= (view.y + view.height)
+						&& (tipLocation.x) >= view.x
+						&& (tipLocation.x) <= (view.x + view.width)) {
+					visibilityControl.setCriteriumAndUpdate("withinViewport", true);
+				} else {
+					visibilityControl.setCriteriumAndUpdate("withinViewport", false);
+					break;
+				}
+			}
+		}
+	}
+	
+	/*
+	 * Manages and controls when a balloon tip should be shown or hidden
+	 */
+	protected class VisibilityControl {
+		private HashMap<String, Boolean> criteria = new HashMap<String, Boolean>(); // A list of criteria determining a balloon tip's visibility
+
+		/**
+		 * Sets the value of a particular visibility criterium and checks whether the balloon tip should still be visible or not
+		 * @param criterium		the visibility criterium
+		 * @param value			value of the criterium
+		 */
+		public void setCriteriumAndUpdate(String criterium, Boolean value) {
+			criteria.put(criterium, value);
+			update();
+		}
+
+		/**
+		 * Makes sure the balloon tip's visibility is updated by checking all visibility criteria
+		 * If any of the visibility criteria is false, the balloon tip should be invisible.
+		 * Only if all criteria are true, the balloon tip can be visible.
+		 */
+		public void update() {
+			Iterator<Boolean> i = criteria.values().iterator();
+			while (i.hasNext()) {
+				if (!i.next()) {
+					forceSetVisible(false);
+					return;
+				}
+			}
+			forceSetVisible(true);
+		}
 	}
 }

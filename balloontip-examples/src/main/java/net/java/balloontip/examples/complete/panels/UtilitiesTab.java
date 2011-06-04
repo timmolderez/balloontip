@@ -1,26 +1,14 @@
 /**
- * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
  * 
- * This file is part of Balloontip.
- * 
- * Balloontip is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * Balloontip is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Balloontip. If not, see <http://www.gnu.org/licenses/>.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
  */
 
 package net.java.balloontip.examples.complete.panels;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -36,7 +24,6 @@ import javax.swing.JTextField;
 
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.CompleteExample;
-import net.java.balloontip.styles.EdgedBalloonStyle;
 import net.java.balloontip.utils.FadingUtils;
 import net.java.balloontip.utils.TimingUtils;
 import net.java.balloontip.utils.ToolTipUtils;
@@ -115,11 +102,9 @@ public class UtilitiesTab extends JPanel {
 					int timeoutVal =  Integer.parseInt(timeout.getText());
 					BalloonTip balloonTip = new BalloonTip(showBalloon, 
 							new JLabel("I will dissapear in " + timeoutVal/1000 + " seconds."),
-							new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-							BalloonTip.Orientation.LEFT_ABOVE, 
-							BalloonTip.AttachLocation.ALIGNED, 
-							15, 15, 
-							false);
+							CompleteExample.createBalloonTipStyle(),
+							CompleteExample.createBalloonTipPositioner(), 
+							null);
 					TimingUtils.showTimedBalloon(balloonTip, timeoutVal);
 				} catch (Exception exc) {
 					if (!timeout.getText().equals("")) {
@@ -131,11 +116,9 @@ public class UtilitiesTab extends JPanel {
 		
 		// Fading balloon tip
 		final BalloonTip fadingBalloonTip = new BalloonTip(fadeBalloon, new JLabel("I'm a fading balloon tip!"),
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				15, 15, 
-				false);
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 		fadingBalloonTip.setOpacity(0.0f);
 		
 		fadeBalloon.addActionListener(new ActionListener() {
@@ -160,11 +143,9 @@ public class UtilitiesTab extends JPanel {
 
 		// Balloon tooltip
 		tooltipBalloon = new BalloonTip(tooltipLabel, new JLabel("I'm a balloon tooltip!"),
-				new EdgedBalloonStyle(Color.WHITE, Color.BLUE), 
-				BalloonTip.Orientation.LEFT_ABOVE, 
-				BalloonTip.AttachLocation.ALIGNED, 
-				15, 15, 
-				false);
+				CompleteExample.createBalloonTipStyle(),
+				CompleteExample.createBalloonTipPositioner(), 
+				null);
 		ToolTipUtils.balloonToToolTip(tooltipBalloon, 200, 3000);
 
 	}

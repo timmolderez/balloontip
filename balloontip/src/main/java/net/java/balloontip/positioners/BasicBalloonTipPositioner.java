@@ -1,29 +1,21 @@
 /**
- * Balloontip - Balloon tips for Java Swing applications
- * Copyright 2007-2010 Bernhard Pauler, Tim Molderez
+ * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
  * 
- * This file is part of Balloontip.
- * 
- * Balloontip is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * Balloontip is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with Balloontip. If not, see <http://www.gnu.org/licenses/>.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the 3-Clause BSD License
+ * which accompanies this distribution, and is available at
+ * http://www.opensource.org/licenses/BSD-3-Clause
  */
 
 package net.java.balloontip.positioners;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 
 /**
- * Provides the interface for a basic positioner
+ * Provides common functionality for the positioner classes
+ * LeftAbovePositioner, LeftBelowPositioner, RightAbovePositioner and RightBelowPositioner
+ * @author Tim Molderez
  */
 public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 
@@ -57,7 +49,7 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 		preferredVerticalOffset = vO;
 	}
 	
-	public void onStyleChange() {
+	protected void onStyleChange() {
 		balloonTip.getStyle().setHorizontalOffset(preferredHorizontalOffset);
 		balloonTip.getStyle().setVerticalOffset(preferredVerticalOffset);
 		minimumHorizontalOffset = balloonTip.getStyle().getMinimalHorizontalOffset();
@@ -195,7 +187,7 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 	protected void applyOffsetCorrection() {
 		// Check collision with the left side of the window
 		int overflow = -x;
-		int balloonWidth = balloonTip.getWidth();
+		int balloonWidth = balloonTip.getPreferredSize().width;
 
 		if (overflow > 0) {
 			x += overflow;
@@ -228,4 +220,28 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 			}
 		}		
 	}
+	
+	public void determineAndSetLocation(Rectangle attached) {
+		determineLocation(attached);
+		
+		if (flipX) {
+			balloonTip.getStyle().setHorizontalOffset(balloonTip.getPreferredSize().width - hOffset);
+		} else {
+			balloonTip.getStyle().setHorizontalOffset(hOffset);
+		}
+		
+		balloonTip.getStyle().flip(flipX, flipY);
+		balloonTip.setBounds(x, y, balloonTip.getPreferredSize().width, balloonTip.getPreferredSize().height);
+		
+		balloonTip.revalidate(); // Revalidate is needed in case the balloon gets flipped; validate wouldn't do in that case.
+		if (hOffset != preferredHorizontalOffset) {
+			balloonTip.repaint(); // In certain cases, when the horizontal offset changes, it doesn't get redrawn properly without a repaint...
+		}
+	}
+	
+	/*
+	 * Calculates the current position of the balloon tip, but does not apply it yet
+	 * @param attached		the balloon tip is attached to this rectangle
+	 */
+	protected abstract void determineLocation(Rectangle attached);
 }

@@ -14,15 +14,13 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.geom.GeneralPath;
-
 
 /**
- * A simple rectangular balloon tip style with a one pixel border
+ * A balloon tip style that looks like a tool tip (i.e. just a plain old rectangle) 
  * @author Bernhard Pauler
  * @author Tim Molderez
  */
-public class EdgedBalloonStyle extends BalloonTipStyle {
+public class ToolTipBalloonStyle extends BalloonTipStyle {
 	private final Color borderColor;
 	private final Color fillColor;
 
@@ -31,7 +29,7 @@ public class EdgedBalloonStyle extends BalloonTipStyle {
 	 * @param borderColor	border line color
 	 * @param fillColor		fill color
 	 */
-	public EdgedBalloonStyle(Color fillColor, Color borderColor) {
+	public ToolTipBalloonStyle(Color fillColor, Color borderColor) {
 		super();
 		this.borderColor = borderColor;
 		this.fillColor = fillColor;
@@ -64,38 +62,9 @@ public class EdgedBalloonStyle extends BalloonTipStyle {
 		}
 
 		// Draw the outline of the balloon
-		GeneralPath outline = new GeneralPath();
-		outline.moveTo(x, yTop);
-		outline.lineTo(x, yBottom);
-
-		if (!flipX && !flipY) {
-			outline.lineTo(x + horizontalOffset, yBottom);
-			outline.lineTo(x + horizontalOffset, yBottom + verticalOffset);
-			outline.lineTo(x + horizontalOffset + verticalOffset, yBottom);
-		} else if (flipX && !flipY) {
-			outline.lineTo(x + width - horizontalOffset - verticalOffset, yBottom);
-			outline.lineTo(x + width - horizontalOffset, yBottom + verticalOffset);
-			outline.lineTo(x + width - horizontalOffset, yBottom);
-		}
-
-		outline.lineTo(x + width, yBottom);
-		outline.lineTo(x + width, yTop);
-
-		if (!flipX && flipY) {
-			outline.lineTo(x + horizontalOffset + verticalOffset, yTop);
-			outline.lineTo(x + horizontalOffset, yTop - verticalOffset);
-			outline.lineTo(x + horizontalOffset, yTop);	
-		} else if (flipX && flipY) {
-			outline.lineTo(x + width - horizontalOffset, yTop);
-			outline.lineTo(x + width - horizontalOffset, yTop - verticalOffset);
-			outline.lineTo(x + width - horizontalOffset - verticalOffset, yTop);
-		}
-
-		outline.closePath();
-
 		g2d.setPaint(fillColor);
-		g2d.fill(outline);
+		g2d.fillRect(x, yTop, width, yBottom);
 		g2d.setPaint(borderColor);
-		g2d.draw(outline);
+		g2d.drawRect(x, yTop, width, yBottom);
 	}
 }
