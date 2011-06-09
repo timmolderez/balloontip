@@ -70,7 +70,7 @@ public class LooksTab extends JPanel {
 
 		// Contents textbox
 		add(new JLabel("Contents:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
-		final JTextField contents = new JTextField("<html>I'm a <u>balloon tip</u></html>");
+		final JTextField contents = new JTextField("<html>I'm a <u>balloon tip</u>!</html>");
 		CompleteExample.setToolTip(contents, "The contents of a balloon tip may contain HTML formatting");
 		contents.setPreferredSize(new Dimension(250,25));
 		add(contents, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));

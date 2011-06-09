@@ -42,7 +42,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.ChangeEvent;
@@ -75,6 +74,7 @@ public class BalloonTip extends JPanel {
 	protected JButton closeButton = null;
 	protected VisibilityControl visibilityControl = new VisibilityControl();
 	protected BalloonTipStyle style;					// Determines the balloon's looks
+	protected int padding = 0;							// Amount of pixels padding around the contents
 	protected float opacity = 1.0f;						// The balloon tip's opacity (1 is opaque)
 	protected BalloonTipPositioner positioner;			// Determines the balloon tip's position
 	protected JLayeredPane topLevelContainer = null;	// The balloon tip is drawn on this pane
@@ -250,12 +250,13 @@ public class BalloonTip extends JPanel {
 	 */
 	public void setContents(JComponent contents) {
 		JComponent oldContents = this.contents;
-		int padding=getPadding();
-		remove(this.contents);
+		if (oldContents!=null) {
+			remove(this.contents);
+		}
 		this.contents=contents;
 		
 		if (contents!=null) {
-			setPadding(padding);
+			setPadding(getPadding());
 			add(this.contents, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
 			visibilityControl.setCriteriumAndUpdate("hasContents", true);
 		} else {
@@ -281,7 +282,8 @@ public class BalloonTip extends JPanel {
 	 * @param padding	the amount of padding in pixels
 	 */
 	public void setPadding(int padding) {
-		contents.setBorder(new EmptyBorder(padding, padding, padding, padding));
+		this.padding=padding;
+		contents.setBorder(BorderFactory.createEmptyBorder(padding, padding, padding, padding));
 		refreshLocation();
 	}
 
@@ -290,7 +292,7 @@ public class BalloonTip extends JPanel {
 	 * @return			the amount of padding in pixels
 	 */
 	public int getPadding() {
-		return contents.getBorder().getBorderInsets(this).left;
+		return padding;
 	}
 
 	/**
@@ -421,7 +423,6 @@ public class BalloonTip extends JPanel {
 		button.setIcon(defaultCloseIcon);
 		button.setRolloverIcon(rolloverCloseIcon);
 		button.setPressedIcon(pressedCloseIcon);
-
 		return button;
 	}
 
@@ -493,8 +494,8 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Set the container on which this balloon tip should be drawn
-	 * @param tlc			the top-level container: may not be null; must be valid (isValid() must return true)
-	 * @exception NullPointerException if parameter tlc is null
+	 * @param tlc			the top-level container; must be valid (isValid() must return true) ()
+	 * 						(may not be null)
 	 */
 	public void setTopLevelContainer(JLayeredPane tlc) {
 		if (topLevelContainer != null) {

@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" href="style/style.css" type="text/css" /></head>
 <body>
-<div id="header"> <img src="images/BalloonTip.png" alt="Balloon tip" />
+<div id="header" class="balloontip"> <img src="images/BalloonTip.png" alt="Balloon tip" />
 <div id="title"> Manual <span id="releaseDate">v1.2</span></div>
 </div>
 <div class="section">
@@ -129,7 +129,7 @@ balloon tips. </p>
 <div class="title">1.3. Using BalloonTip<a name="usingballoontip"></a></div>
 <div class="subSection">
 <div class="title">1.3.1. My first balloon tip<a name="simpleconstructor"></a></div>
-<p> The <code>BalloonTip</code> class implements the basic type of balloon tip that you will use in most cases. A <code>BalloonTip</code>
+<p> The <code>BalloonTip</code> class implements a basic balloon tip which is suited for most uses. A <code>BalloonTip</code>
 instance can attach itself to about any visual component: a <code>JButton</code>,
 <code>JLabel</code>, <code>JTextField</code>,
 ... In order to create and show a <code>BalloonTip</code>
@@ -614,7 +614,7 @@ outside a certain area, or ...</p>
 	<li>Change: Balloon tip's license was changed from LGPL v2.1 (or higher) to the 3-Clause BSD License.</li>
 	<li>New feature: Any type of balloon tip can now be embedded in (multiple nested) scroll panes. These scroll panes are detected automatically as well.<br />(As a consequence, the CustomBalloonTip.setViewport() method is no longer needed and is removed.)</li>
 	<li>New feature: Two new balloon tip styles are added: IsometricBalloonTipStyle and ToolTipBalloonTipStyle.</li>
-	<li>Bug fix: Fixed rare issue where a balloon tip can be positioned incorrectly initially.</li>
+	<li>Bug fix: Fixed rare issue where a balloon tip is positioned incorrectly initially.</li>
 	<li>Bug fix: When using a balloon tip as a tooltip, the balloon tip is now hidden when the attached component is clicked.</li>
 </ul>
 </li>
@@ -756,7 +756,7 @@ miscalculated in more complex layouts</li>
 </li>
 </ul>
 </div>
-<div id="footer"> Contact: <a href="mailto:nferno@dev.java.net">nferno@dev.java.net</a>
+<div id="footer" class="balloontip"> Contact: <a href="mailto:nferno@dev.java.net">nferno@dev.java.net</a>
 or <a href="mailto:bernhard_pauler@dev.java.net">bernhard_pauler@dev.java.net</a>
 | W3C xHTML &amp; CSS validated</div>
 </body></html>
