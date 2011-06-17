@@ -15,6 +15,7 @@ import java.awt.Rectangle;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+
 import net.java.balloontip.positioners.BalloonTipPositioner;
 import net.java.balloontip.styles.BalloonTipStyle;
 
@@ -67,15 +68,11 @@ public class CustomBalloonTip extends BalloonTip {
 	public Rectangle getOffset() {
 		return offset;
 	}
-	
-	public void refreshLocation() {
-		if (topLevelContainer!=null && offset!=null) {
-			positioner.determineAndSetLocation(getAttachedRectangle());
-		}
-	}
-	
+
 	public Rectangle getAttachedRectangle() {
 		Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
-		return new Rectangle(location.x + offset.x, location.y + offset.y, offset.width, offset.height);
+		return topLevelContainer!=null && offset!=null ?
+				new Rectangle(location.x + offset.x, location.y + offset.y, offset.width, offset.height) :
+					super.getAttachedRectangle();
 	}
 }
