@@ -111,7 +111,7 @@ public class BalloonTip extends JPanel {
 
 	// Adjust the balloon tip's visibility when switching tabs
 	private ComponentAdapter tabbedPaneListener = null;
-	
+
 	// Hide the balloon tip when its tip is outside a viewport
 	private NestedViewportListener viewportListener = null;
 
@@ -221,7 +221,7 @@ public class BalloonTip extends JPanel {
 			positioner = new RightBelowPositioner(horizontalOffset, verticalOffset);
 			break;
 		}
-		
+
 		positioner.enableFixedAttachLocation(fixedAttachLocation);
 		positioner.setAttachLocation(attachX, attachY);
 
@@ -254,7 +254,7 @@ public class BalloonTip extends JPanel {
 			remove(this.contents);
 		}
 		this.contents=contents;
-		
+
 		if (contents!=null) {
 			setPadding(getPadding());
 			add(this.contents, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
@@ -519,7 +519,7 @@ public class BalloonTip extends JPanel {
 	public JLayeredPane getTopLevelContainer() {
 		return topLevelContainer;
 	}
-	
+
 	/**
 	 * Retrieves the rectangle to which this balloon tip is attached
 	 * @return	the rectangle to which this balloon tip is attached, in the coordinate system of the balloon tip	
@@ -534,8 +534,27 @@ public class BalloonTip extends JPanel {
 	 * (Is able to update balloon tip's location even if the balloon tip is not shown.)
 	 */
 	public void refreshLocation() {
-		if (topLevelContainer!=null) {
-			positioner.determineAndSetLocation(getAttachedRectangle());
+		if (topLevelContainer==null) {
+			return;
+		}
+		positioner.determineAndSetLocation(getAttachedRectangle());
+
+		if (viewportListener==null) {
+			return;
+		}
+		Point tipLocation = positioner.getTipLocation();
+
+		for (JViewport viewport:viewportListener.viewports) {
+			Rectangle view = new Rectangle(SwingUtilities.convertPoint(viewport, viewport.getLocation(), getTopLevelContainer()), viewport.getSize());
+			if (tipLocation.y >= view.y-1 // -1 because we still want to allow balloons that are attached to the very top...
+					&& tipLocation.y <= (view.y + view.height)
+					&& (tipLocation.x) >= view.x
+					&& (tipLocation.x) <= (view.x + view.width)) {
+				visibilityControl.setCriteriumAndUpdate("withinViewport", true);
+			} else {
+				visibilityControl.setCriteriumAndUpdate("withinViewport", false);
+				break;
+			}
 		}
 	}
 
@@ -694,7 +713,7 @@ public class BalloonTip extends JPanel {
 	 */
 	private void tearDownHelper() {
 		attachedComponent.removeComponentListener(componentListener);
-		
+
 		// Remove any listeners that were attached to parent components
 		if (tabbedPaneListener!=null || viewportListener!=null) {
 			Container current = attachedComponent.getParent();
@@ -719,7 +738,7 @@ public class BalloonTip extends JPanel {
 			topLevelContainer.removeComponentListener(topLevelContainerListener);
 			topLevelContainer = null;
 		}
-		
+
 		if (viewportListener!=null) {
 			viewportListener.viewports.clear();
 			viewportListener = null;
@@ -728,27 +747,27 @@ public class BalloonTip extends JPanel {
 		// Clean up our criterias
 		visibilityControl.criteria.clear();
 	}
-	
+
 	/*
 	 * Creates a Component Listener that will adjust this balloon tip's visibility when switching tabs
 	 * @return		the tabbed pane listener
 	 */
 	private ComponentAdapter getTabbedPaneListener() {
-			return new ComponentAdapter() {
-				public void componentShown(ComponentEvent e) {
-					visibilityControl.setCriteriumAndUpdate("tabShowing",true);
-					/* We must also recheck whether the attached component is visible!
-					 * While this tab *was* invisible, the component might've been resized, hidden, shown, ... ,
-					 * but no events were fired because the tab was hidden! */
-					visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",isAttachedComponentShowing());
-					refreshLocation();
-				}
-				public void componentHidden(ComponentEvent e) {
-					visibilityControl.setCriteriumAndUpdate("tabShowing",false);
-				}
-			};
+		return new ComponentAdapter() {
+			public void componentShown(ComponentEvent e) {
+				visibilityControl.setCriteriumAndUpdate("tabShowing",true);
+				/* We must also recheck whether the attached component is visible!
+				 * While this tab *was* invisible, the component might've been resized, hidden, shown, ... ,
+				 * but no events were fired because the tab was hidden! */
+				visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",isAttachedComponentShowing());
+				refreshLocation();
+			}
+			public void componentHidden(ComponentEvent e) {
+				visibilityControl.setCriteriumAndUpdate("tabShowing",false);
+			}
+		};
 	}
-	
+
 	/*
 	 * If a balloon tip is nested in one or more viewports, this listener ensures
 	 * the balloon tip is hidden if it is no longer visible within the viewports' boundaries
@@ -758,23 +777,9 @@ public class BalloonTip extends JPanel {
 
 		public void stateChanged(ChangeEvent e) {
 			refreshLocation();
-			Point tipLocation = positioner.getTipLocation();
-
-			for (JViewport viewport:viewports) {
-				Rectangle view = new Rectangle(SwingUtilities.convertPoint(viewport, viewport.getLocation(), getTopLevelContainer()), viewport.getSize());
-				if (tipLocation.y >= view.y-1 // -1 because we still want to allow balloons that are attached to the very top...
-						&& tipLocation.y <= (view.y + view.height)
-						&& (tipLocation.x) >= view.x
-						&& (tipLocation.x) <= (view.x + view.width)) {
-					visibilityControl.setCriteriumAndUpdate("withinViewport", true);
-				} else {
-					visibilityControl.setCriteriumAndUpdate("withinViewport", false);
-					break;
-				}
-			}
 		}
 	}
-	
+
 	/*
 	 * Manages and controls when a balloon tip should be shown or hidden
 	 */
