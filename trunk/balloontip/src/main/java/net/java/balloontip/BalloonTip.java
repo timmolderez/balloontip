@@ -673,7 +673,7 @@ public class BalloonTip extends JPanel {
 		// If the attached component is moved/hidden/shown, the balloon tip should act accordingly
 		attachedComponent.addComponentListener(componentListener);
 		// Update balloon tip's visibility
-		visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",this.isVisible() && isAttachedComponentShowing());
+		visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",isAttachedComponentShowing());
 
 		// Follow the path of parent components to see if there are any we should listen to
 		Container current = attachedComponent.getParent();
