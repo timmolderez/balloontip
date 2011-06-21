@@ -263,7 +263,7 @@ public class BalloonTip extends JPanel {
 			visibilityControl.setCriteriumAndUpdate("hasContents", false);
 		}
 
-		// Notify property listeners that the style has changed
+		// Notify property listeners that the contents have changed
 		firePropertyChange("contents", oldContents, this.contents);
 		refreshLocation();
 	}
@@ -479,7 +479,7 @@ public class BalloonTip extends JPanel {
 		this.attachedComponent = newComponent;
 		setupHelper(); // Reinstall the listeners
 
-		// Notify property listeners that the style has changed
+		// Notify property listeners that the attached component has changed
 		firePropertyChange("attachedComponent", oldComponent, attachedComponent);
 		refreshLocation();
 	}
