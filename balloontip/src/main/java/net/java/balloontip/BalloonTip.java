@@ -113,7 +113,7 @@ public class BalloonTip extends JPanel {
 	private ComponentAdapter tabbedPaneListener = null;
 
 	// Hide the balloon tip when its tip is outside a viewport
-	private NestedViewportListener viewportListener = null;
+	protected NestedViewportListener viewportListener = null;
 
 	// Behaviour when the balloon tip is clicked
 	private MouseAdapter clickListener = null;
@@ -165,67 +165,7 @@ public class BalloonTip extends JPanel {
 	public BalloonTip(final JComponent attachedComponent, final JComponent contents, final BalloonTipStyle style, Orientation orientation, AttachLocation attachLocation,
 			int horizontalOffset, int verticalOffset, final boolean useCloseButton) {
 		super();
-		// Set up the appropriate positioner
-		BasicBalloonTipPositioner positioner = null;
-		float attachX = 0.0f;
-		float attachY = 0.0f;
-		boolean fixedAttachLocation = true;
-
-		switch (attachLocation) {
-		case ALIGNED:
-			fixedAttachLocation = false;
-			break;
-		case CENTER:
-			attachX = 0.5f;
-			attachY = 0.5f;
-			break;
-		case NORTH:
-			attachX = 0.5f;
-			break;
-		case NORTHEAST:
-			attachX = 1.0f;
-			break;
-		case EAST:
-			attachX = 1.0f;
-			attachY = 0.5f;
-			break;
-		case SOUTHEAST:
-			attachX = 1.0f;
-			attachY = 1.0f;
-			break;
-		case SOUTH:
-			attachX = 0.5f;
-			attachY = 1.0f;
-			break;
-		case SOUTHWEST:
-			attachY = 1.0f;
-			break;
-		case WEST:
-			attachY = 0.5f;
-			break;
-		case NORTHWEST:
-			break;
-		}
-
-		switch (orientation) {
-		case LEFT_ABOVE:
-			positioner = new LeftAbovePositioner(horizontalOffset, verticalOffset);
-			break;
-		case LEFT_BELOW:
-			positioner = new LeftBelowPositioner(horizontalOffset, verticalOffset);
-			break;
-		case RIGHT_ABOVE:
-			positioner = new RightAbovePositioner(horizontalOffset, verticalOffset);
-			break;
-		case RIGHT_BELOW:
-			positioner = new RightBelowPositioner(horizontalOffset, verticalOffset);
-			break;
-		}
-
-		positioner.enableFixedAttachLocation(fixedAttachLocation);
-		positioner.setAttachLocation(attachX, attachY);
-
-		setup(attachedComponent, contents, style, positioner,
+		setup(attachedComponent, contents, style, setupPositioner(orientation, attachLocation, horizontalOffset, verticalOffset),
 				useCloseButton?getDefaultCloseButton():null);
 	}
 
@@ -263,7 +203,7 @@ public class BalloonTip extends JPanel {
 			visibilityControl.setCriteriumAndUpdate("hasContents", false);
 		}
 
-		// Notify property listeners that the contents have changed
+		// Notify property listeners that the contents has changed
 		firePropertyChange("contents", oldContents, this.contents);
 		refreshLocation();
 	}
@@ -534,31 +474,8 @@ public class BalloonTip extends JPanel {
 	 * (Is able to update balloon tip's location even if the balloon tip is not shown.)
 	 */
 	public void refreshLocation() {
-		if (topLevelContainer==null) {
-			return;
-		}
-		positioner.determineAndSetLocation(getAttachedRectangle());
-
-		if (viewportListener==null) {
-			return;
-		}
-		Point tipLocation = positioner.getTipLocation();
-
-		boolean isWithinViewport = false;
-		for (JViewport viewport:viewportListener.viewports) {
-			Rectangle view = new Rectangle(SwingUtilities.convertPoint(viewport, viewport.getLocation(), getTopLevelContainer()), viewport.getSize());
-			if (tipLocation.y >= view.y-1 // -1 because we still want to allow balloons that are attached to the very top...
-					&& tipLocation.y <= (view.y + view.height)
-					&& (tipLocation.x) >= view.x
-					&& (tipLocation.x) <= (view.x + view.width)) {
-				isWithinViewport = true;
-			} else {
-				isWithinViewport = false;
-				break;
-			}
-		}
-		if (!viewportListener.viewports.isEmpty()) {
-			visibilityControl.setCriteriumAndUpdate("withinViewport", isWithinViewport);
+		if (topLevelContainer!=null) {
+			positioner.determineAndSetLocation(getAttachedRectangle());
 		}
 	}
 
@@ -620,11 +537,84 @@ public class BalloonTip extends JPanel {
 		&& attachedComponent.getWidth() > 0
 		&& attachedComponent.getHeight() > 0; // The area of the attached component must be > 0 in order to be visible..
 	}
+	
+	/*
+	 * Default constructor; does nothing but call the super-constructor
+	 */
+	protected BalloonTip() {
+		super();
+	}
+	
+	/*
+	 * Helper method to construct the right positioner given a particular orientation, attach location and offset
+	 */
+	protected BalloonTipPositioner setupPositioner(Orientation orientation, AttachLocation attachLocation, int horizontalOffset, int verticalOffset) {
+		BasicBalloonTipPositioner positioner = null;
+		float attachX = 0.0f;
+		float attachY = 0.0f;
+		boolean fixedAttachLocation = true;
+
+		switch (attachLocation) {
+		case ALIGNED:
+			fixedAttachLocation = false;
+			break;
+		case CENTER:
+			attachX = 0.5f;
+			attachY = 0.5f;
+			break;
+		case NORTH:
+			attachX = 0.5f;
+			break;
+		case NORTHEAST:
+			attachX = 1.0f;
+			break;
+		case EAST:
+			attachX = 1.0f;
+			attachY = 0.5f;
+			break;
+		case SOUTHEAST:
+			attachX = 1.0f;
+			attachY = 1.0f;
+			break;
+		case SOUTH:
+			attachX = 0.5f;
+			attachY = 1.0f;
+			break;
+		case SOUTHWEST:
+			attachY = 1.0f;
+			break;
+		case WEST:
+			attachY = 0.5f;
+			break;
+		case NORTHWEST:
+			break;
+		}
+
+		switch (orientation) {
+		case LEFT_ABOVE:
+			positioner = new LeftAbovePositioner(horizontalOffset, verticalOffset);
+			break;
+		case LEFT_BELOW:
+			positioner = new LeftBelowPositioner(horizontalOffset, verticalOffset);
+			break;
+		case RIGHT_ABOVE:
+			positioner = new RightAbovePositioner(horizontalOffset, verticalOffset);
+			break;
+		case RIGHT_BELOW:
+			positioner = new RightBelowPositioner(horizontalOffset, verticalOffset);
+			break;
+		}
+
+		positioner.enableFixedAttachLocation(fixedAttachLocation);
+		positioner.setAttachLocation(attachX, attachY);
+		
+		return positioner;
+	}
 
 	/*
-	 * Helper method for constructing a BalloonTip
+	 * Sets up a BalloonTip instance
 	 */
-	private void setup(final JComponent attachedComponent, JComponent contents, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
+	protected void setup(final JComponent attachedComponent, JComponent contents, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
 		this.attachedComponent = attachedComponent;
 		this.contents = contents;
 		this.style = style;
@@ -648,14 +638,12 @@ public class BalloonTip extends JPanel {
 		// Attempt to run setupHelper() ...
 		if (attachedComponent.isValid()) {
 			setupHelper();
-			refreshLocation();
 		} else {
 			/* We can't determine the top-level container yet.
 			 * We'll just have to wait until the parent is set and try again... */
 			final AncestorListener attachedComponentParentListener = new AncestorListener() {
 				public void ancestorAdded(AncestorEvent e) {
 					setupHelper();
-					refreshLocation();
 					e.getComponent().removeAncestorListener(this); // Remove yourself
 				}
 				public void ancestorMoved(AncestorEvent e) {}
@@ -708,6 +696,14 @@ public class BalloonTip extends JPanel {
 			}
 			previous = current;
 			current = current.getParent();
+		}
+		
+		// We can now calculate and set the balloon tip's initial position
+		refreshLocation();
+		
+		// Check whether the balloon tip is currently visible within its viewports, if any
+		if (viewportListener != null) {
+			viewportListener.stateChanged(null);
 		}
 	}
 
@@ -776,11 +772,29 @@ public class BalloonTip extends JPanel {
 	 * If a balloon tip is nested in one or more viewports, this listener ensures
 	 * the balloon tip is hidden if it is no longer visible within the viewports' boundaries
 	 */
-	private class NestedViewportListener implements ChangeListener {
+	protected class NestedViewportListener implements ChangeListener {
 		private Vector<JViewport> viewports = new Vector<JViewport>();
 
 		public void stateChanged(ChangeEvent e) {
 			refreshLocation();
+			Point tipLocation = positioner.getTipLocation();
+
+			boolean isWithinViewport = false;
+			for (JViewport viewport:viewportListener.viewports) {
+				Rectangle view = new Rectangle(SwingUtilities.convertPoint(viewport, viewport.getLocation(), getTopLevelContainer()), viewport.getSize());
+				if (tipLocation.y >= view.y-1 // -1 because we still want to allow balloons that are attached to the very top...
+						&& tipLocation.y <= (view.y + view.height)
+						&& (tipLocation.x) >= view.x
+						&& (tipLocation.x) <= (view.x + view.width)) {
+					isWithinViewport = true;
+				} else {
+					isWithinViewport = false;
+					break;
+				}
+			}
+			if (!viewports.isEmpty()) {
+				visibilityControl.setCriteriumAndUpdate("withinViewport", isWithinViewport);
+			}
 		}
 	}
 

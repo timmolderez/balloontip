@@ -66,12 +66,12 @@ public class TypesTab extends JPanel {
 		JPanel tableCellPanel = new JPanel();
 		tableCellPanel.setLayout(new GridBagLayout());
 		tableCellPanel.add(new JLabel("A TablecellBalloonTip can attach itself to a JTable cell."), new GridBagConstraints(0,0,1,1,1.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10,10,10,0), 0, 0));
-		final JTable table = new JTable(64,64);
-		table.getModel().setValueAt("A cell", 32, 32);
+		final JTable table = new JTable(8,32);
+		table.getModel().setValueAt("A cell", 4, 16);
 		table.setTableHeader(null); // Remove the table header
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		TableColumn column = null;
-		for (int i=0; i<64; ++i) {
+		for (int i=0; i<32; ++i) {
 			column = table.getColumnModel().getColumn(i);
 			column.setPreferredWidth(50);
 		}		
@@ -88,7 +88,7 @@ public class TypesTab extends JPanel {
 		JPanel customPanel = new JPanel();
 		customPanel.setLayout(new GridBagLayout());
 		customPanel.add(new JLabel("A CustomBalloonTip can attach itself to a rectangular shape within a JComponent."), new GridBagConstraints(0,0,1,1,1.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10,10,10,0), 0, 0));
-		final Rectangle customOffset = new Rectangle(640, 320, 50, 16);
+		final Rectangle customOffset = new Rectangle(320, 60, 50, 16);
 		final JComponent customComponent = new JComponent() {
 			protected void paintComponent(Graphics g) {
 				Rectangle clip = g.getClipBounds();
@@ -98,7 +98,7 @@ public class TypesTab extends JPanel {
 				g.fillRect(customOffset.x, customOffset.y, customOffset.width, customOffset.height);
 			}
 		};
-		customComponent.setPreferredSize(new Dimension(1280, 640));
+		customComponent.setPreferredSize(new Dimension(640, 120));
 		final JScrollPane customScrollPane = new JScrollPane(customComponent);
 		customPanel.add(customScrollPane, new GridBagConstraints(0,1,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(10,10,10,10), 0, 0));
 		customPanel.setBorder(BorderFactory.createTitledBorder("Custom balloon tip:"));
@@ -117,17 +117,16 @@ public class TypesTab extends JPanel {
 				null);
 
 		// Tablecell balloon tip
-		new TablecellBalloonTip(table, new JLabel("I'm a TableCellBalloonTip!"), 32, 32,
+		new TablecellBalloonTip(table, new JLabel("I'm a TableCellBalloonTip!"), 4, 16,
 				CompleteExample.createBalloonTipStyle(),
 				CompleteExample.createBalloonTipPositioner(), 
 				null);
 		table.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
-				table.scrollRectToVisible(table.getCellRect(33, 38, true));
+				table.scrollRectToVisible(table.getCellRect(5, 20, true));
 			}
 			public void ancestorMoved(AncestorEvent event) {}
 			public void ancestorRemoved(AncestorEvent event) {}
-
 		});
 
 		// Custom balloon tip
@@ -139,7 +138,7 @@ public class TypesTab extends JPanel {
 				null);
 		customComponent.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
-				customComponent.scrollRectToVisible(new Rectangle(876,340,10,10));
+				customComponent.scrollRectToVisible(new Rectangle(500,80,10,10));
 			}
 			public void ancestorMoved(AncestorEvent event) {}
 			public void ancestorRemoved(AncestorEvent event) {}
