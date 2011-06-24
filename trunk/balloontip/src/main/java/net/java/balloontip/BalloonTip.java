@@ -703,7 +703,7 @@ public class BalloonTip extends JPanel {
 		
 		// Check whether the balloon tip is currently visible within its viewports, if any
 		if (viewportListener != null) {
-			viewportListener.stateChanged(null);
+			viewportListener.stateChanged(new ChangeEvent(this));
 		}
 	}
 
@@ -772,7 +772,7 @@ public class BalloonTip extends JPanel {
 	 * If a balloon tip is nested in one or more viewports, this listener ensures
 	 * the balloon tip is hidden if it is no longer visible within the viewports' boundaries
 	 */
-	protected class NestedViewportListener implements ChangeListener {
+	private class NestedViewportListener implements ChangeListener {
 		private Vector<JViewport> viewports = new Vector<JViewport>();
 
 		public void stateChanged(ChangeEvent e) {
