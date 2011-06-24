@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="style/style.css" type="text/css" /></head>
 <body>
 <div id="header" class="balloontip"> <img src="images/BalloonTip.png" alt="Balloon tip" />
-<div id="title"> Manual <span id="releaseDate">v1.2</span></div>
+<div id="title"> Manual <span id="releaseDate">v1.2.1</span></div>
 </div>
 <div class="section">
 <div class="title"> Table of contents</div>
@@ -609,6 +609,13 @@ outside a certain area, or ...</p>
 <div class="title"> 3. Release notes<a name="releasenotes"></a></div>
 
 <ul>
+<li><strong>1.2.1</strong>
+<ul>
+	<li>Improvement: Removed redundant refreshLocation() call when constructing a CustomBalloonTip.</li>
+	<li>Bug fix: Fixed issue where a balloon tip is shown initially if it is attached to a component that is currently outside the visible region of a viewport.</li>
+	<li>Bug fix: Fixed issue where a balloon tip is shown if it is attached to a component on a tab that is currently not shown.</li>
+</ul>
+</li>
 <li><strong>1.2</strong>
 <ul>
 	<li>Change: Balloon tip's license was changed from LGPL v2.1 (or higher) to the 3-Clause BSD License.</li>
