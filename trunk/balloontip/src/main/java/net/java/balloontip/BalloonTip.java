@@ -10,6 +10,7 @@
 package net.java.balloontip;
 
 import java.awt.AlphaComposite;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
@@ -671,7 +672,7 @@ public class BalloonTip extends JPanel {
 		Container current = attachedComponent.getParent();
 		Container previous = attachedComponent;
 		while (current!=null) {
-			if (current instanceof JTabbedPane) {
+			if (current instanceof JTabbedPane || current.getLayout() instanceof CardLayout) {
 				/* Switching tabs only tells the JPanel representing the contents of each tab whether it went invisible or not.
 				 * It doesn't propagate such events to each and every component within each tab.
 				 * Because of this, we'll have to add a listener to the JPanel of this tab. If it goes invisible, so should the balloon tip. */
@@ -719,7 +720,7 @@ public class BalloonTip extends JPanel {
 			Container current = attachedComponent.getParent();
 			Container previous = attachedComponent;
 			while (current!=null) {
-				if (current instanceof JTabbedPane) {
+				if (current instanceof JTabbedPane || current.getLayout() instanceof CardLayout) {
 					previous.removeComponentListener(tabbedPaneListener);
 				} else if (current instanceof JViewport) {
 					((JViewport) current).removeChangeListener(viewportListener);
