@@ -78,6 +78,7 @@ public class SimpleExample {
 					}
 				});
 				
+				// Dislay the window
 				frame.pack();
 				frame.setSize(320, 240);
 				frame.setLocationRelativeTo(null);

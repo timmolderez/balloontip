@@ -55,13 +55,13 @@ public abstract class BalloonTipPositioner {
 	
 	/**
 	 * Find the current location of the balloon's tip, relative to the top-level container
-	 * @return The location of the tip
+	 * @return				the location of the tip
 	 */
 	 public abstract Point getTipLocation();
 
 	/**
 	 * Determine and set the current location of the balloon tip
-	 * @param attached		the balloon tip is attached to this rectangle
+	 * @param attached		the rectangle to which the balloon tip attaches itself
 	 */
 	public abstract void determineAndSetLocation(Rectangle attached);
 	

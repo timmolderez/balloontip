@@ -41,9 +41,7 @@ public class SimplePositionerExample {
 				JFrame frame = new JFrame("Simple BalloonTipPositioner example");
 				frame.setIconImage(new ImageIcon(SimplePositionerExample.class.getResource("/net/java/balloontip/images/frameicon.png")).getImage());
 				frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frame.pack();
-				frame.setSize(320, 240);
-				frame.setLocationRelativeTo(null);
+				
 				
 				// Setup the content pane
 				JPanel contentPane = new JPanel();
@@ -70,6 +68,10 @@ public class SimplePositionerExample {
 					}
 				});
 				
+				// Display the window
+				frame.pack();
+				frame.setSize(320, 240);
+				frame.setLocationRelativeTo(null);
 				frame.setVisible(true);
 			}
 		});

@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="style/style.css" type="text/css" /></head>
 <body>
 <div id="header" class="balloontip"> <img src="images/BalloonTip.png" alt="Balloon tip" />
-<div id="title"> Manual <span id="releaseDate">v1.2.1</span></div>
+<div id="title"> Manual <span id="releaseDate">v1.2.2</span></div>
 </div>
 <div class="section">
 <div class="title"> Table of contents</div>
@@ -34,7 +34,8 @@ with custom positioners</a></li>
 types of balloon tips</a>
 <ol>
 <li><a href="#customballoontip">CustomBalloonTip</a></li>
-<li><a href="#tablecellballoontip">TablecellBalloonTip</a></li>
+<li><a href="#tablecellballoontip">TableCellBalloonTip</a></li>
+<li><a href="#listitemballoontip">ListItemBalloonTip</a></li>
 </ol>
 </li>
 <li><a href="#utilities">Utilities</a>
@@ -307,15 +308,22 @@ the demo application, just to see how it&nbsp;works:</p>
 <pre><code>// Create a custom JComponent that draws a huge white canvas with a small blue rectangle in it<br />final Rectangle customOffset = new Rectangle(640, 320, 50, 16);<br />final JComponent customComponent = new JComponent() {<br />	protected void paintComponent(Graphics g) {<br />		Rectangle clip = g.getClipBounds();<br />		g.setColor(Color.WHITE);<br />		g.fillRect(clip.x, clip.y, clip.width, clip.height);<br />		g.setColor(Color.BLUE);<br />		g.fillRect(customOffset.x, customOffset.y, customOffset.width, customOffset.height);<br />	}<br />};<br />customComponent.setPreferredSize(new Dimension(1280, 640));<br /><br />// Now create the CustomBalloonTip, such that it attaches itself to the blue rectangle<br />customBalloon = new CustomBalloonTip(customComponent, <br />	"I'm a CustomBalloonTip!",<br />	customOffset,<br />	new EdgedBalloonStyle(Color.WHITE, Color.BLUE), <br />	BalloonTip.Orientation.LEFT_ABOVE, <br />	BalloonTip.AttachLocation.ALIGNED, <br />	20, 20, <br />	false);<br /></code></pre>
 </div>
 <div class="subSection">
-<div class="title">1.4.2. TablecellBalloonTip<a name="tablecellballoontip"></a></div>
-<p>A <code>TablecellBalloonTip</code> is a balloon
+<div class="title">1.4.2. TableCellBalloonTip<a name="tablecellballoontip"></a></div>
+<p>A <code>TableCellBalloonTip</code> is a balloon
 tip that attaches itself to a <code>JTable</code> cell.
-The <code>TablecellBalloonTip</code> is very similar to a <code>CustomBalloonTip</code>:
+The <code>TableCellBalloonTip</code> is very similar to a <code>CustomBalloonTip</code>:
 Instead of specifying a rectangular offset, you&nbsp;specify a cell
 row
 and&nbsp;column. The row and column will determine which table cell
 the
 balloon tip should attach itself to.</p>
+</div>
+<div class="subSection">
+<div class="title">1.4.3. ListItemBalloonTip<a name="listitemballoontip"></a></div>
+<p>A <code>ListItemBalloonTip</code> is a balloon
+tip that attaches itself to a <code>JList</code> item.
+The <code>ListItemBalloonTip</code> is similar to a <code>CustomBalloonTip</code>:
+Instead of specifying a rectangular offset, you&nbsp;specify the list's item index.</p>
 </div>
 </div>
 <div class="subSection">
@@ -609,6 +617,14 @@ outside a certain area, or ...</p>
 <div class="title"> 3. Release notes<a name="releasenotes"></a></div>
 
 <ul>
+<li><strong>1.2.2</strong>
+<ul>
+	<li>New feature: A new balloon tip type, ListItemBalloonTip, which can be attached to items in a JList.</li>
+	<li>Change: Minor API change, TablecellBalloonTip renamed to TableCellBalloonTip.</li>
+	<li>Bug fix: Balloon tip's visiblity not adjusting when switching cards, if attached to a component in a CardLayout panel.</li>
+	<li>Bug fix: Balloon tip could not be constructed correctly when created at a moment where calling isValid() on the attached component returns false, but is displayable.</li>
+</ul>
+</li>
 <li><strong>1.2.1</strong>
 <ul>
 	<li>Improvement: Removed redundant refreshLocation() call when constructing a CustomBalloonTip.</li>

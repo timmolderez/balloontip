@@ -43,7 +43,7 @@ public abstract class BalloonTipStyle implements Border {
 	/**
 	 * Get the minimum value of the horizontal offset
 	 * (Also useful as a maximum; maximum horizontaloffset = balloon tip width - minimum horizontal offset)
-	 * @return Minimul horizontal offset
+	 * @return		minimul horizontal offset
 	 */
 	public int getMinimalHorizontalOffset() {
 		return verticalOffset;
@@ -77,7 +77,7 @@ public abstract class BalloonTipStyle implements Border {
 	
 	/**
 	 * Is this balloon tip opaque?
-	 * @return True if opaque, false if the border uses transparency
+	 * @return		true if opaque, false if the border uses transparency
 	 */
 	public boolean isBorderOpaque() {
 		return true;
@@ -85,7 +85,7 @@ public abstract class BalloonTipStyle implements Border {
 	
 	/**
 	 * Retrieve the balloon tip's border insets
-	 * @return The balloon tip's border insets
+	 * @return		the balloon tip's border insets
 	 */
 	public abstract Insets getBorderInsets(Component c);
 }

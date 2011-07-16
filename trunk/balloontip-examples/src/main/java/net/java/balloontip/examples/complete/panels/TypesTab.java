@@ -29,7 +29,7 @@ import javax.swing.table.TableColumn;
 
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.CustomBalloonTip;
-import net.java.balloontip.TablecellBalloonTip;
+import net.java.balloontip.TableCellBalloonTip;
 import net.java.balloontip.examples.complete.CompleteExample;
 
 /**
@@ -117,7 +117,7 @@ public class TypesTab extends JPanel {
 				null);
 
 		// Tablecell balloon tip
-		new TablecellBalloonTip(table, new JLabel("I'm a TableCellBalloonTip!"), 4, 16,
+		new TableCellBalloonTip(table, new JLabel("I'm a TableCellBalloonTip!"), 4, 16,
 				CompleteExample.createBalloonTipStyle(),
 				CompleteExample.createBalloonTipPositioner(), 
 				null);

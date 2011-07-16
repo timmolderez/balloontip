@@ -31,7 +31,7 @@ public class CenteredPositioner extends BalloonTipPositioner {
 
 	/**
 	 * Constructor
-	 * @param vO	Preferred vertical offset
+	 * @param vO	preferred vertical offset
 	 */
 	public CenteredPositioner(int vO) {
 		super();
@@ -40,7 +40,7 @@ public class CenteredPositioner extends BalloonTipPositioner {
 
 	/**
 	 * Retrieve the preferred vertical offset
-	 * @return Preferred vertical offset
+	 * @return		preferred vertical offset (in pixels)
 	 */
 	public int getPreferredVerticalOffset() {
 		return preferredVerticalOffset;
@@ -48,7 +48,7 @@ public class CenteredPositioner extends BalloonTipPositioner {
 
 	/**
 	 * Set the preferred horizontal offset
-	 * @param preferredVerticalOffset
+	 * @param preferredVerticalOffset	preferred vertical offset (in pixels)
 	 */
 	public void setPreferredVerticalOffset(int preferredVerticalOffset) {
 		this.preferredVerticalOffset = preferredVerticalOffset;
@@ -57,7 +57,7 @@ public class CenteredPositioner extends BalloonTipPositioner {
 
 	/**
 	 * Is orientation correction enabled?
-	 * @return True if orientation correction is enabled
+	 * @return		true if orientation correction is enabled
 	 */
 	public boolean isOrientationCorrected() {
 		return orientationCorrection;
@@ -73,7 +73,7 @@ public class CenteredPositioner extends BalloonTipPositioner {
 
 	/**
 	 * Does the tip have a fixed location?
-	 * @return True if the balloon has a fixed attaching location
+	 * @return		true if the balloon has a fixed attaching location
 	 */
 	public boolean isFixedAttachLocation() {
 		return fixedAttachLocation;
@@ -90,7 +90,7 @@ public class CenteredPositioner extends BalloonTipPositioner {
 	/**
 	 * Returns the percentage that determines the Y-coordinate of the tip within the attached component
 	 * (whereas 0.0 is the top and 1.0 is the bottom)
-	 * @return The percentage that determines the Y-coordinate of the attaching location
+	 * @return		the percentage that determines the Y-coordinate of the attaching location
 	 */
 	public float getAttachLocationY() {
 		return attachLocationY;

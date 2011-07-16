@@ -91,7 +91,11 @@ public class BalloonTip extends JPanel {
 			refreshLocation();
 		}
 		public void componentResized(ComponentEvent e) {
-			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",isAttachedComponentShowing());
+			/* We're assuming here that components can only resize when they are visible!
+			 * (If we would use isAttachedComponentShowing(), the JApplet test will fail.
+			 * Perhaps this indicates a bug in Component.isShowing() when using components in a JApplet..) */
+			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",
+					attachedComponent.getWidth() > 0 && attachedComponent.getHeight() > 0);
 			refreshLocation();
 		}
 		public void componentShown(ComponentEvent e) {
@@ -427,7 +431,7 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Retrieve the component this balloon tip is attached to
-	 * @return	The attached component
+	 * @return		The attached component
 	 */
 	public JComponent getAttachedComponent() {
 		return attachedComponent;
@@ -463,7 +467,7 @@ public class BalloonTip extends JPanel {
 
 	/**
 	 * Retrieves the rectangle to which this balloon tip is attached
-	 * @return	the rectangle to which this balloon tip is attached, in the coordinate system of the balloon tip	
+	 * @return		the rectangle to which this balloon tip is attached, in the coordinate system of the balloon tip	
 	 */
 	public Rectangle getAttachedRectangle() {
 		Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
@@ -538,14 +542,14 @@ public class BalloonTip extends JPanel {
 		&& attachedComponent.getWidth() > 0
 		&& attachedComponent.getHeight() > 0; // The area of the attached component must be > 0 in order to be visible..
 	}
-	
+
 	/*
 	 * Default constructor; does nothing but call the super-constructor
 	 */
 	protected BalloonTip() {
 		super();
 	}
-	
+
 	/*
 	 * Helper method to construct the right positioner given a particular orientation, attach location and offset
 	 */
@@ -608,7 +612,7 @@ public class BalloonTip extends JPanel {
 
 		positioner.enableFixedAttachLocation(fixedAttachLocation);
 		positioner.setAttachLocation(attachX, attachY);
-		
+
 		return positioner;
 	}
 
@@ -637,20 +641,19 @@ public class BalloonTip extends JPanel {
 		addMouseListener(clickListener);
 
 		// Attempt to run setupHelper() ...
-		if (attachedComponent.isValid()) {
+		if (attachedComponent.isDisplayable()) {
 			setupHelper();
 		} else {
 			/* We can't determine the top-level container yet.
 			 * We'll just have to wait until the parent is set and try again... */
-			final AncestorListener attachedComponentParentListener = new AncestorListener() {
+			attachedComponent.addAncestorListener(new AncestorListener() {
 				public void ancestorAdded(AncestorEvent e) {
 					setupHelper();
 					e.getComponent().removeAncestorListener(this); // Remove yourself
 				}
 				public void ancestorMoved(AncestorEvent e) {}
 				public void ancestorRemoved(AncestorEvent e) {}
-			};
-			attachedComponent.addAncestorListener(attachedComponentParentListener);
+			});
 		}
 	}
 
@@ -698,10 +701,10 @@ public class BalloonTip extends JPanel {
 			previous = current;
 			current = current.getParent();
 		}
-		
+
 		// We can now calculate and set the balloon tip's initial position
 		refreshLocation();
-		
+
 		// Check whether the balloon tip is currently visible within its viewports, if any
 		if (viewportListener != null) {
 			viewportListener.stateChanged(new ChangeEvent(this));

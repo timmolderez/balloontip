@@ -40,8 +40,8 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 	
 	/**
 	 * Constructor
-	 * @param hO	Preferred horizontal offset
-	 * @param vO	Preferred vertical offset
+	 * @param hO	preferred horizontal offset (in pixels)
+	 * @param vO	preferred vertical offset (in pixels)
 	 */
 	public BasicBalloonTipPositioner(int hO, int vO) {
 		super();
@@ -56,8 +56,8 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 	}
 
 	/**
-	 * Retrieve the preferred horizontal offset
-	 * @return Preferred horizontal offset
+	 * Retrieve the preferred horizontal offset (in pixels)
+	 * @return 		preferred horizontal offset (in pixels)
 	 */
 	public int getPreferredHorizontalOffset() {
 		return preferredHorizontalOffset;
@@ -65,7 +65,7 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 
 	/**
 	 * Set the preferred horizontal offset
-	 * @param preferredHorizontalOffset
+	 * @param preferredHorizontalOffset		preferred horizontal offset (in pixels)
 	 */
 	public void setPreferredHorizontalOffset(int preferredHorizontalOffset) {
 		this.preferredHorizontalOffset = preferredHorizontalOffset;
@@ -75,7 +75,7 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 
 	/**
 	 * Retrieve the preferred vertical offset
-	 * @return Preferred vertical offset
+	 * @return		preferred vertical offset (in pixels)
 	 */
 	public int getPreferredVerticalOffset() {
 		return preferredVerticalOffset;
@@ -83,7 +83,7 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 
 	/**
 	 * Set the preferred horizontal offset
-	 * @param preferredVerticalOffset
+	 * @param preferredVerticalOffset		preferred horizontal offset (in pixels)
 	 */
 	public void setPreferredVerticalOffset(int preferredVerticalOffset) {
 		this.preferredVerticalOffset = preferredVerticalOffset;
@@ -93,7 +93,7 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 
 	/**
 	 * Is offset correction enabled?
-	 * @return True if offset correction is enabled
+	 * @return		true if offset correction is enabled
 	 */
 	public boolean isOffsetCorrected() {
 		return offsetCorrection;
@@ -109,7 +109,7 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 
 	/**
 	 * Is orientation correction enabled?
-	 * @return True if orientation correction is enabled
+	 * @return		true if orientation correction is enabled
 	 */
 	public boolean isOrientationCorrected() {
 		return orientationCorrection;
@@ -125,7 +125,7 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 
 	/**
 	 * Does the tip have a fixed location?
-	 * @return True if the balloon has a fixed attaching location
+	 * @return		true if the balloon has a fixed attaching location
 	 */
 	public boolean isFixedAttachLocation() {
 		return fixedAttachLocation;
@@ -142,7 +142,7 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 	/**
 	 * Returns the percentage that determines the X-coordinate of the tip within the attached component
 	 * (whereas 0.0 is the left side and 1.0 is the right side)
-	 * @return The percentage that determines the X-coordinate of the attaching location
+	 * @return		the percentage that determines the X-coordinate of the attaching location
 	 */
 	public float getAttachLocationX() {
 		return attachLocationX;
@@ -151,7 +151,7 @@ public abstract class BasicBalloonTipPositioner extends BalloonTipPositioner {
 	/**
 	 * Returns the percentage that determines the Y-coordinate of the tip within the attached component
 	 * (whereas 0.0 is the top and 1.0 is the bottom)
-	 * @return The percentage that determines the Y-coordinate of the attaching location
+	 * @return		the percentage that determines the Y-coordinate of the attaching location
 	 */
 	public float getAttachLocationY() {
 		return attachLocationY;

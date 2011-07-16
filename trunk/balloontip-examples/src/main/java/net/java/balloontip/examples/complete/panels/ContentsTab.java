@@ -24,7 +24,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import net.java.balloontip.BalloonTip;
-import net.java.balloontip.TablecellBalloonTip;
+import net.java.balloontip.TableCellBalloonTip;
 import net.java.balloontip.examples.complete.CompleteExample;
 
 /**
@@ -118,7 +118,7 @@ public class ContentsTab extends JPanel {
 		final JLabel comp2 = new JLabel("be a bit");
 		comp2.setIcon(new ImageIcon(CompleteExample.class.getResource("/net/java/balloontip/images/frameIcon.png")));
 		panel2.add(comp2);
-		final TablecellBalloonTip tableBt = new TablecellBalloonTip(comp1, panel2, 1,1,
+		final TableCellBalloonTip tableBt = new TableCellBalloonTip(comp1, panel2, 1,1,
 				CompleteExample.createBalloonTipStyle(),
 				CompleteExample.createBalloonTipPositioner(), 
 				null);
