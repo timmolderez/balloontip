@@ -23,11 +23,11 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
 import net.java.balloontip.BalloonTip;
-import net.java.balloontip.TablecellBalloonTip;
+import net.java.balloontip.TableCellBalloonTip;
 import net.java.balloontip.styles.MinimalBalloonStyle;
 
 /**
- * Simple application demonstrating a TablecellBalloonTip
+ * Simple application demonstrating a TableCellBalloonTip
  * @author Tim Molderez
  */
 public class TableExample {
@@ -65,7 +65,7 @@ public class TableExample {
 				table.scrollRectToVisible(table.getCellRect(8, 16, true));
 				
 				// Create the TablecellBalloonTip
-				new TablecellBalloonTip(table, 
+				new TableCellBalloonTip(table, 
 						new JLabel("A TablecellBalloonTip"), 
 						16, 16,
 						new MinimalBalloonStyle(new Color(255, 0, 0, 180), 10),
@@ -73,6 +73,8 @@ public class TableExample {
 						BalloonTip.AttachLocation.ALIGNED, 
 						40, 20, 
 						false);
+				
+				// Display the window
 				frame.pack();
 				frame.setSize(640, 260);
 				frame.setLocationRelativeTo(null);

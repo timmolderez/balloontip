@@ -25,7 +25,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.table.TableColumn;
 
-import net.java.balloontip.TablecellBalloonTip;
+import net.java.balloontip.TableCellBalloonTip;
 import net.java.balloontip.examples.complete.CompleteExample;
 import net.java.balloontip.positioners.BasicBalloonTipPositioner;
 import net.java.balloontip.positioners.LeftAbovePositioner;
@@ -42,7 +42,7 @@ public class BehaviourTab extends JPanel {
 	private final JComboBox attachPicker;
 	private final JCheckBox offsetCorrection;
 	private final JCheckBox orientationCorrection;
-	private final TablecellBalloonTip tableBalloon;
+	private final TableCellBalloonTip tableBalloon;
 
 	private final static int HOFFSET = 40;
 	private final static int VOFFSET = 20;
@@ -110,7 +110,7 @@ public class BehaviourTab extends JPanel {
 		 */
 
 		// Tablecell balloon tip		
-		tableBalloon = new TablecellBalloonTip(table, 
+		tableBalloon = new TableCellBalloonTip(table, 
 				new JLabel("Use the scrollbars to move me around!"), 32, 16,
 				CompleteExample.createBalloonTipStyle(), 
 				new LeftAbovePositioner(HOFFSET, VOFFSET),

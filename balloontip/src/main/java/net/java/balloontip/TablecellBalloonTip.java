@@ -28,7 +28,7 @@ import net.java.balloontip.styles.BalloonTipStyle;
  * Provides similar functionality as a CustomBalloonTip, but attaches itself to a cell in a JTable
  * @author Tim Molderez
  */
-public class TablecellBalloonTip extends CustomBalloonTip {
+public class TableCellBalloonTip extends CustomBalloonTip {
 
 	protected int row;
 	protected int column;
@@ -67,22 +67,22 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 
 	/**
 	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, Orientation, AttachLocation, int, int, boolean)
-	 * @param table		The table to attach the balloon tip to (may not be null)
-	 * @param row		Which row is the balloon tip attached to
-	 * @param column	Which column is the balloon tip attached to
+	 * @param table		the table to attach the balloon tip to (may not be null)
+	 * @param row		which row is the balloon tip attached to
+	 * @param column	which column is the balloon tip attached to
 	 */
-	public TablecellBalloonTip(JTable table, JComponent component, int row, int column, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
+	public TableCellBalloonTip(JTable table, JComponent component, int row, int column, BalloonTipStyle style, Orientation alignment, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
 		super(table, component, table.getCellRect(row, column, true), style, alignment, attachLocation, horizontalOffset, verticalOffset, useCloseButton);
 		setup(table, row, column);
 	}
 
 	/**
 	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, BalloonTipPositioner, JButton)
-	 * @param table		The table to attach the balloon tip to (may not be null)
-	 * @param row		Which row is the balloon tip attached to
-	 * @param column	Which column is the balloon tip attached to
+	 * @param table		the table to attach the balloon tip to (may not be null)
+	 * @param row		which row is the balloon tip attached to
+	 * @param column	which column is the balloon tip attached to
 	 */
-	public TablecellBalloonTip(JTable table, JComponent component, int row, int column, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
+	public TableCellBalloonTip(JTable table, JComponent component, int row, int column, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
 		super(table, component, table.getCellRect(row, column, true), style, positioner, closeButton);
 		setup(table, row, column);
 	}
@@ -105,9 +105,9 @@ public class TablecellBalloonTip extends CustomBalloonTip {
 
 	/*
 	 * A helper method needed when constructing a TablecellBalloonTip instance
-	 * @param table		The table to which this balloon tip attaches itself to
-	 * @param row		The row of the cell to which this balloon tip attaches itself to
-	 * @param column	The column of the cell to which this balloon tip attaches itself to
+	 * @param table		the table to which this balloon tip attaches itself to
+	 * @param row		the row of the cell to which this balloon tip attaches itself to
+	 * @param column	the column of the cell to which this balloon tip attaches itself to
 	 */
 	private void setup(JTable table, int row, int column) {
 		this.row = row;

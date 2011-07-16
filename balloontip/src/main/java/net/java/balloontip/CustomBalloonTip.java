@@ -30,8 +30,8 @@ public class CustomBalloonTip extends BalloonTip {
 
 	/**
 	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, Orientation, AttachLocation, int, int, boolean)
-	 * @param attachedComponent	The custom component to attach the balloon tip to (may not be null)
-	 * @param offset			Specifies a rectangle within the attached component; the balloon tip will attach to this rectangle. (may not be null)
+	 * @param attachedComponent	the custom component to attach the balloon tip to (may not be null)
+	 * @param offset			specifies a rectangle within the attached component; the balloon tip will attach to this rectangle. (may not be null)
 	 * 							Do note that the coordinates should be relative to the attached component's top left corner.
 	 */
 	public CustomBalloonTip(JComponent attachedComponent, JComponent component, Rectangle offset, BalloonTipStyle style, Orientation orientation, AttachLocation attachLocation, int horizontalOffset, int verticalOffset, boolean useCloseButton) {
@@ -42,8 +42,8 @@ public class CustomBalloonTip extends BalloonTip {
 
 	/**
 	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, BalloonTipPositioner, JButton)
-	 * @param attachedComponent	The custom component to attach the balloon tip to (may not be null)
-	 * @param offset			Specifies a rectangle within the attached component; the balloon tip will attach to this rectangle. (may not be null)
+	 * @param attachedComponent	the custom component to attach the balloon tip to (may not be null)
+	 * @param offset			specifies a rectangle within the attached component; the balloon tip will attach to this rectangle. (may not be null)
 	 * 							Do note that the coordinates should be relative to the attached component's top left corner.
 	 */
 	public CustomBalloonTip(JComponent attachedComponent, JComponent component, Rectangle offset, BalloonTipStyle style, BalloonTipPositioner positioner, JButton closeButton) {
@@ -54,7 +54,8 @@ public class CustomBalloonTip extends BalloonTip {
 
 	/**
 	 * Set the offset within the attached component
-	 * @param offset (may not be null)
+	 * @param offset 	specifies a rectangle within the attached component; the balloon tip will attach to this rectangle. (may not be null)
+	 * 					Do note that the coordinates should be relative to the attached component's top left corner.
 	 */
 	public void setOffset(Rectangle offset) {
 		this.offset = offset;
@@ -63,7 +64,7 @@ public class CustomBalloonTip extends BalloonTip {
 
 	/**
 	 * Get the offset within the attached component
-	 * @return The offset (may not be null)
+	 * @return		the offset
 	 */
 	public Rectangle getOffset() {
 		return offset;

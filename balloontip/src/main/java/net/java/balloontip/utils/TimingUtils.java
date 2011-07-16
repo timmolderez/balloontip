@@ -29,6 +29,7 @@ public final class TimingUtils {
 
 	/**
 	 * Displays a balloon tip for a certain time, then close it.
+	 * (Note that you cannot reuse this balloon tip after it has been closed.)
 	 * @param balloon			the BalloonTip
 	 * @param time				show the balloon for this amount of milliseconds
 	 */
