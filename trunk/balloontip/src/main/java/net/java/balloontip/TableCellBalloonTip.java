@@ -9,9 +9,13 @@
 
 package net.java.balloontip;
 
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.event.ChangeEvent;
@@ -139,5 +143,16 @@ public class TableCellBalloonTip extends CustomBalloonTip {
 		JTable attachedTable=((JTable)attachedComponent);
 		attachedTable.getColumnModel().removeColumnModelListener(columnListener);
 		attachedTable.getModel().removeTableModelListener(tableModelListener);
+	}
+	
+	public Rectangle getAttachedRectangle() {
+		Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
+		return new Rectangle(location.x + offset.x, location.y + offset.y, offset.width, offset.height);
+	}
+	
+	public void refreshLocation() {
+		if (topLevelContainer!=null) {
+			positioner.determineAndSetLocation(getAttachedRectangle());
+		}
 	}
 }

@@ -40,6 +40,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
@@ -106,6 +107,13 @@ public class BalloonTip extends JPanel {
 			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",false);
 		}
 	};
+	
+//	private final HierarchyListener hierarchyListener = new HierarchyListener() {
+//		public void hierarchyChanged(HierarchyEvent e) {
+//			System.out.println("Hierarchy changed!");
+//			
+//		}
+//	};
 
 	// Adjust the balloon tip when the top-level container is resized
 	private final ComponentAdapter topLevelContainerListener = new ComponentAdapter() {
@@ -668,6 +676,8 @@ public class BalloonTip extends JPanel {
 
 		// If the attached component is moved/hidden/shown, the balloon tip should act accordingly
 		attachedComponent.addComponentListener(componentListener);
+		// If the hierarchy of the attached component changes
+//		attachedComponent.addHierarchyListener(hierarchyListener);
 		// Update balloon tip's visibility
 		visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",isAttachedComponentShowing());
 
@@ -717,6 +727,7 @@ public class BalloonTip extends JPanel {
 	 */
 	private void tearDownHelper() {
 		attachedComponent.removeComponentListener(componentListener);
+//		attachedComponent.removeHierarchyListener(hierarchyListener);
 
 		// Remove any listeners that were attached to parent components
 		if (tabbedPaneListener!=null || viewportListener!=null) {
@@ -786,6 +797,17 @@ public class BalloonTip extends JPanel {
 			boolean isWithinViewport = false;
 			for (JViewport viewport:viewportListener.viewports) {
 				Rectangle view = new Rectangle(SwingUtilities.convertPoint(viewport, viewport.getLocation(), getTopLevelContainer()), viewport.getSize());
+				// If the viewport is embedded in a JScrollPane, take into acount the column and row headers
+				if (viewport.getParent() instanceof JScrollPane) {
+					JScrollPane scrollPane = (JScrollPane)viewport.getParent();
+					if (scrollPane.getColumnHeader()!=null) {
+						view.y-=scrollPane.getColumnHeader().getHeight();
+					}
+					if (scrollPane.getRowHeader()!=null) {
+						view.x-=scrollPane.getColumnHeader().getWidth();
+					}
+				}
+				
 				if (tipLocation.y >= view.y-1 // -1 because we still want to allow balloons that are attached to the very top...
 						&& tipLocation.y <= (view.y + view.height)
 						&& (tipLocation.x) >= view.x
