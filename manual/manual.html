@@ -620,9 +620,10 @@ outside a certain area, or ...</p>
 <li><strong>1.2.2</strong>
 <ul>
 	<li>New feature: A new balloon tip type, ListItemBalloonTip, which can be attached to items in a JList.</li>
-	<li>Change: Minor API change, TablecellBalloonTip renamed to TableCellBalloonTip.</li>
+	<li>Change: Minor API change, TablecellBalloonTip renamed to TableCellBalloonTip. (Note the capital C)</li>
 	<li>Bug fix: Balloon tip's visiblity not adjusting when switching cards, if attached to a component in a CardLayout panel.</li>
 	<li>Bug fix: Balloon tip could not be constructed correctly when created at a moment where calling isValid() on the attached component returns false, but is displayable.</li>
+	<li>Bug fix: If the attached component is in a JScrollPane, the balloon tip's viewport listener now takes into account the column/row header of this JScrollPane. (Thanks mquiot)</li>
 </ul>
 </li>
 <li><strong>1.2.1</strong>
