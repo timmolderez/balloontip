@@ -99,6 +99,7 @@ public class TableCellBalloonTip extends CustomBalloonTip {
 	public void setCellPosition(int row, int column) {
 		offset = ((JTable)attachedComponent).getCellRect(row, column, true);
 		refreshLocation();
+		notifyViewportListener();
 	}
 
 	public void closeBalloon() {

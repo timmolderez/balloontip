@@ -59,6 +59,7 @@ public class CustomBalloonTip extends BalloonTip {
 	 */
 	public void setOffset(Rectangle offset) {
 		this.offset = offset;
+		notifyViewportListener();
 		refreshLocation();
 	}
 

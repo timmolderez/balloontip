@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.Timer;
 
@@ -34,7 +35,7 @@ public final class ToolTipUtils {
 	/*
 	 * This class monitors when the balloon tooltip should be shown
 	 */
-	private static class ToolTipController extends MouseAdapter {
+	private static class ToolTipController extends MouseAdapter implements MouseMotionListener {
 		private final BalloonTip balloonTip;
 		private final Timer initialTimer;
 		private final Timer showTimer;
@@ -63,12 +64,21 @@ public final class ToolTipUtils {
 			});
 			showTimer.setRepeats(false);
 		}
-
-		public void mouseEntered(MouseEvent e) {
-			if (!balloonTip.isVisible()) {
-				initialTimer.start();
+		
+		public void mouseMoved(MouseEvent e) {
+			// If the mouse is within the balloon tip's attached rectangle
+			//TODO Fix bug: e.getpoint is relative coordinates to component! getAttachRect check should only be for specialized uses, i.e. when attaching to a list
+			if (balloonTip.getAttachedRectangle().contains(e.getPoint())) {
+				if (!balloonTip.isVisible() && !initialTimer.isRunning()) {
+					initialTimer.start();
+				}
+			} else {
+				stopTimers();
+				balloonTip.setVisible(false);
 			}
 		}
+		
+		public void mouseDragged(MouseEvent e) {}
 
 		public void mouseExited(MouseEvent e) {
 			stopTimers();
@@ -87,6 +97,7 @@ public final class ToolTipUtils {
 			initialTimer.stop();
 			showTimer.stop();
 		}
+		
 	}
 
 	/**
@@ -100,7 +111,9 @@ public final class ToolTipUtils {
 	public static void balloonToToolTip(final BalloonTip bT, int initialDelay, int showDelay) {
 		bT.setVisible(false);
 		// Add tooltip behaviour
-		bT.getAttachedComponent().addMouseListener(new ToolTipController(bT, initialDelay, showDelay));
+		ToolTipController tTC = new ToolTipController(bT, initialDelay, showDelay);
+		bT.getAttachedComponent().addMouseListener(tTC);
+		bT.getAttachedComponent().addMouseMotionListener(tTC);
 	}
 	
 	/**
@@ -113,9 +126,16 @@ public final class ToolTipUtils {
 			if (m instanceof ToolTipController) {
 				bT.getAttachedComponent().removeMouseListener(m);
 				((ToolTipController) m).stopTimers();
-				bT.setVisible(true);
-				return;
+				break;
 			}
 		}
+		for (MouseMotionListener m: bT.getAttachedComponent().getMouseMotionListeners()) {
+			if (m instanceof ToolTipController) {
+				bT.getAttachedComponent().removeMouseMotionListener(m);
+				break;
+			}
+		}
+		
+		bT.setVisible(true);
 	}
 }
