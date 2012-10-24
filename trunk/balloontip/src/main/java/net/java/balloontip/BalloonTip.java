@@ -107,13 +107,6 @@ public class BalloonTip extends JPanel {
 			visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",false);
 		}
 	};
-	
-//	private final HierarchyListener hierarchyListener = new HierarchyListener() {
-//		public void hierarchyChanged(HierarchyEvent e) {
-//			System.out.println("Hierarchy changed!");
-//			
-//		}
-//	};
 
 	// Adjust the balloon tip when the top-level container is resized
 	private final ComponentAdapter topLevelContainerListener = new ComponentAdapter() {
@@ -219,6 +212,15 @@ public class BalloonTip extends JPanel {
 		// Notify property listeners that the contents has changed
 		firePropertyChange("contents", oldContents, this.contents);
 		refreshLocation();
+	}
+	
+	/**
+	 * Sets the contents of this balloon tip
+	 * (Calling this method will fire a "contents" property change event.)
+	 * @param contents		the text to be shown in the balloon tip (may contain HTML)
+	 */
+	public void setTextContents(String text) {
+		setContents(new JLabel(text));
 	}
 
 	/**
@@ -550,6 +552,15 @@ public class BalloonTip extends JPanel {
 		&& attachedComponent.getWidth() > 0
 		&& attachedComponent.getHeight() > 0; // The area of the attached component must be > 0 in order to be visible..
 	}
+	
+	/*
+	 * Fire a state change event to the viewportlistener (if any)
+	 */
+	protected void notifyViewportListener() {
+		if (viewportListener!=null) {
+			viewportListener.stateChanged(null);
+		}
+	}
 
 	/*
 	 * Default constructor; does nothing but call the super-constructor
@@ -676,8 +687,6 @@ public class BalloonTip extends JPanel {
 
 		// If the attached component is moved/hidden/shown, the balloon tip should act accordingly
 		attachedComponent.addComponentListener(componentListener);
-		// If the hierarchy of the attached component changes
-//		attachedComponent.addHierarchyListener(hierarchyListener);
 		// Update balloon tip's visibility
 		visibilityControl.setCriteriumAndUpdate("attachedComponentShowing",isAttachedComponentShowing());
 
@@ -700,7 +709,7 @@ public class BalloonTip extends JPanel {
 				viewportListener.viewports.add((JViewport) current);
 				((JViewport) current).addChangeListener(viewportListener);
 			} else if (current instanceof BalloonTip) {
-				/* In the rare case where this balloon tip is attached to a component within another balloon tip... */
+				// In the rare case where this balloon tip is attached to a component within another balloon tip...
 				// Monitor the parent balloon tip's movements and visibility
 				current.addComponentListener(componentListener);
 				// Draw this balloon tip one layer higher; otherwise it would be overlapping the parent balloon tip
@@ -727,7 +736,6 @@ public class BalloonTip extends JPanel {
 	 */
 	private void tearDownHelper() {
 		attachedComponent.removeComponentListener(componentListener);
-//		attachedComponent.removeHierarchyListener(hierarchyListener);
 
 		// Remove any listeners that were attached to parent components
 		if (tabbedPaneListener!=null || viewportListener!=null) {
@@ -787,7 +795,7 @@ public class BalloonTip extends JPanel {
 	 * If a balloon tip is nested in one or more viewports, this listener ensures
 	 * the balloon tip is hidden if it is no longer visible within the viewports' boundaries
 	 */
-	private class NestedViewportListener implements ChangeListener {
+	protected class NestedViewportListener implements ChangeListener {
 		private Vector<JViewport> viewports = new Vector<JViewport>();
 
 		public void stateChanged(ChangeEvent e) {
