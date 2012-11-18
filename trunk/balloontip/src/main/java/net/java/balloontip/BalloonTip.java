@@ -462,8 +462,9 @@ public class BalloonTip extends JPanel {
 
 		// If the window is resized, we should check if the balloon still fits
 		topLevelContainer.addComponentListener(topLevelContainerListener);
+		topLevelContainer.add(this);
 		// We use the popup layer of the top level container (frame or dialog) to show the balloon tip
-		topLevelContainer.add(this, JLayeredPane.POPUP_LAYER);
+	    topLevelContainer.setLayer(this, JLayeredPane.POPUP_LAYER); 
 	}
 
 	/**
