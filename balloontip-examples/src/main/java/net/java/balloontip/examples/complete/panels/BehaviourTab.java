@@ -109,7 +109,7 @@ public class BehaviourTab extends JPanel {
 		 * Add the GUI's behaviour
 		 */
 
-		// Tablecell balloon tip		
+		// Tablecell balloon tip
 		tableBalloon = new TableCellBalloonTip(table, 
 				new JLabel("Use the scrollbars to move me around!"), 32, 16,
 				CompleteExample.createBalloonTipStyle(), 
