@@ -336,7 +336,7 @@ public class BalloonTip extends JPanel {
 			remove(closeButton);
 			closeButton = null;
 		}
-
+		
 		// Set the new button
 		if (button!=null) {
 			closeButton = button;
@@ -739,14 +739,12 @@ public class BalloonTip extends JPanel {
 		attachedComponent.removeComponentListener(componentListener);
 
 		// Remove any listeners that were attached to parent components
-		if (tabbedPaneListener!=null || viewportListener!=null) {
+		if (tabbedPaneListener!=null) {
 			Container current = attachedComponent.getParent();
 			Container previous = attachedComponent;
 			while (current!=null) {
 				if (current instanceof JTabbedPane || current.getLayout() instanceof CardLayout) {
 					previous.removeComponentListener(tabbedPaneListener);
-				} else if (current instanceof JViewport) {
-					((JViewport) current).removeChangeListener(viewportListener);
 				} else if (current instanceof BalloonTip) {
 					current.removeComponentListener(componentListener);
 					break;
@@ -764,6 +762,9 @@ public class BalloonTip extends JPanel {
 		}
 
 		if (viewportListener!=null) {
+			for (JViewport viewport : viewportListener.viewports) {
+				viewport.removeChangeListener(viewportListener);
+			}
 			viewportListener.viewports.clear();
 			viewportListener = null;
 		}
