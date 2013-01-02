@@ -30,7 +30,7 @@ public final class FadingUtils {
 	/**
 	 * Execute a fade-in effect on a balloon tip
 	 * @param balloon		the balloon tip
-	 * @param onStop		this action listener is triggered once the effect has stopped
+	 * @param onStop		this action listener is triggered once the effect has stopped (may be null)
 	 * @param time			the duration of the fade-in effect (in ms)
 	 * @param refreshRate	at how many frames-per-second should the effect run
 	 */
@@ -50,7 +50,9 @@ public final class FadingUtils {
 					/* Because of some weird bug, possibly in AlphaComposite, the balloon tip is shifted 1px when the opacity is 1.0f
 					 * We'll just use something as close to 1 as a workaround, for now.. */
 					balloon.setOpacity(0.9999999f);
-					onStop.actionPerformed(e);
+					if (onStop != null) {
+						onStop.actionPerformed(e);
+					}
 				} else {
 					balloon.setOpacity(newOpacity);
 				}
@@ -63,7 +65,7 @@ public final class FadingUtils {
 	/**
 	 * Execute a fade-in effect on a balloon tip
 	 * @param balloon		the balloon tip
-	 * @param onStop		this action listener is triggered once the effect has stopped
+	 * @param onStop		this action listener is triggered once the effect has stopped (may be null)
 	 * @param time			the duration of the fade-out effect (in ms)
 	 * @param refreshRate	at how many frames-per-second should the effect run
 	 */
@@ -80,7 +82,9 @@ public final class FadingUtils {
 				if (newOpacity <= 0.0f || Float.isNaN(newOpacity)) {
 					((Timer)e.getSource()).stop();
 					balloon.setOpacity(0.0f);
-					onStop.actionPerformed(e);
+					if (onStop != null) {
+						onStop.actionPerformed(e);
+					}
 				} else {
 					balloon.setOpacity(newOpacity);
 				}
