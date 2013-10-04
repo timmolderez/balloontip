@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the 3-Clause BSD License
@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.UIManager;
 import javax.swing.table.TableColumn;
 
 import net.java.balloontip.BalloonTip;
@@ -37,6 +38,11 @@ public class TableExample {
 	 * @param args		command-line arguments (unused)
 	 */
 	public static void main(String[] args) {
+		
+		try {
+	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } catch (Exception e) {}
+		
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				// Setup the application's window
@@ -63,7 +69,7 @@ public class TableExample {
 				tableScrollPane.getHorizontalScrollBar().setUnitIncrement(3);
 				contentPane.add(tableScrollPane, new GridBagConstraints(0,0,1,1,1.0,1.0, GridBagConstraints.CENTER, GridBagConstraints.BOTH, new Insets(0,0,0,0), 0, 0));		
 				table.scrollRectToVisible(table.getCellRect(8, 16, true));
-				
+
 				// Create the TablecellBalloonTip
 				new TableCellBalloonTip(table, 
 						new JLabel("A TablecellBalloonTip"), 

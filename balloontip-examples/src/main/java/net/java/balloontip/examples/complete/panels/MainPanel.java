@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the 3-Clause BSD License
@@ -9,11 +9,13 @@
 
 package net.java.balloontip.examples.complete.panels;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 /**
@@ -33,7 +35,12 @@ public class MainPanel extends JPanel {
 		tabbedPane.addTab("Looks", new LooksTab());
 		tabbedPane.addTab("Contents", new ContentsTab());
 		tabbedPane.addTab("Behaviour", new BehaviourTab());
-		tabbedPane.addTab("Types", new TypesTab());
+		
+		TypesTab typesTab = new TypesTab();
+		typesTab.setPreferredSize(new Dimension(420, 1000));
+		JScrollPane typesScrollPane = new JScrollPane(typesTab);
+		tabbedPane.addTab("Types", typesScrollPane);
+		
 		tabbedPane.addTab("Layers", new LayersTab());
 		tabbedPane.addTab("Utilities", new UtilitiesTab());
 		

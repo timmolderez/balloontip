@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the 3-Clause BSD License
@@ -31,6 +31,7 @@ import javax.swing.event.DocumentListener;
 
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.examples.complete.CompleteExample;
+import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.positioners.BasicBalloonTipPositioner;
 import net.java.balloontip.styles.EdgedBalloonStyle;
 import net.java.balloontip.styles.IsometricBalloonStyle;
@@ -46,7 +47,7 @@ import net.java.balloontip.styles.ToolTipBalloonStyle;
  */
 public class LooksTab extends JPanel {
 	private final BalloonTip balloonTip;
-	private final JComboBox stylePicker;
+	private final JComboBox<?> stylePicker;
 	private final JButton fillColorButton;
 	private final JButton borderColorButton;
 	private Color fillColor = Color.WHITE;
@@ -71,7 +72,7 @@ public class LooksTab extends JPanel {
 		// Contents textbox
 		add(new JLabel("Contents:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		final JTextField contents = new JTextField("<html>I'm a <u>balloon tip</u>!</html>");
-		CompleteExample.setToolTip(contents, "The contents of a balloon tip may contain HTML formatting");
+		Utils.setToolTip(contents, "The contents of a balloon tip may contain HTML formatting");
 		contents.setPreferredSize(new Dimension(250,25));
 		add(contents, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
@@ -79,7 +80,7 @@ public class LooksTab extends JPanel {
 		// Styles combobox
 		add(new JLabel("Style:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		String[] stylesOptions = {"Edged", "Isometric", "Minimal", "Modern", "Rounded", "Textured", "Tooltip"};
-		stylePicker = new JComboBox(stylesOptions);
+		stylePicker = new JComboBox<Object>(stylesOptions);
 		add(stylePicker, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
 
@@ -215,7 +216,7 @@ public class LooksTab extends JPanel {
 					balloonTip.refreshLocation();
 				} catch (Exception e) {
 					if (!hOffset.getText().equals("")) {
-						CompleteExample.showErrorMessage(hOffset, "Please enter a positive horizontal offset");
+						Utils.showErrorMessage(hOffset, "Please enter a positive horizontal offset");
 					}
 				}
 			}
@@ -239,7 +240,7 @@ public class LooksTab extends JPanel {
 					balloonTip.refreshLocation();
 				} catch (Exception e) {
 					if (!vOffset.getText().equals("")) {
-						CompleteExample.showErrorMessage(vOffset, "Please enter a positive vertical offset");
+						Utils.showErrorMessage(vOffset, "Please enter a positive vertical offset");
 					}
 				}
 			}
@@ -262,7 +263,7 @@ public class LooksTab extends JPanel {
 					balloonTip.setPadding(Integer.parseInt(padding.getText()));
 				} catch (Exception e) {
 					if (!padding.getText().equals("")) {
-						CompleteExample.showErrorMessage(padding, "Please enter a positive padding value");
+						Utils.showErrorMessage(padding, "Please enter a positive padding value");
 					}
 				}
 			}

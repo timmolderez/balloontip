@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the 3-Clause BSD License
@@ -19,6 +19,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.Timer;
 
 import net.java.balloontip.BalloonTip;
+import net.java.balloontip.CustomBalloonTip;
 
 /**
  * This class allows you to use a balloon tip as a tooltip
@@ -65,20 +66,33 @@ public final class ToolTipUtils {
 			showTimer.setRepeats(false);
 		}
 		
-		public void mouseMoved(MouseEvent e) {
-			// If the mouse is within the balloon tip's attached rectangle
-			//TODO Fix bug: e.getpoint is relative coordinates to component! getAttachRect check should only be for specialized uses, i.e. when attaching to a list
-			if (balloonTip.getAttachedRectangle().contains(e.getPoint())) {
-				if (!balloonTip.isVisible() && !initialTimer.isRunning()) {
-					initialTimer.start();
-				}
-			} else {
-				stopTimers();
-				balloonTip.setVisible(false);
-			}
+		public void mouseEntered(MouseEvent e) {
+			initialTimer.start();
 		}
 		
-		public void mouseDragged(MouseEvent e) {}
+		public void mouseMoved(MouseEvent e) {
+			if(balloonTip instanceof CustomBalloonTip) {
+				if (((CustomBalloonTip)balloonTip).getOffset().contains(e.getPoint())) {
+					if (!balloonTip.isVisible() && !initialTimer.isRunning()) {
+						initialTimer.start();
+					}
+				} else {
+					stopTimers();
+					balloonTip.setVisible(false);
+				}
+			}
+			
+			// If the mouse is within the balloon tip's attached rectangle
+			//TODO Fix bug: e.getpoint gets coordinates relative to component! getAttachedRect check should only be for specialized uses, i.e. when attaching to a list
+//			if (balloonTip.getAttachedRectangle().contains(e.getPoint())) {
+//				if (!balloonTip.isVisible() && !initialTimer.isRunning()) {
+//					initialTimer.start();
+//				}
+//			} else {
+//				stopTimers();
+//				balloonTip.setVisible(false);
+//			}
+		}
 
 		public void mouseExited(MouseEvent e) {
 			stopTimers();

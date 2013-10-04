@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the 3-Clause BSD License
@@ -64,7 +64,7 @@ public class SimpleExample {
 					BalloonTip.Orientation.LEFT_ABOVE,
 					BalloonTip.AttachLocation.ALIGNED,
 					30, 10,
-					false
+					true
 				);
 				
 				// Add a close button that hides the balloon tip, rather than permanently close it

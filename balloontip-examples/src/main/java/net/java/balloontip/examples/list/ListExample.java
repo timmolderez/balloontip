@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the 3-Clause BSD License
@@ -51,12 +51,12 @@ public class ListExample {
 				frame.setContentPane(contentPane);
 				
 		        // Create a list
-				DefaultListModel listModel = new DefaultListModel();
+				DefaultListModel<String> listModel = new DefaultListModel<String>();
 		        for (int i = 0; i < 20; i++) {
 					listModel.addElement("Item " + i);
 				}
 
-		        JList list = new JList(listModel);
+		        JList<String> list = new JList<String>(listModel);
 		        list.setSelectedIndex(0);
 		        list.setVisibleRowCount(10);
 		        JScrollPane listScrollPane = new JScrollPane(list);
