@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the 3-Clause BSD License
@@ -26,6 +26,7 @@ import javax.swing.JTable;
 import net.java.balloontip.BalloonTip;
 import net.java.balloontip.TableCellBalloonTip;
 import net.java.balloontip.examples.complete.CompleteExample;
+import net.java.balloontip.examples.complete.Utils;
 
 /**
  * Contents tab of the demo application; demonstrates that a balloon tip can contain all sorts of components
@@ -45,7 +46,7 @@ public class ContentsTab extends JPanel {
 		 */
 
 		// Description label
-		add(new JLabel("<html>A balloon tip can contain many types of JComponent beside just text.</html>"), new GridBagConstraints(0,gridY,2,1,1.0,0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10,10,25,0), 0, 0));
+		add(new JLabel("<html>A balloon tip can contain many types of " + Utils.monospace("JComponent") + " beside just text.</html>"), new GridBagConstraints(0,gridY,2,1,1.0,0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10,10,25,0), 0, 0));
 		++gridY;
 
 		// Balloon tip 1
@@ -56,8 +57,8 @@ public class ContentsTab extends JPanel {
 		contents1.setIcon(new ImageIcon(CompleteExample.class.getResource("/net/java/balloontip/images/frameIcon.png")));
 		contents1.setIconTextGap(10);
 		new BalloonTip(label1, contents1,
-				CompleteExample.createBalloonTipStyle(),
-				CompleteExample.createBalloonTipPositioner(), 
+				Utils.createBalloonTipStyle(),
+				Utils.createBalloonTipPositioner(), 
 				null);
 		
 		// Balloon tip 2
@@ -74,8 +75,8 @@ public class ContentsTab extends JPanel {
 		contents2.addTab("FirstTab", tab1);
 		contents2.addTab("SecondTab", tab2);
 		new BalloonTip(label2, contents2,
-				CompleteExample.createBalloonTipStyle(),
-				CompleteExample.createBalloonTipPositioner(), 
+				Utils.createBalloonTipStyle(),
+				Utils.createBalloonTipPositioner(), 
 				null);
 
 		// Balloon tip 3
@@ -92,8 +93,8 @@ public class ContentsTab extends JPanel {
 		tableScrollPane.setPreferredSize(new Dimension(150,100));
 		tableScrollPane.setBackground(Color.WHITE);
 		new BalloonTip(label3, tableScrollPane,
-				CompleteExample.createBalloonTipStyle(),
-				CompleteExample.createBalloonTipPositioner(), 
+				Utils.createBalloonTipStyle(),
+				Utils.createBalloonTipPositioner(), 
 				null);
 		
 		// Balloon tip 4
@@ -109,8 +110,8 @@ public class ContentsTab extends JPanel {
 		panel1.setPreferredSize(new Dimension(100, 75));
 		panel1.setBackground(Color.WHITE);
 		new BalloonTip(label4, panel1,
-				CompleteExample.createBalloonTipStyle(),
-				CompleteExample.createBalloonTipPositioner(), 
+				Utils.createBalloonTipStyle(),
+				Utils.createBalloonTipPositioner(), 
 				null);
 		
 		JPanel panel2 = new JPanel();
@@ -119,8 +120,8 @@ public class ContentsTab extends JPanel {
 		comp2.setIcon(new ImageIcon(CompleteExample.class.getResource("/net/java/balloontip/images/frameIcon.png")));
 		panel2.add(comp2);
 		final TableCellBalloonTip tableBt = new TableCellBalloonTip(comp1, panel2, 1,1,
-				CompleteExample.createBalloonTipStyle(),
-				CompleteExample.createBalloonTipPositioner(), 
+				Utils.createBalloonTipStyle(),
+				Utils.createBalloonTipPositioner(), 
 				null);
 		tableBt.setPadding(0);
 		
@@ -132,8 +133,8 @@ public class ContentsTab extends JPanel {
 		panel3.addTab("A", panel3Tab1);
 		panel3.addTab("B", panel3Tab2);
 		new BalloonTip(comp2, panel3,
-				CompleteExample.createBalloonTipStyle(),
-				CompleteExample.createBalloonTipPositioner(), 
+				Utils.createBalloonTipStyle(),
+				Utils.createBalloonTipPositioner(), 
 				null);
 	}
 }

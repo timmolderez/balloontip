@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the 3-Clause BSD License
@@ -60,10 +60,10 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
 import net.java.balloontip.BalloonTip;
-import net.java.balloontip.examples.complete.CompleteExample;
+import net.java.balloontip.examples.complete.Utils;
 
 /**
- * Class taken and adapted from the Sun tutorial "How to Use Layered Panes".
+ * Class adapted from the Sun tutorial on "How to Use Layered Panes".
  * Source: http://java.sun.com/docs/books/tutorial/uiswing/components/layeredpane.html
  */
 public class LayersTab extends JPanel {
@@ -72,7 +72,7 @@ public class LayersTab extends JPanel {
 
 	private JLayeredPane layeredPane;
 	private JLabel dukeLabel;
-	private JComboBox layerList;
+	private JComboBox<?> layerList;
 	private BalloonTip balloonTip;
 
 	// Adjustments to the balloon's relative position to Duke
@@ -125,8 +125,8 @@ public class LayersTab extends JPanel {
 
 		layeredPane.add(dukeLabel, new Integer(2), 0);
 		balloonTip = new BalloonTip(dukeLabel, new JLabel("Ready for action!"),
-				CompleteExample.createBalloonTipStyle(),
-				CompleteExample.createBalloonTipPositioner(), 
+				Utils.createBalloonTipStyle(),
+				Utils.createBalloonTipPositioner(), 
 				null);
 		balloonTip.setTopLevelContainer(layeredPane);
 		balloonTip.setPadding(4);
@@ -155,7 +155,7 @@ public class LayersTab extends JPanel {
 	// Create the control pane for the top of the frame.
 	private JPanel createControlPanel() {
 
-		layerList = new JComboBox(layerStrings);
+		layerList = new JComboBox<Object>(layerStrings);
 		layerList.setSelectedIndex(2); //cyan layer
 		// Behaviour of the layer selection list
 		layerList.addActionListener(new ActionListener() {
@@ -170,7 +170,9 @@ public class LayersTab extends JPanel {
 
 		JPanel controls = new JPanel();
 		controls.setLayout(new GridBagLayout());
-		controls.add(new JLabel("<html>The pane on which a balloon tip is drawn can be set manually to, for instance, a JLayeredPane. In this example, you can make a balloon tip switch between different layers of such a JLayeredPane.</html>"), new GridBagConstraints(0,0,3,1,1.0,0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10,10,10,0), 0, 0));
+		controls.add(new JLabel("<html>The pane on which a balloon tip is drawn can be set manually to, for instance, a " 
+				+ Utils.monospace("JLayeredPane") + ". In this example, you can make a balloon tip switch between different layers of such a " 
+				+ Utils.monospace("JLayeredPane") + ".</html>"), new GridBagConstraints(0,0,3,1,1.0,0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10,10,10,0), 0, 0));
 		
 		controls.add(new JLabel("Choose Duke's layer:"), new GridBagConstraints(0,1,1,1,0.0,1.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(10,10,10,0), 0, 0));
 		layerList.setPreferredSize(new Dimension(100,25));

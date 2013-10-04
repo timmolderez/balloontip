@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Bernhard Pauler, Tim Molderez.
+ * Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez.
  * 
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the 3-Clause BSD License
@@ -26,7 +26,7 @@ import javax.swing.event.AncestorListener;
 import javax.swing.table.TableColumn;
 
 import net.java.balloontip.TableCellBalloonTip;
-import net.java.balloontip.examples.complete.CompleteExample;
+import net.java.balloontip.examples.complete.Utils;
 import net.java.balloontip.positioners.BasicBalloonTipPositioner;
 import net.java.balloontip.positioners.LeftAbovePositioner;
 import net.java.balloontip.positioners.LeftBelowPositioner;
@@ -38,8 +38,8 @@ import net.java.balloontip.positioners.RightBelowPositioner;
  * @author Tim Molderez
  */
 public class BehaviourTab extends JPanel {
-	private final JComboBox alignmentPicker;
-	private final JComboBox attachPicker;
+	private final JComboBox<?> alignmentPicker;
+	private final JComboBox<?> attachPicker;
 	private final JCheckBox offsetCorrection;
 	private final JCheckBox orientationCorrection;
 	private final TableCellBalloonTip tableBalloon;
@@ -57,20 +57,20 @@ public class BehaviourTab extends JPanel {
 		 */
 
 		// Description label
-		add(new JLabel("<html>Scroll around the table and notice the balloon tip's behaviour when it collides with the window's border. You can alter the balloon tip's behaviour using the settings below.</html>"), new GridBagConstraints(0,gridY,2,1,1.0,0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10,10,25,0), 0, 0));
+		add(new JLabel("<html>Scroll around the table and notice the balloon tip's behaviour when it collides with the window's border. You can alter this behaviour using the settings below.</html>"), new GridBagConstraints(0,gridY,2,1,1.0,0.0, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(10,10,25,0), 0, 0));
 		++gridY;
 
 		// Orientation combobox
 		add(new JLabel("Orientation:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		String[] alignmentOptions = {"Left, above component", "Left, below component", "Right, above component", "Right, below component"};
-		alignmentPicker = new JComboBox(alignmentOptions);
+		alignmentPicker = new JComboBox<Object>(alignmentOptions);
 		add(alignmentPicker, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
 
 		// Attaching location combobox
 		add(new JLabel("Attaching location:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		String[] attachOptions = {"Aligned", "Center", "North", "North east", "East", "South east", "South", "South west", "West", "North west"};
-		attachPicker = new JComboBox(attachOptions);
+		attachPicker = new JComboBox<Object>(attachOptions);
 		add(attachPicker, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
 
@@ -78,7 +78,7 @@ public class BehaviourTab extends JPanel {
 		add(new JLabel("Offset correction:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		offsetCorrection = new JCheckBox();
 		offsetCorrection.setSelected(true);
-		CompleteExample.setToolTip(offsetCorrection, "<html>Offset correction will adjust the horizontal offset<br>when the balloon tip collides with the window border</html>");
+		Utils.setToolTip(offsetCorrection, "<html>Offset correction will adjust the horizontal offset<br>when the balloon tip collides with the window border</html>");
 		add(offsetCorrection, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
 
@@ -86,7 +86,7 @@ public class BehaviourTab extends JPanel {
 		add(new JLabel("Orientation correction:"), new GridBagConstraints(0,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,10,0,0), 0, 0));
 		orientationCorrection = new JCheckBox();
 		orientationCorrection.setSelected(true);
-		CompleteExample.setToolTip(orientationCorrection, "<html>Orientation correction will flip the balloon tip<br>when it collides with the window border</html>");
+		Utils.setToolTip(orientationCorrection, "<html>Orientation correction will flip the balloon tip<br>when it collides with the window border</html>");
 		add(orientationCorrection, new GridBagConstraints(1,gridY,1,1,0.0,0.0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2,10,2,0), 0, 0));
 		++gridY;
 
@@ -111,17 +111,17 @@ public class BehaviourTab extends JPanel {
 
 		// Tablecell balloon tip
 		tableBalloon = new TableCellBalloonTip(table, 
-				new JLabel("Use the scrollbars to move me around!"), 32, 16,
-				CompleteExample.createBalloonTipStyle(), 
+				new JLabel("Use the scrollbars to move me around."), 32, 16,
+				Utils.createBalloonTipStyle(), 
 				new LeftAbovePositioner(HOFFSET, VOFFSET),
 				null);
+		
 		table.addAncestorListener(new AncestorListener() {
 			public void ancestorAdded(AncestorEvent event) {
 				table.scrollRectToVisible(table.getCellRect(38, 18, true));
 			}
 			public void ancestorMoved(AncestorEvent event) {}
 			public void ancestorRemoved(AncestorEvent event) {}
-
 		});
 
 		// Alignment combo box
