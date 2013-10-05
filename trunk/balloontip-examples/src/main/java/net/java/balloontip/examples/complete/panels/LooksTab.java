@@ -145,7 +145,7 @@ public class LooksTab extends JPanel {
 		balloonTip.setPadding(5);
 
 		// Don't close the balloon when clicking the close-button, you just need to hide it
-		balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(),false, false);
+		balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(),false);
 
 		// (Re)show the balloon tip when clicking attachedComponent 
 		attachedComponent.addActionListener(new ActionListener() {
@@ -273,7 +273,7 @@ public class LooksTab extends JPanel {
 		useCloseButton.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange()==ItemEvent.SELECTED) {
-					balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(), false, false);
+					balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(), false);
 				} else {
 					balloonTip.setCloseButton(null);
 				}

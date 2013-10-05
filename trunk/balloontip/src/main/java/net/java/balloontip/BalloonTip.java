@@ -315,22 +315,11 @@ public class BalloonTip extends JPanel {
 	}
 
 	/**
-	 * Sets this balloon tip's close button (which will call closeBalloon() when clicked)
-	 * You don't need add any behaviour to the button yourself; this is added for you.
+	 * Sets this balloon tip's close button
+	 * Note that this method will not alter the button's behaviour. You're expected to set it yourself.
 	 * @param button		the new close button; if null, the balloon tip's close button is removed (if it had one)
 	 */
-	public void setCloseButton (JButton button) {
-		setCloseButton(button, true, false);
-	}
-
-	/**
-	 * Sets this balloon tip's close button
-	 * @param button			the new close button; if null, the balloon tip's close button is removed (if it had one)
-	 * @param permanentClose	if true, the default behaviour of the button is to close the balloon tip permanently by calling closeBalloon()
-	 * 							if false, the default behaviour is to just hide the balloon tip by calling setVisible(false)
-	 * @param noDefault			if true, no default behaviour is added and you'll have to set it yourself
-	 */
-	public void setCloseButton (JButton button, boolean permanentClose, boolean noDefault) {
+	public void setCloseButton(JButton button) {
 		// Remove the current button
 		if (closeButton!=null) {
 			for (ActionListener a: closeButton.getActionListeners()) {
@@ -343,23 +332,35 @@ public class BalloonTip extends JPanel {
 		// Set the new button
 		if (button!=null) {
 			closeButton = button;
-			if (!noDefault && permanentClose) {
-				closeButton.addActionListener(new ActionListener() {
+			add(closeButton, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
+		}
+		
+		refreshLocation();
+	}
+
+	/**
+	 * Sets this balloon tip's close button and sets its behaviour to either close or hide the balloon tip
+	 * @param button			the new close button; if null, the balloon tip's close button is removed (if it had one)
+	 * @param permanentClose	if true, the button's behaviour is to close the balloon tip permanently by calling closeBalloon()
+	 * 							if false, the button's behaviour is to hide the balloon tip by calling setVisible(false)
+	 */
+	public void setCloseButton(JButton button, boolean permanentClose) {
+		if (button!=null) {
+			if (permanentClose) {
+				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						closeBalloon();
 					}
 				});
-			} else if (!noDefault && !permanentClose) {
-				closeButton.addActionListener(new ActionListener() {
+			} else {
+				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						setVisible(false);
 					}
 				});
 			}
-			add(closeButton, new GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 		}
-
-		refreshLocation();
+		setCloseButton(button);
 	}
 
 	/**
@@ -655,7 +656,7 @@ public class BalloonTip extends JPanel {
 		setPadding(4);
 
 		add(this.contents, new GridBagConstraints(0, 0, 1, 1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));
-		setCloseButton(closeButton);
+		setCloseButton(closeButton,true);
 
 		// Don't allow to click 'through' the balloon tip
 		clickListener = new MouseAdapter() {
