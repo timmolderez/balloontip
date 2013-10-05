@@ -44,9 +44,13 @@
 			</plugin>
 		</plugins>
 		
+		<!-- Beside the class files, include the following resources in the .jar file  -->
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>../balloontip/target/classes</directory>
 			</resource>
 			<resource>
 				<directory>../balloontip/src/main/java</directory>

@@ -60,7 +60,7 @@ public class SimplePositionerExample {
 					new SimpleTipPositioner(),
 					null
 				);
-				balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(),false, false);
+				balloonTip.setCloseButton(BalloonTip.getDefaultCloseButton(),false);
 				
 				button.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
