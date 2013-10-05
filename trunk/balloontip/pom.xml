@@ -13,7 +13,7 @@
 	<parent>
 		<artifactId>balloontip-parent</artifactId>
 		<groupId>net.java.balloontip</groupId>
-		<version>1.2.4</version>
+		<version>1.2.5-SNAPSHOT</version>
 	</parent>
 	
 	<!-- Project info -->
