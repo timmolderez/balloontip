@@ -1,4 +1,4 @@
-Copyright (c) 2011 Bernhard Pauler, Tim Molderez
+Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

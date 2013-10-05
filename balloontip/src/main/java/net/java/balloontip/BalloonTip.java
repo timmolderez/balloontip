@@ -220,7 +220,7 @@ public class BalloonTip extends JPanel {
 	/**
 	 * Sets the contents of this balloon tip
 	 * (Calling this method will fire a "contents" property change event.)
-	 * @param contents		the text to be shown in the balloon tip (may contain HTML)
+	 * @param text		the text to be shown in the balloon tip (may contain HTML)
 	 */
 	public void setTextContents(String text) {
 		setContents(new JLabel(text));
