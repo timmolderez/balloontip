@@ -11,10 +11,6 @@ package net.java.balloontip;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -30,20 +26,6 @@ import net.java.balloontip.styles.BalloonTipStyle;
 public class CustomBalloonTip extends BalloonTip {
 	// A rectangular shape within the custom component; the balloon tip will attach to this rectangle
 	private Rectangle offset = null;
-	
-	// Repaint the balloon tip when clicking the attached component
-	private MouseAdapter mouseListener = new MouseAdapter() {
-		public void mouseReleased(MouseEvent e) {
-			setOffset(offset);
-		}
-	};
-	
-	// Repaint the balloon tip when typing a key in the attached component
-	private KeyAdapter keyListener = new KeyAdapter() {
-		public void keyPressed(KeyEvent e) {
-			setOffset(offset);
-		}
-	};
 
 	/**
 	 * @see net.java.balloontip.BalloonTip#BalloonTip(JComponent, JComponent, BalloonTipStyle, Orientation, AttachLocation, int, int, boolean)
@@ -56,7 +38,6 @@ public class CustomBalloonTip extends BalloonTip {
 		this.offset=offset;
 		setup(attachedComponent, component, style, setupPositioner(orientation, attachLocation, horizontalOffset, verticalOffset), 
 				useCloseButton?getDefaultCloseButton():null);
-		setup();
 	}
 
 	/**
@@ -69,7 +50,6 @@ public class CustomBalloonTip extends BalloonTip {
 		super();
 		this.offset=offset;
 		setup(attachedComponent, component, style, positioner, closeButton);
-		setup();
 	}
 
 	/**
@@ -81,13 +61,6 @@ public class CustomBalloonTip extends BalloonTip {
 		this.offset = offset;
 		notifyViewportListener();
 		refreshLocation();
-		
-		/* Bug workaround: For some reason, parts of the attached component can be drawn on top of the balloon tip when
-		 * a JTable, JTree or JList is modified.. (What's also strange is that this problem doesn't occur once there 
-		 * are multiple balloon tips attached to the same top-level container..)
-		 * The current workaround to this problem is to hide and reshow the balloon tip... */	
-		visibilityControl.setCriterionAndUpdate("refresh", false);
-		visibilityControl.setCriterionAndUpdate("refresh", true);
 	}
 
 	/**
@@ -101,20 +74,6 @@ public class CustomBalloonTip extends BalloonTip {
 	public Rectangle getAttachedRectangle() {
 		Point location = SwingUtilities.convertPoint(attachedComponent, getLocation(), this);
 		return new Rectangle(location.x + offset.x, location.y + offset.y, offset.width, offset.height);
-	}
-	
-	public void closeBalloon() {
-		attachedComponent.removeMouseListener(mouseListener);
-		attachedComponent.removeKeyListener(keyListener);
-		super.closeBalloon();
-	}
-	
-	/*
-	 * A helper method needed when constructing a CustomBalloonTip instance
-	 */
-	private void setup() {
-		attachedComponent.addMouseListener(mouseListener);
-		attachedComponent.addKeyListener(keyListener);
 	}
 	
 	private static final long serialVersionUID = 2956673369456562797L;
