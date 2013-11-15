@@ -72,6 +72,7 @@ public final class ToolTipUtils {
 		
 		public void mouseMoved(MouseEvent e) {
 			if(balloonTip instanceof CustomBalloonTip) {
+				// If the mouse is within the balloon tip's attached rectangle
 				if (((CustomBalloonTip)balloonTip).getOffset().contains(e.getPoint())) {
 					if (!balloonTip.isVisible() && !initialTimer.isRunning()) {
 						initialTimer.start();
@@ -81,17 +82,6 @@ public final class ToolTipUtils {
 					balloonTip.setVisible(false);
 				}
 			}
-			
-			// If the mouse is within the balloon tip's attached rectangle
-			//TODO Fix bug: e.getpoint gets coordinates relative to component! getAttachedRect check should only be for specialized uses, i.e. when attaching to a list
-//			if (balloonTip.getAttachedRectangle().contains(e.getPoint())) {
-//				if (!balloonTip.isVisible() && !initialTimer.isRunning()) {
-//					initialTimer.start();
-//				}
-//			} else {
-//				stopTimers();
-//				balloonTip.setVisible(false);
-//			}
 		}
 
 		public void mouseExited(MouseEvent e) {
