@@ -15,13 +15,13 @@
 		<dependency>
 			<groupId>net.java.balloontip</groupId>
 			<artifactId>balloontip</artifactId>
-			<version>1.2.4.1</version>
+			<version>1.2.5</version>
 		</dependency>
 	</dependencies>
 	<parent>
 		<artifactId>balloontip-parent</artifactId>
 		<groupId>net.java.balloontip</groupId>
-		<version>1.2.4.1</version>
+		<version>1.2.5</version>
 	</parent>
 	
 	<!-- Project info -->
