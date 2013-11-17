@@ -1,0 +1,132 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.java.balloontip</groupId>
+	<artifactId>balloontip-parent</artifactId>
+	<packaging>pom</packaging>
+	
+	<!-- Retrieve java.net repository info from parent POM -->
+    <parent>
+		<groupId>net.java</groupId>
+		<artifactId>jvnet-parent</artifactId>
+		<version>1</version>
+    </parent>
+	
+	<modules>
+		<module>balloontip</module>
+		<module>balloontip-examples</module>
+	</modules>
+	
+	<!-- Project info -->
+	<name>Balloon tip project</name>
+	<version>1.2.4.1</version>
+	<description>Provides balloon tips for use in Java Swing applications.</description>
+	<url>https://balloontip.dev.java.net/</url>
+	<licenses>
+		<license>
+			<name>3-Clause BSD License</name>
+			<url>http://www.opensource.org/licenses/BSD-3-Clause</url>
+		</license>
+	</licenses>
+	<inceptionYear>2007</inceptionYear>
+	<developers>
+		<developer>
+			<id>nferno</id>
+			<name>Tim Molderez</name>
+			<email>nferno@dev.java.net</email>
+		</developer>
+		<developer>
+			<id>bernhard_pauler</id>
+			<name>Bernhard Pauler</name>
+			<email>bernhard_pauler@dev.java.net</email>
+		</developer>
+	</developers>
+	
+	<!-- Environment settings -->
+	<issueManagement>
+		<system>JIRA</system>
+		<url>http://java.net/jira/browse/BALLOONTIP</url>
+	</issueManagement>
+	<scm>
+		<connection>scm:svn:http://svn.java.net/svn/balloontip~svn/tags/balloontip-parent-1.2.4.1</connection>
+		<developerConnection>scm:svn:https://svn.java.net/svn/balloontip~svn/tags/balloontip-parent-1.2.4.1</developerConnection>
+		<url>http://java.net/projects/balloontip/sources/svn/show/tags/balloontip-parent-1.2.4.1</url>
+	</scm>
+	
+	<!-- Profile-specific settings -->
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<!-- When releasing, sign artifacts with GPG key -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
+	<!-- Build settings -->
+	<build>
+		<plugins>
+			<!-- Compile Balloon tip for Java 1.5  -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			
+			<!-- Set UTF-8 encoding for resources  -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			
+			<!-- Place the project's URL at the bottom of javadoc pages -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<bottom><![CDATA[<a href="${project.url}">${project.url}</a>]]></bottom>
+				</configuration>
+			</plugin>
+			
+			<!-- Import the assembly descriptor -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>distribution/assembly.xml</descriptor>
+					</descriptors>
+					<finalName>balloontip_${project.version}</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

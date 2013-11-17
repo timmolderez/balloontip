@@ -1,0 +1,67 @@
+<!--
+  Copyright (c) 2011-2013 Bernhard Pauler, Tim Molderez.
+  
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the 3-Clause BSD License
+  which accompanies this distribution, and is available at
+  http://www.opensource.org/licenses/BSD-3-Clause
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>balloontip-examples</artifactId>
+	<dependencies>
+		<!-- These examples require the Balloon tip JAR -->
+		<dependency>
+			<groupId>net.java.balloontip</groupId>
+			<artifactId>balloontip</artifactId>
+			<version>1.2.4.1</version>
+		</dependency>
+	</dependencies>
+	<parent>
+		<artifactId>balloontip-parent</artifactId>
+		<groupId>net.java.balloontip</groupId>
+		<version>1.2.4.1</version>
+	</parent>
+	
+	<!-- Project info -->
+	<name>Balloon tip example applications</name>
+	<url>http://balloontip.java.net/</url>
+	
+	<!-- Build settings -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>net.java.balloontip.examples.complete.CompleteExample</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+		
+		<!-- Beside the class files, include the following resources in the .jar file  -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>../balloontip/target/classes</directory>
+			</resource>
+			<resource>
+				<directory>../balloontip/src/main/java</directory>
+			</resource>
+			<resource>
+				<directory>../balloontip/src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+			</resource>
+		</resources>
+	</build>
+	
+</project>
