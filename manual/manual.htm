@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" dir="ltr" lang="en"><head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>
-    Balloon tip v1.2.4 manual – Balloon tip  </title>
+    Balloon tip v1.2.4.1 manual – Balloon tip  </title>
 
   <meta name="generator" content="DokuWiki">
-<meta name="robots" content="noindex,nofollow">
+<meta name="robots" content="index,follow">
 <meta name="date" content="2013-10-05T21:23:25+0000">
 <meta name="keywords" content="export">
 <link rel="search" type="application/opensearchdescription+xml" href="http://timmolderez.be/balloontip/lib/exe/opensearch.php" title="Balloon tip">
@@ -219,7 +219,7 @@
 <ul>
 <li class="level1"><div class="li"> <strong>Usage</strong></div>
 <ul>
-<li class="level2"><div class="li"> <span class="curid"><a href="http://timmolderez.be/balloontip/doku.php?id=balloontip:gettingstarted" class="wikilink1" title="balloontip:gettingstarted">Getting started</a></span></div>
+<li class="level2"><div class="li"> <a href="http://timmolderez.be/balloontip/doku.php?id=balloontip:gettingstarted" class="wikilink1" title="balloontip:gettingstarted">Getting started</a></div>
 </li>
 <li class="level2"><div class="li"> <a href="http://timmolderez.be/balloontip/doku.php?id=balloontip:usingballoontip" class="wikilink1" title="balloontip:usingballoontip">Using Balloon tip</a></div>
 </li>
@@ -239,7 +239,7 @@
 </li>
 </ul>
 </li>
-<li class="level1"><div class="li"> <a href="http://timmolderez.be/balloontip/doku.php?id=balloontip:releasenotes" class="wikilink1" title="balloontip:releasenotes">Release notes</a></div>
+<li class="level1"><div class="li"> <span class="curid"><a href="http://timmolderez.be/balloontip/doku.php?id=balloontip:releasenotes" class="wikilink1" title="balloontip:releasenotes">Release notes</a></span></div>
 </li>
 <li class="level1"><div class="li"> <a href="http://timmolderez.be/balloontip/doku.php?id=balloontip:feedback" class="wikilink1" title="balloontip:feedback">Feedback</a></div>
 </li>
@@ -252,7 +252,7 @@
 
 <div class="plugin_include_content plugin_include__index" id="plugin_include__index">
 
-<h1 class="sectionedit3" id="balloon_tip_v124_manual">Balloon tip v1.2.4 manual</h1>
+<h1 class="sectionedit3" id="balloon_tip_v1241_manual">Balloon tip v1.2.4.1 manual</h1>
 <div class="level1">
 
 <p>
@@ -1051,7 +1051,19 @@ in the center, or tries to avoid overlapping with some other components,
 
 </div>
 
-<h3 class="sectionedit58" id="section124">1.2.4</h3>
+<h3 class="sectionedit58" id="section1241">1.2.4.1</h3>
+<div class="level3">
+<ul>
+<li class="level1"><div class="li"> <strong>Bug fix</strong>: 
+(BALLOONTIP-10) Attached component can be painted over a 
+CustomBalloonTip whenever the attached component, or components inside 
+the balloon tip, are repainted. (Thanks frocar)</div>
+</li>
+</ul>
+
+</div>
+
+<h3 class="sectionedit59" id="section124">1.2.4</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> <strong>New feature</strong>: A new balloon tip type, <code>ListItemBalloonTip</code>, which can be attached to items in a <code>JList</code>.</div>
@@ -1087,7 +1099,7 @@ mainly relevant for instances of CustomBalloonTip.)</div>
 
 </div>
 
-<h3 class="sectionedit59" id="section121">1.2.1</h3>
+<h3 class="sectionedit60" id="section121">1.2.1</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> <strong>Improvement</strong>: Removed redundant <code>refreshLocation()</code> call when constructing a <code>CustomBalloonTip</code>.</div>
@@ -1102,7 +1114,7 @@ component that is currently outside the visible region of a viewport.</div>
 
 </div>
 
-<h3 class="sectionedit60" id="section12">1.2</h3>
+<h3 class="sectionedit61" id="section12">1.2</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> <strong>Change</strong>: Balloon tip's license was changed from <abbr title="GNU Lesser General Public License">LGPL</abbr> v2.1 (or higher) to the 3-Clause BSD License.</div>
@@ -1123,7 +1135,7 @@ needed and is removed.)</div>
 
 </div>
 
-<h3 class="sectionedit61" id="section111">1.1.1</h3>
+<h3 class="sectionedit62" id="section111">1.1.1</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> <strong>Bug fix</strong>: Fixed rare issue where balloon tips dissappear if you resize the window, go to another tab, then go back.</div>
@@ -1136,7 +1148,7 @@ needed and is removed.)</div>
 
 </div>
 
-<h3 class="sectionedit62" id="section11">1.1</h3>
+<h3 class="sectionedit63" id="section11">1.1</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> <strong>New feature</strong>: The contents of a <code>BalloonTip</code> can now be just about any type of <code>JComponent</code>. (You can even add balloon tips to components within balloon tips..)</div>
@@ -1169,7 +1181,7 @@ including the attached component and the top-level container.</div>
 
 </div>
 
-<h3 class="sectionedit63" id="section10">1.0</h3>
+<h3 class="sectionedit64" id="section10">1.0</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> <strong>Change</strong>: Switched from Ant to Maven.</div>
@@ -1180,7 +1192,7 @@ including the attached component and the top-level container.</div>
 
 </div>
 
-<h3 class="sectionedit64" id="section20081114">2008-11-14</h3>
+<h3 class="sectionedit65" id="section20081114">2008-11-14</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> Added GNU Lesser Public License v3 preamble to all of the project's source files</div>
@@ -1189,7 +1201,7 @@ including the attached component and the top-level container.</div>
 
 </div>
 
-<h3 class="sectionedit65" id="section20081010">2008-10-10</h3>
+<h3 class="sectionedit66" id="section20081010">2008-10-10</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> Balloon tips can now be used within JApplets</div>
@@ -1202,7 +1214,7 @@ including the attached component and the top-level container.</div>
 
 </div>
 
-<h3 class="sectionedit66" id="section20080923">2008-09-23</h3>
+<h3 class="sectionedit67" id="section20080923">2008-09-23</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> <code>BalloonTipStyle</code>: Create new looks for balloon tips by extending the <code>BalloonTipStyle</code>-class</div>
@@ -1241,7 +1253,7 @@ including the attached component and the top-level container.</div>
 
 </div>
 
-<h3 class="sectionedit67" id="section20071230">2007-12-30</h3>
+<h3 class="sectionedit68" id="section20071230">2007-12-30</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> The balloon tip can now be displayed above or below on either side of the attached component</div>
@@ -1266,7 +1278,7 @@ constants</div>
 
 </div>
 
-<h3 class="sectionedit68" id="section20070515">2007-05-15</h3>
+<h3 class="sectionedit69" id="section20070515">2007-05-15</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> One new flavor: Rounded balloon tips</div>
@@ -1283,7 +1295,7 @@ constants</div>
 
 </div>
 
-<h3 class="sectionedit69" id="section20070330">2007-03-30</h3>
+<h3 class="sectionedit70" id="section20070330">2007-03-30</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> Bug fixed: Support for <code>JInternalFrame</code> was missing</div>
@@ -1294,7 +1306,7 @@ constants</div>
 
 </div>
 
-<h3 class="sectionedit70" id="section20070301">2007-03-01</h3>
+<h3 class="sectionedit71" id="section20070301">2007-03-01</h3>
 <div class="level3">
 <ul>
 <li class="level1"><div class="li"> Initial release</div>
@@ -1305,7 +1317,7 @@ constants</div>
 </div>
 <div class="plugin_include_content plugin_include__balloontip:feedback" id="plugin_include__balloontip__feedback">
 
-<h1 class="sectionedit73" id="feedback">Feedback</h1>
+<h1 class="sectionedit74" id="feedback">Feedback</h1>
 <div class="level1">
 
 <p>
