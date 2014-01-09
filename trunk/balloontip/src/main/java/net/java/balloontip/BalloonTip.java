@@ -40,7 +40,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
@@ -815,20 +814,10 @@ public class BalloonTip extends JPanel {
 		public void stateChanged(ChangeEvent e) {
 			refreshLocation();
 			Point tipLocation = positioner.getTipLocation();
-
+			
 			boolean isWithinViewport = false;
 			for (JViewport viewport:viewportListener.viewports) {
-				Rectangle view = new Rectangle(SwingUtilities.convertPoint(viewport, viewport.getLocation(), getTopLevelContainer()), viewport.getSize());
-				// If the viewport is embedded in a JScrollPane, take into acount the column and row headers
-				if (viewport.getParent() instanceof JScrollPane) {
-					JScrollPane scrollPane = (JScrollPane)viewport.getParent();
-					if (scrollPane.getColumnHeader()!=null) {
-						view.y-=scrollPane.getColumnHeader().getHeight();
-					}
-					if (scrollPane.getRowHeader()!=null) {
-						view.x-=scrollPane.getColumnHeader().getWidth();
-					}
-				}
+				Rectangle view = new Rectangle(SwingUtilities.convertPoint(viewport, new Point(0,0), getTopLevelContainer()), viewport.getSize());
 				
 				if (tipLocation.y >= view.y-1 // -1 because we still want to allow balloons that are attached to the very top...
 						&& tipLocation.y <= (view.y + view.height)
