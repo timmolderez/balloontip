@@ -1,0 +1,206 @@
+2013-11-17 (v1.2.4.1), Squashing bugs:
+
+A small bug fix release:
+
+    Bug fix: (BALLOONTIP-10) Attached component can be painted over a CustomBalloonTip whenever the attached component, or components inside the balloon tip, are repainted. (Thanks frocar)
+
+================================================================
+
+2013-10-06 (v1.2.4), I'm doing science and Balloon tip is still alive:
+
+A long overdue update with a few new features and several bug fixes:
+
+    New feature: A new balloon tip type, ListItemBalloonTip, which can be attached to items in a JList.
+    New feature: A new balloon tip type, TreeNodeBalloonTip, which can be attached to nodes in a JTree.
+    Change: Migrated the manual to a DokuWiki
+    Change: API change, BalloonTip.setCloseButton(JButton) no longer alters the button's behaviour. BalloonTip.setCloseButton(JButton,boolean,boolean) changed to BalloonTip.setCloseButton(JButton,boolean).
+    Change: Minor API change, TablecellBalloonTip renamed to TableCellBalloonTip. (Note the upper case C)
+    Change: TableCellBalloonTips now adjust themselves whenever the columns of the associated JTable are modified.
+    Bug fix: Viewport listener was not notified when calling TableCellBalloonTip.setCellPosition()
+    Bug fix: When the attached component is part of a CardLayout, Balloon tip visiblity is now adjusted when switching cards.
+    Bug fix: Balloon tip could not be constructed correctly when created at a moment where calling isValid() on the attached component returns false, but is displayable.
+    Bug fix: If the attached component is in a JScrollPane, the balloon tip's viewport listener now takes into account the column/row header of this JScrollPane. (Thanks mquiot)
+    Bug fix: ToolTipUtils now takes into account the rectangle a balloon tip is attached to, rather than assuming the dimensions of the attached component. (This is mainly relevant for instances of CustomBalloonTip.)
+    Bug fix: In the rare case that closeBalloon() is called before the balloon tip is initialized, not all listeners were removed.
+    Bug fix: The useCloseButton parameter in CustomBalloonTip's constructor now works correctly. (Thanks Adrian)
+
+================================================================
+
+2011-06-25 (v1.2.1), Squashing bugs:
+
+A small update containing a few bug fixes:
+
+    Improvement: Removed redundant refreshLocation() call when constructing a CustomBalloonTip.
+    Bug fix: Fixed issue where a balloon tip is shown initially if it is attached to a component that is currently outside the visible region of a viewport.
+    Bug fix: Fixed issue where a balloon tip is shown if it is attached to a component on a tab that is currently not shown.
+
+================================================================
+
+2011-06-05 (v1.2), Switching licences .. again:
+
+Version 1.2 of Balloon tip contains a couple of new features and bug fixes:
+
+    Change: Balloon tip's license was changed from LGPL v2.1 (or higher) to the 3-Clause BSD License.
+    New feature: Any type of balloon tip can now be embedded in (multiple nested) scroll panes. These scroll panes are detected automatically as well.
+    (As a consequence, the CustomBalloonTip.setViewport() method is no longer needed and is removed.)
+    New feature: Two new balloon tip styles are added: IsometricBalloonTipStyle and ToolTipBalloonTipStyle.
+    Bug fix: Fixed rare issue where a balloon tip is positioned incorrectly initially.
+    Bug fix: When using a balloon tip as a tooltip, the balloon tip is now hidden when the attached component is clicked.
+
+Most notably among these changes is that I (Tim) have changed Balloon tip's license yet again. We started out with GPL v2.1, moved on to LGPL v3, then changed that into LGPL v2.1 (and up), and now we're at the 3-Clause BSD License. There's a reason for all this switching about; hear me out: The project's main priority has always been to make Balloon tip accessible for as many people as possible. Keeping any modifications to it open-source as well is nice, but we like to leave that choice open. Using a GPL license wasn't the most suitable choice for this purpose, but I'm guessing we naievely started with it because it's simply the most commonly known open-source license out there. All the licenses that were chosen after that actually are a direct consequence of people sending us an e-mail that they couldn't use Balloon tip in their project because the license was too restrictive. And so, every time we switched to a license that was a bit more permissive, which is how we ended up with BSD. I'm hoping this was the last license change, as legalese does not make for very exciting reading material. I don't think we can get any more permissive either, or we'd have to switch to the WTFPL. :)
+
+================================================================
+
+2010-10-31 (v1.1.1), Squashing bugs:
+
+Just a quick update containing a few bug fixes:
+
+    Bug fix: Fixed rare issue where balloon tips dissappear if you resize the window, go to another tab, then go back.
+    Bug fix: Fixed issue where a balloon tip is visible at instantiation when it shouldn't be.
+    Improvement: Added ToolTipUtils.toolTipToBalloon() to turn balloon tooltips back to normal.
+
+================================================================
+
+2010-10-18 (v1.1), Back in action:
+
+At long last, a new release has arrived! Balloon tip's latest version has some exciting new features in store for you; just check out this change log:
+
+    New feature: The contents of a BalloonTip can now be just about any type of JComponent. (You can even add balloon tips to components within balloon tips..)
+    New feature: New positioner that ensures a balloon tip is always centered relative to its attached component.
+    New feature: You can now set a balloon tip's opacity. There also are utility functions to add fading effects to your balloon tips.
+    New feature: More getters and setters. Every aspect of a balloon tip can now be adjusted, including the attached component and the top-level container.
+    Improvement: The logic that determines a balloon tip's visibility has become much simpler. You can now safely call setVisible(false) to hide a balloon tip.
+    Improvement: Creating your own BalloonTipPositioner has been more simplified.
+    Improvement: The drawing code for some balloon tip styles is slightly improved.
+    Change: We switched the LGPL v3 license back to LGPL v2.1 (or higher, at your option), such that even more projects can make use of Balloon tip.
+    Change: Rather than letting you tweak a few aspects of a balloon tip's close button, you now simply have direct access to the button.
+    Change: The enableClickToHide() and enabledClickToClose() are replaced by addDefaultMouseListener().
+    Bug fix: Some listeners were not removed when closing a BalloonTip.
+    Bug fix: A balloon tooltip now properly hides itself when the mouse leaves the attached component.
+
+Thanks to Thierry Blind for helping out with this release!
+
+================================================================
+
+2009-08-28, Balloon tip has switched to Maven, plus a brand-new special release:
+
+Just like the entire java.net website, our little project has recently undergone some infrastructural changes as well:
+
+Firstly, as you might already know, our CVS source code repository has now been traded in for a shiny new SVN repository.
+Secondly, the project has been adapted such that we can now make use of Maven as our primary build tool. Many thanks go to AndrÃ© Ricardo Barreto de Oliveira for helping out with this not-to-be-underestimated conversion process! (Whilst Ant build files will no longer be supplied with any future Balloon tip releases, Maven makes it very easy to generate fully functional Ant build files; check the latest Balloon tip manual for more info.)
+The switch to Maven has already resulted in some fine benefits: The project now uses a regular version numbering scheme, instead of using the release date to identify each new Balloon tip version, which was somewhat confusing. If you take a look at the Download page, you'll see a new Balloon tip 1.0 release available. This 1.0 release contains the very same functionality as the previous release, but it is adapted for use with Maven.
+A more significant advantage of Maven is that, if your project already makes use of Maven, it will be even easier to make use of Balloon tip within your project, as Balloon tip now is also available on java.net's Maven 2 repository! Just make sure your project can access the repository and then add a new dependency with artifactId balloontip and groupId net.java.balloontip; that's all there is to it.
+
+A last, but certainly not least, announcement is the availability of a new special release! As you might have already experienced, Balloon tip is currently constrained to drawing its balloon tips within the boundaries of your application's window. This special release will allow your balloon tips to break free and let them go beyond the window's boundaries. Many thanks go out to David Straw for making this magic happen!
+Balloon tips can now be drawn outside a window because these will be drawn on a special seperate window that is completely transparent, which is a recent new Java feature. This implies you'll require Java 1.6 Update 12 (or higher). It should also be noted that this special release currently is only meant for experimentation, as it makes use of a Sun proprietary API, which you shouldn't rely upon. In other words, just have some fun with it, but don't use it in your stable builds just yet. If you'd like to see it in action, just open up balloontip-examples-1.0-transparent-window-support.jar , which comes supplied with the release. The source code for this example application can be found in the package net.java.balloontip.examples.transparency.
+
+================================================================
+
+2009-03-19, Legacy goodness:
+
+In case Java 1.5 is a little too newfangled for your project, your prayers have been heard:
+
+    A Java 1.4.2-compatible version of balloontip has been released
+
+Many thanks to Nicholas Hutniak for creating this special release!
+
+================================================================
+
+2008-11-14, Licensing mumbo jumbo:
+
+Just a small change in order to be able to get the project into the Ubuntu repositories :
+
+    Added GNU Lesser Public License v3 preamble to all of the project's source files
+
+Thanks to Stefan Handschuh for his efforts to make balloontip available on the Ubuntu repositories! As soon as it gets through, you can find our project there under the name "libballoontip-java".
+
+2009-01-05 EDIT: The source files' license preambles stated "General Public License" instead of "Lesser General Public License"... I have now re-uploaded the 2008-11-14 release with the proper preamble. Thanks to Maciej Jagiello for noticing this rather embarrassing mistake.
+
+================================================================
+
+2008-10-10, Quick fix:
+
+Just a couple of minor changes:
+
+    Bug fix: Balloon tips can now be used within JApplets
+    Added a simple example application to show balloon tips now work in applets
+    The Ant build file now always compiles in Java 5
+
+Thanks to Adewale Ajiboye for reporting the JApplet issue!
+
+================================================================
+
+2008-09-24, Huge update:
+
+It's been quite a while since we've released an update. To make up for that, we've just uploaded a big one! Check out all these new features/changes:
+
+    BalloonTipStyle: Create new looks for balloon tips by extending the BalloonTipStyle-class
+    BalloonTipPositioner: Control the way a balloon tip positions itself by extending the BalloonTipPositioner-class
+    Added 3 new balloon tip styles: Minimal, Modern and Textured
+    CustomBalloonTip: allows you to attach a balloon tip to a certain offset rectangle within a JComponent
+    TablecellBalloonTip: allows you to attach a balloon tip to a JTable cell
+    TimingUtils: Automatically close a balloon tip after a certain time
+    ToolTipUtils: Turn a balloon tip into a tooltip
+    Balloon tips will now try their best to stay visible; if a balloon tip collides with the window's border, it will either shift or flip itself
+    Balloon tips now have the option to close or hide themselves by clicking anywhere on the balloon tip
+    More constructors, ranging from easy-to-use to full-fledged
+    The new CompleteExample application shows off most of the project's features
+    More example applications were added
+    The project now has a user manual
+    The project now has an Ant build file
+    Bug fixes: The balloon tip will no longer throw a NullPointerException if you try to create it before calling pack() on the top level container
+
+If you'd like to get started quickly, just download the latest release and have a look at the README.txt file.
+
+One last thing, not quite a feature though: This project now has another owner, which is me (nferno; you can call me Tim though :) ). Bernhard still is the main project owner, but as he won't have that much time for the project, I have come to the rescue! *plays superman theme* Does this imply any changes for you? Well, yes: If you have any questions or suggestions, please send them to me, at nferno@dev.java.net.
+
+================================================================
+
+2007-12-30, Big update after long time:
+
+The new version includes the following main features (besides some bug fixes):
+
+    The balloon tip can now be displayed above or below on either side of the attached component
+    The location of the triangle tip can be set manually to the center and all "corners" of the attached component (useful for icons)
+    The border width of the close button can be set
+
+The API has changed a little bit - sorry for that. For explanation look here ("How to use BalloonTip").
+
+A bigger change is the move to Java 5. It has been out now for a while, so I don't think it will be a big problem. If you are locked down to an older version, you can still make it work for you by replacing the enumerations in the source code with constants.
+
+Also noteworthy: The release package now contains an executable JAR. Double-click on the JAR to launch the example application.
+
+And as always - please drop me a line, if this project has been useful to you!
+
+================================================================
+
+2007-05-15, Rather big update:
+
+It's about time that the project receives an update - and here it is. This new version includes the following features:
+
+    One new flavor: Rounded balloon tips
+    Close buttons
+    Revised example application
+    Some other but minor improvements like expanded customizability
+
+The API has been changed rather drastically, look here for explanation ("How to use BalloonTip").
+
+I would like to thank Mina R. Waheeb who wrote me an email with her modification for rounded balloon tips. I used it as a foundation for my implementation. Thanks, Mina!
+
+================================================================
+
+2007-03-30, New release:
+
+I recently received an email from Adhari Huda aka Harry who uses BalloonTip. He noticed and fixed two bugs:
+
+    Support for JInternalFrame was missing
+    Location of BalloonTip component was miscalculated in more complex layouts
+
+The fixes are in the code base now and are wrapped up in a new release. Thank you very much, Harry!
+
+
+================================================================
+
+2007-03-01, First release:
+
+Go and get it!
